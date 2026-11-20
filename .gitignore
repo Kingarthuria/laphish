@@ -6,6 +6,7 @@ includes/config.php
 
 # Dokumen tugas dari dosen (bukan milik proyek ini)
 Deskripsi_Tugas_*.pdf
+Penjelasan Tambahan.txt
 
 # File sistem dan editor
 Thumbs.db

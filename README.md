@@ -79,6 +79,7 @@ Semua data di `database/laporphish.sql` **fiktif**: 42 laporan (Juni–November 
 | [docs/02b_mockup.md](docs/02b_mockup.md) | Panduan visual, peta halaman, wireframe dan mockup (`docs/mockup/`) |
 | [docs/03_implementasi.md](docs/03_implementasi.md) | Struktur kode, mekanisme koneksi database, progres implementasi |
 | [docs/04_pengujian.md](docs/04_pengujian.md) | Tabel pengujian Black-Box (58 kasus uji) |
+| [docs/05_deploy_pemeliharaan.md](docs/05_deploy_pemeliharaan.md) | Rencana deploy online, pemeliharaan, dan pengembangan |
 
 ## Pembuat
 
