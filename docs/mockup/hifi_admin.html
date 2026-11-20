@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup Hi-Fi LaporPhish — Halaman Admin</title>
+<!-- Mockup memuat aset dari CDN. Pada aplikasi sebenarnya, ketiga aset ini disimpan lokal. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+  /* ===== Panduan visual LaporPhish (docs/02b_mockup.md bagian 0) ===== */
+  :root {
+    --lp-primary: #653F99; --lp-primary-hover: #533280; --lp-dark: #231F40; --lp-accent: #E5BD36;
+    --lp-bg: #F7F5FB; --lp-muted: #6F6B80;
+    --lp-red: #DC2626; --lp-orange: #B45309; --lp-green: #16A34A; --lp-grey: #6B7280;
+    --bs-body-font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+    --bs-body-color: var(--lp-dark); --bs-border-radius: .5rem;
+    --bs-link-color-rgb: 101, 63, 153; --bs-link-hover-color-rgb: 83, 50, 128;
+  }
+  body { background: #d9d6e2; }
+  .text-muted-lp { color: var(--lp-muted) !important; }
+  .btn-primary { --bs-btn-bg: var(--lp-primary); --bs-btn-border-color: var(--lp-primary); --bs-btn-hover-bg: var(--lp-primary-hover); --bs-btn-hover-border-color: var(--lp-primary-hover); --bs-btn-active-bg: var(--lp-primary-hover); --bs-btn-active-border-color: var(--lp-primary-hover); }
+  .btn-outline-primary { --bs-btn-color: var(--lp-primary); --bs-btn-border-color: var(--lp-primary); --bs-btn-hover-bg: var(--lp-primary); --bs-btn-hover-border-color: var(--lp-primary); --bs-btn-active-bg: var(--lp-primary); }
+  .form-control:focus, .form-select:focus { border-color: var(--lp-primary); box-shadow: 0 0 0 .2rem rgba(101,63,153,.2); }
+  .card { border: 0; box-shadow: 0 1px 3px rgba(35,31,64,.08), 0 1px 2px rgba(35,31,64,.06); }
+  .table { --bs-table-color: var(--lp-dark); margin-bottom: 0; }
+  .table thead th { font-size: .78rem; text-transform: uppercase; letter-spacing: .03em; color: var(--lp-muted); font-weight: 600; background: #FAF9FD; }
+  .lp-defang { font-family: "Courier New", monospace; word-break: break-all; }
+
+  /* Tata letak admin: sidebar kiri */
+  .shell { display: grid; grid-template-columns: 230px 1fr; min-height: 560px; }
+  .side { background: var(--lp-dark); color: rgba(255,255,255,.75); display: flex; flex-direction: column; padding: 1rem .75rem; }
+  .side .brand { color: #fff; font-weight: 800; font-size: 1.15rem; padding: .25rem .75rem 1rem; border-bottom: 1px solid rgba(255,255,255,.12); margin-bottom: .75rem; }
+  .side .brand i { color: var(--lp-accent); }
+  .side a { display: flex; align-items: center; gap: .6rem; color: rgba(255,255,255,.75); text-decoration: none; padding: .55rem .75rem; border-radius: .5rem; margin-bottom: .15rem; font-weight: 500; }
+  .side a.active { background: var(--lp-primary); color: #fff; }
+  .side .bottom { margin-top: auto; border-top: 1px solid rgba(255,255,255,.12); padding-top: .75rem; }
+  .side .who { font-size: .8rem; padding: 0 .75rem .5rem; }
+  .main { background: var(--lp-bg); padding: 1.75rem 2rem; }
+  .page-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; }
+
+  /* Badge status (pemetaan warna di 02b bagian 0) */
+  .st { display: inline-flex; align-items: center; gap: .3rem; font-size: .75rem; font-weight: 600; padding: .22rem .6rem; border-radius: 999px; color: #fff; white-space: nowrap; }
+  .st-red { background: var(--lp-red); } .st-orange { background: var(--lp-orange); } .st-green { background: var(--lp-green); } .st-grey { background: var(--lp-grey); } .st-purple { background: var(--lp-primary); }
+  .stat { border-left: 5px solid; }
+  .stat .num { font-size: 1.9rem; font-weight: 800; line-height: 1; }
+  .stat.c-dark { border-color: var(--lp-dark); } .stat.c-purple { border-color: var(--lp-primary); } .stat.c-orange { border-color: var(--lp-orange); } .stat.c-red { border-color: var(--lp-red); } .stat.c-grey { border-color: var(--lp-grey); }
+  .timeline { border-left: 3px solid #DDD6EA; margin-left: .5rem; padding-left: 1.25rem; }
+  .timeline .item { position: relative; margin-bottom: 1rem; }
+  .timeline .item::before { content: ""; position: absolute; left: -1.62rem; top: .35rem; width: .8rem; height: .8rem; border-radius: 50%; background: var(--lp-primary); border: 2px solid #fff; }
+  .alert-ok { background: #F0FDF4; border: 0; border-left: 5px solid var(--lp-green); color: #166534; }
+  .alert-err { background: #FEF2F2; border: 0; border-left: 5px solid var(--lp-red); color: #991B1B; }
+  .alert-info-lp { background: #F3EFFA; border: 0; border-left: 5px solid var(--lp-primary); color: var(--lp-dark); }
+
+  /* Bingkai presentasi mockup (bukan bagian aplikasi) */
+  .mock-frame { max-width: 1180px; margin: 0 auto 3rem; border-radius: .75rem; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,.18); background: #fff; }
+  .mock-label { background: #3a3a3a; color: #fff; font-size: .8rem; padding: .45rem 1rem; display: flex; justify-content: space-between; font-family: system-ui, sans-serif; }
+  .mock-title { max-width: 1180px; margin: 2rem auto 1.5rem; }
+</style>
+</head>
+<body>
+
+<div class="mock-title px-2">
+  <h1 class="h4 fw-bold mb-1">Mockup Hi-Fi LaporPhish — Halaman Admin (A1–A11)</h1>
+  <p class="text-muted-lp mb-0">Mengikuti panduan visual di <code>docs/02b_mockup.md</code> bagian 0. Semua data adalah contoh fiktif. A8–A11 menampilkan daftar dan form berdampingan agar ringkas; di aplikasi keduanya halaman terpisah.</p>
+</div>
+
+<!-- ===================================================== A1 LOGIN -->
+<div class="mock-frame">
+  <div class="mock-label"><span>A1 — Login Admin</span><span>FR-06</span></div>
+  <div class="d-flex align-items-center justify-content-center py-5" style="background: var(--lp-dark); min-height: 520px; border-bottom: 4px solid var(--lp-accent);">
+    <div class="card p-4" style="width: 380px">
+      <div class="text-center mb-3">
+        <div class="fw-bold fs-4"><i class="bi bi-shield-check me-1" style="color: var(--lp-primary)"></i>LaporPhish</div>
+        <div class="text-muted-lp small">Masuk sebagai petugas unit TI</div>
+      </div>
+      <div class="alert alert-err small py-2"><i class="bi bi-x-circle-fill me-1"></i>Username atau password salah.</div>
+      <div class="mb-3"><label class="form-label fw-semibold">Username</label><div class="input-group"><span class="input-group-text"><i class="bi bi-person"></i></span><input class="form-control" value="admin"></div></div>
+      <div class="mb-4"><label class="form-label fw-semibold">Password</label><div class="input-group"><span class="input-group-text"><i class="bi bi-lock"></i></span><input type="password" class="form-control" value="password123"></div></div>
+      <button class="btn btn-primary w-100"><i class="bi bi-box-arrow-in-right me-1"></i>Masuk</button>
+      <div class="text-center mt-3 small"><a href="#" class="text-decoration-none"><i class="bi bi-arrow-left"></i> Kembali ke beranda</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================================================== A2 DASHBOARD -->
+<div class="mock-frame">
+  <div class="mock-label"><span>A2 — Dashboard Rekap</span><span>FR-07</span></div>
+  <div class="shell">
+    <nav class="side">
+      <div class="brand"><i class="bi bi-shield-check me-1"></i>LaporPhish</div>
+      <a class="active" href="#"><i class="bi bi-speedometer2"></i>Dashboard</a><a href="#"><i class="bi bi-inbox"></i>Laporan</a><a href="#"><i class="bi bi-link-45deg"></i>Indikator</a><a href="#"><i class="bi bi-tags"></i>Kategori</a><a href="#"><i class="bi bi-broadcast"></i>Kanal</a>
+      <div class="bottom"><div class="who">Petugas TI</div><a href="#"><i class="bi bi-box-arrow-left"></i>Keluar</a></div>
+    </nav>
+    <main class="main">
+      <div class="page-head"><h1 class="h4 fw-bold mb-0">Dashboard</h1><span class="small text-muted-lp">Data per 20/11/2026</span></div>
+      <div class="row g-3 mb-4">
+        <div class="col"><a href="#" class="text-decoration-none"><div class="card stat c-dark p-3"><div class="small text-muted-lp mb-1">Total laporan</div><div class="num text-body">42</div></div></a></div>
+        <div class="col"><a href="#" class="text-decoration-none"><div class="card stat c-purple p-3"><div class="small text-muted-lp mb-1">Baru</div><div class="num text-body">6</div></div></a></div>
+        <div class="col"><a href="#" class="text-decoration-none"><div class="card stat c-orange p-3"><div class="small text-muted-lp mb-1">Ditinjau</div><div class="num text-body">9</div></div></a></div>
+        <div class="col"><a href="#" class="text-decoration-none"><div class="card stat c-red p-3"><div class="small text-muted-lp mb-1">Valid</div><div class="num text-body">21</div></div></a></div>
+        <div class="col"><a href="#" class="text-decoration-none"><div class="card stat c-grey p-3"><div class="small text-muted-lp mb-1">Tidak valid</div><div class="num text-body">6</div></div></a></div>
+      </div>
+      <div class="row g-3">
+        <div class="col-md-4"><div class="card"><div class="p-3 pb-2 fw-bold"><i class="bi bi-tags me-1" style="color:var(--lp-primary)"></i>Per kategori</div>
+          <table class="table table-sm"><thead><tr><th class="ps-3">Kategori</th><th class="text-end pe-3">Jumlah</th></tr></thead><tbody>
+          <tr><td class="ps-3">Pencurian akun</td><td class="text-end pe-3 fw-semibold">17</td></tr><tr><td class="ps-3">Hadiah/beasiswa palsu</td><td class="text-end pe-3 fw-semibold">11</td></tr><tr><td class="ps-3">APK berbahaya</td><td class="text-end pe-3 fw-semibold">8</td></tr><tr><td class="ps-3">Lowongan palsu</td><td class="text-end pe-3 fw-semibold">4</td></tr><tr><td class="ps-3">Lainnya</td><td class="text-end pe-3 fw-semibold">2</td></tr></tbody></table></div></div>
+        <div class="col-md-4"><div class="card"><div class="p-3 pb-2 fw-bold"><i class="bi bi-broadcast me-1" style="color:var(--lp-primary)"></i>Per kanal</div>
+          <table class="table table-sm"><thead><tr><th class="ps-3">Kanal</th><th class="text-end pe-3">Jumlah</th></tr></thead><tbody>
+          <tr><td class="ps-3">WhatsApp</td><td class="text-end pe-3 fw-semibold">19</td></tr><tr><td class="ps-3">Email</td><td class="text-end pe-3 fw-semibold">12</td></tr><tr><td class="ps-3">SMS</td><td class="text-end pe-3 fw-semibold">6</td></tr><tr><td class="ps-3">Media sosial</td><td class="text-end pe-3 fw-semibold">4</td></tr><tr><td class="ps-3">Lainnya</td><td class="text-end pe-3 fw-semibold">1</td></tr></tbody></table></div></div>
+        <div class="col-md-4"><div class="card"><div class="p-3 pb-2 fw-bold"><i class="bi bi-calendar3 me-1" style="color:var(--lp-primary)"></i>Per bulan (laporan masuk)</div>
+          <table class="table table-sm"><thead><tr><th class="ps-3">Bulan</th><th class="text-end pe-3">Jumlah</th></tr></thead><tbody>
+          <tr><td class="ps-3">Nov 2026</td><td class="text-end pe-3 fw-semibold">9</td></tr><tr><td class="ps-3">Okt 2026</td><td class="text-end pe-3 fw-semibold">11</td></tr><tr><td class="ps-3">Sep 2026</td><td class="text-end pe-3 fw-semibold">8</td></tr><tr><td class="ps-3">Agu 2026</td><td class="text-end pe-3 fw-semibold">7</td></tr><tr><td class="ps-3">Jul 2026</td><td class="text-end pe-3 fw-semibold">4</td></tr><tr><td class="ps-3">Jun 2026</td><td class="text-end pe-3 fw-semibold">3</td></tr></tbody></table></div></div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ===================================================== A3 DAFTAR LAPORAN -->
+<div class="mock-frame">
+  <div class="mock-label"><span>A3 — Daftar Laporan</span><span>FR-08</span></div>
+  <div class="shell">
+    <nav class="side">
+      <div class="brand"><i class="bi bi-shield-check me-1"></i>LaporPhish</div>
+      <a href="#"><i class="bi bi-speedometer2"></i>Dashboard</a><a class="active" href="#"><i class="bi bi-inbox"></i>Laporan</a><a href="#"><i class="bi bi-link-45deg"></i>Indikator</a><a href="#"><i class="bi bi-tags"></i>Kategori</a><a href="#"><i class="bi bi-broadcast"></i>Kanal</a>
+      <div class="bottom"><div class="who">Petugas TI</div><a href="#"><i class="bi bi-box-arrow-left"></i>Keluar</a></div>
+    </nav>
+    <main class="main">
+      <div class="page-head"><h1 class="h4 fw-bold mb-0">Laporan</h1></div>
+      <div class="card p-3 mb-3">
+        <div class="row g-2 align-items-end">
+          <div class="col-lg-4"><label class="form-label small fw-semibold mb-1">Cari</label><div class="input-group"><span class="input-group-text"><i class="bi bi-search"></i></span><input class="form-control" placeholder="Kode tiket atau kata di kronologi"></div></div>
+          <div class="col-lg-2"><label class="form-label small fw-semibold mb-1">Status</label><select class="form-select"><option>Semua</option></select></div>
+          <div class="col-lg-2"><label class="form-label small fw-semibold mb-1">Kategori</label><select class="form-select"><option>Semua</option></select></div>
+          <div class="col-lg-2"><label class="form-label small fw-semibold mb-1">Masuk dari</label><input type="date" class="form-control"></div>
+          <div class="col-lg-2"><label class="form-label small fw-semibold mb-1">Sampai</label><input type="date" class="form-control"></div>
+          <div class="col-12 d-flex gap-2 justify-content-end"><button class="btn btn-outline-secondary">Reset</button><button class="btn btn-primary"><i class="bi bi-funnel me-1"></i>Terapkan</button></div>
+        </div>
+      </div>
+      <div class="small text-muted-lp mb-2">Menampilkan 4 dari 42 laporan, terbaru di atas</div>
+      <div class="card">
+        <table class="table align-middle">
+          <thead><tr><th class="ps-3">Kode tiket</th><th>Tgl masuk</th><th>Kategori</th><th>Kanal</th><th class="text-center">Indikator</th><th>Status</th><th class="pe-3"></th></tr></thead>
+          <tbody>
+            <tr><td class="ps-3 font-monospace fw-semibold">LP-7F3K9QX2</td><td>20/11/2026</td><td>Pencurian akun</td><td>WhatsApp</td><td class="text-center">2</td><td><span class="st st-red">Valid</span></td><td class="pe-3 text-end"><a class="btn btn-sm btn-outline-primary" href="#">Detail</a></td></tr>
+            <tr><td class="ps-3 font-monospace fw-semibold">LP-M4T8B2PA</td><td>20/11/2026</td><td>Pencurian akun</td><td>Email</td><td class="text-center">1</td><td><span class="st st-purple">Baru</span></td><td class="pe-3 text-end"><a class="btn btn-sm btn-outline-primary" href="#">Detail</a></td></tr>
+            <tr><td class="ps-3 font-monospace fw-semibold">LP-Q9W2E7RT</td><td>18/11/2026</td><td>APK berbahaya</td><td>WhatsApp</td><td class="text-center">1</td><td><span class="st st-orange">Ditinjau</span></td><td class="pe-3 text-end"><a class="btn btn-sm btn-outline-primary" href="#">Detail</a></td></tr>
+            <tr><td class="ps-3 font-monospace fw-semibold">LP-H3K8N5ZD</td><td>15/11/2026</td><td>Hadiah/beasiswa palsu</td><td>Email</td><td class="text-center">3</td><td><span class="st st-grey">Tidak valid</span></td><td class="pe-3 text-end"><a class="btn btn-sm btn-outline-primary" href="#">Detail</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ===================================================== A4 DETAIL LAPORAN -->
+<div class="mock-frame">
+  <div class="mock-label"><span>A4 — Detail Laporan</span><span>FR-08, FR-09, FR-10</span></div>
+  <div class="shell">
+    <nav class="side">
+      <div class="brand"><i class="bi bi-shield-check me-1"></i>LaporPhish</div>
+      <a href="#"><i class="bi bi-speedometer2"></i>Dashboard</a><a class="active" href="#"><i class="bi bi-inbox"></i>Laporan</a><a href="#"><i class="bi bi-link-45deg"></i>Indikator</a><a href="#"><i class="bi bi-tags"></i>Kategori</a><a href="#"><i class="bi bi-broadcast"></i>Kanal</a>
+      <div class="bottom"><div class="who">Petugas TI</div><a href="#"><i class="bi bi-box-arrow-left"></i>Keluar</a></div>
+    </nav>
+    <main class="main">
+      <div class="small mb-2"><a href="#" class="text-decoration-none"><i class="bi bi-arrow-left"></i> Kembali ke daftar laporan</a></div>
+      <div class="alert alert-ok small py-2"><i class="bi bi-check-circle-fill me-1"></i>Status berhasil diperbarui.</div>
+      <div class="page-head">
+        <h1 class="h4 fw-bold mb-0">Laporan <span class="font-monospace">LP-7F3K9QX2</span> <span class="st st-orange align-middle ms-1">Ditinjau</span></h1>
+        <div class="d-flex gap-2"><a class="btn btn-outline-primary" href="#"><i class="bi bi-pencil me-1"></i>Edit</a><button class="btn btn-outline-danger"><i class="bi bi-trash me-1"></i>Hapus</button></div>
+      </div>
+      <div class="row g-3">
+        <div class="col-lg-7">
+          <div class="card p-3 mb-3">
+            <table class="table table-sm table-borderless mb-0">
+              <tr><td class="text-muted-lp" style="width:150px">Tanggal masuk</td><td>20/11/2026 09.12</td></tr>
+              <tr><td class="text-muted-lp">Terakhir diedit</td><td>–</td></tr>
+              <tr><td class="text-muted-lp">Tanggal kejadian</td><td>02/11/2026</td></tr>
+              <tr><td class="text-muted-lp">Kategori</td><td>Pencurian akun</td></tr>
+              <tr><td class="text-muted-lp">Kanal</td><td>WhatsApp</td></tr>
+              <tr><td class="text-muted-lp">Kronologi</td><td>Menerima pesan WA yang mengatasnamakan BAAK, diminta login ulang akun SSO lewat tautan berikut…</td></tr>
+              <tr><td class="text-muted-lp">Pelapor</td><td>Rina · <span class="text-muted-lp">rina@kampus.example</span></td></tr>
+            </table>
+          </div>
+          <div class="card">
+            <div class="p-3 pb-2 fw-bold"><i class="bi bi-link-45deg me-1" style="color:var(--lp-primary)"></i>Indikator (2)</div>
+            <table class="table align-middle">
+              <thead><tr><th class="ps-3">Jenis</th><th>Nilai</th><th style="width:240px" class="pe-3">Verifikasi cepat</th></tr></thead>
+              <tbody>
+                <tr><td class="ps-3">URL</td><td class="lp-defang small">hxxps://sso-kampus-verify[.]example/login</td><td class="pe-3"><div class="input-group input-group-sm"><select class="form-select"><option>Belum</option></select><button class="btn btn-primary">Simpan</button></div></td></tr>
+                <tr><td class="ps-3">Nomor</td><td class="lp-defang small">6281200001111</td><td class="pe-3"><div class="input-group input-group-sm"><select class="form-select"><option>Phishing</option></select><button class="btn btn-primary">Simpan</button></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="col-lg-5">
+          <div class="card p-3 mb-3">
+            <div class="fw-bold mb-2">Ubah status</div>
+            <label class="form-label small fw-semibold">Status baru <span class="text-danger">*</span></label>
+            <select class="form-select mb-2"><option>Valid</option></select>
+            <label class="form-label small fw-semibold">Catatan</label>
+            <textarea class="form-control mb-1" rows="3" placeholder="Catatan ini tampil di halaman Lacak pelapor."></textarea>
+            <div class="form-text mb-3"><i class="bi bi-eye me-1"></i>Tampil ke pelapor. Jangan menulis informasi internal.</div>
+            <button class="btn btn-primary w-100">Simpan status</button>
+          </div>
+          <div class="card p-3">
+            <div class="fw-bold mb-3">Riwayat status</div>
+            <div class="timeline">
+              <div class="item"><span class="st st-orange">Ditinjau</span> <span class="small text-muted-lp ms-1">21/11/2026 09.05 · Petugas TI</span><div class="small mt-1">Laporan sedang diperiksa unit TI.</div></div>
+              <div class="item mb-0"><span class="st st-purple">Baru</span> <span class="small text-muted-lp ms-1">20/11/2026 09.12 · Sistem</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card p-3 mt-3" style="max-width: 440px">
+        <div class="small text-muted-lp mb-1">Contoh dialog konfirmasi hapus</div>
+        <div class="fw-bold mb-1">Hapus laporan LP-7F3K9QX2?</div>
+        <div class="small mb-3">Riwayat status ikut terhapus. Indikator tetap tersimpan.</div>
+        <div class="d-flex gap-2 justify-content-end"><button class="btn btn-sm btn-outline-secondary">Batal</button><button class="btn btn-sm btn-danger">Ya, hapus</button></div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ===================================================== A5 EDIT LAPORAN -->
+<div class="mock-frame">
+  <div class="mock-label"><span>A5 — Edit Laporan</span><span>FR-08</span></div>
+  <div class="shell" style="min-height: 440px">
+    <nav class="side">
+      <div class="brand"><i class="bi bi-shield-check me-1"></i>LaporPhish</div>
+      <a href="#"><i class="bi bi-speedometer2"></i>Dashboard</a><a class="active" href="#"><i class="bi bi-inbox"></i>Laporan</a><a href="#"><i class="bi bi-link-45deg"></i>Indikator</a><a href="#"><i class="bi bi-tags"></i>Kategori</a><a href="#"><i class="bi bi-broadcast"></i>Kanal</a>
+      <div class="bottom"><div class="who">Petugas TI</div><a href="#"><i class="bi bi-box-arrow-left"></i>Keluar</a></div>
+    </nav>
+    <main class="main">
+      <div class="page-head"><h1 class="h4 fw-bold mb-0">Edit Laporan <span class="font-monospace">LP-7F3K9QX2</span></h1></div>
+      <div class="card p-4" style="max-width: 780px">
+        <div class="alert alert-info-lp small py-2"><i class="bi bi-info-circle me-1"></i>Hanya empat kolom ini yang bisa diubah. Status diubah di halaman detail, indikator di menu Indikator.</div>
+        <div class="row g-3">
+          <div class="col-md-4"><label class="form-label fw-semibold">Kategori <span class="text-danger">*</span></label><select class="form-select"><option>Pencurian akun</option></select></div>
+          <div class="col-md-4"><label class="form-label fw-semibold">Kanal <span class="text-danger">*</span></label><select class="form-select"><option>WhatsApp</option></select></div>
+          <div class="col-md-4"><label class="form-label fw-semibold">Tanggal kejadian <span class="text-danger">*</span></label><input type="date" class="form-control" value="2026-11-02"></div>
+          <div class="col-12"><label class="form-label fw-semibold">Kronologi <span class="text-danger">*</span></label><textarea class="form-control" rows="4">Menerima pesan WA yang mengatasnamakan BAAK, diminta login ulang akun SSO lewat tautan berikut…</textarea></div>
+        </div>
+        <div class="d-flex gap-2 justify-content-end mt-4"><a class="btn btn-outline-secondary" href="#">Batal</a><button class="btn btn-primary"><i class="bi bi-check-lg me-1"></i>Simpan perubahan</button></div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ===================================================== A6 DAFTAR INDIKATOR -->
+<div class="mock-frame">
+  <div class="mock-label"><span>A6 — Daftar Indikator</span><span>FR-10, FR-13</span></div>
+  <div class="shell">
+    <nav class="side">
+      <div class="brand"><i class="bi bi-shield-check me-1"></i>LaporPhish</div>
+      <a href="#"><i class="bi bi-speedometer2"></i>Dashboard</a><a href="#"><i class="bi bi-inbox"></i>Laporan</a><a class="active" href="#"><i class="bi bi-link-45deg"></i>Indikator</a><a href="#"><i class="bi bi-tags"></i>Kategori</a><a href="#"><i class="bi bi-broadcast"></i>Kanal</a>
+      <div class="bottom"><div class="who">Petugas TI</div><a href="#"><i class="bi bi-box-arrow-left"></i>Keluar</a></div>
+    </nav>
+    <main class="main">
+      <div class="page-head"><h1 class="h4 fw-bold mb-0">Indikator</h1><a class="btn btn-primary" href="#"><i class="bi bi-plus-lg me-1"></i>Tambah indikator</a></div>
+      <div class="alert alert-err small py-2"><i class="bi bi-exclamation-octagon-fill me-1"></i>Indikator tidak bisa dihapus karena masih menjadi bukti di 2 laporan. Tandai sebagai "Bukan phishing" jika ternyata aman.</div>
+      <div class="card p-3 mb-3">
+        <div class="row g-2 align-items-end">
+          <div class="col-lg-6"><label class="form-label small fw-semibold mb-1">Cari</label><div class="input-group"><span class="input-group-text"><i class="bi bi-search"></i></span><input class="form-control" placeholder="Nilai indikator"></div></div>
+          <div class="col-lg-2"><label class="form-label small fw-semibold mb-1">Jenis</label><select class="form-select"><option>Semua</option></select></div>
+          <div class="col-lg-2"><label class="form-label small fw-semibold mb-1">Verifikasi</label><select class="form-select"><option>Semua</option></select></div>
+          <div class="col-lg-2"><button class="btn btn-primary w-100"><i class="bi bi-funnel me-1"></i>Terapkan</button></div>
+        </div>
+      </div>
+      <div class="card">
+        <table class="table align-middle">
+          <thead><tr><th class="ps-3">Jenis</th><th>Nilai</th><th>Verifikasi</th><th class="text-center">Laporan</th><th>Catatan</th><th class="pe-3"></th></tr></thead>
+          <tbody>
+            <tr><td class="ps-3">URL</td><td class="lp-defang small">hxxps://sso-kampus-verify[.]example/login</td><td><span class="st st-red">Phishing</span></td><td class="text-center">2</td><td class="small">Domain meniru SSO kampus</td><td class="pe-3 text-end text-nowrap"><a class="btn btn-sm btn-outline-primary" href="#">Edit</a> <button class="btn btn-sm btn-outline-secondary" disabled title="Masih terkait laporan">Hapus</button></td></tr>
+            <tr><td class="ps-3">Nomor</td><td class="lp-defang small">6281200001111</td><td><span class="st st-orange">Belum</span></td><td class="text-center">1</td><td class="small text-muted-lp">–</td><td class="pe-3 text-end text-nowrap"><a class="btn btn-sm btn-outline-primary" href="#">Edit</a> <button class="btn btn-sm btn-outline-secondary" disabled title="Masih terkait laporan">Hapus</button></td></tr>
+            <tr><td class="ps-3">Email</td><td class="lp-defang small">hadiah@beasiswa-palsu[.]example</td><td><span class="st st-red">Phishing</span></td><td class="text-center">0</td><td class="small">Sumber: peringatan resmi</td><td class="pe-3 text-end text-nowrap"><a class="btn btn-sm btn-outline-primary" href="#">Edit</a> <button class="btn btn-sm btn-outline-danger">Hapus</button></td></tr>
+            <tr><td class="ps-3">URL</td><td class="lp-defang small">portal-akademik[.]example/info</td><td><span class="st st-green">Bukan phishing</span></td><td class="text-center">1</td><td class="small">Situs resmi, laporan keliru</td><td class="pe-3 text-end text-nowrap"><a class="btn btn-sm btn-outline-primary" href="#">Edit</a> <button class="btn btn-sm btn-outline-secondary" disabled title="Masih terkait laporan">Hapus</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ===================================================== A7 FORM INDIKATOR -->
+<div class="mock-frame">
+  <div class="mock-label"><span>A7 — Form Indikator (mode Tambah dan mode Edit)</span><span>FR-10</span></div>
+  <div class="shell" style="min-height: 500px">
+    <nav class="side">
+      <div class="brand"><i class="bi bi-shield-check me-1"></i>LaporPhish</div>
+      <a href="#"><i class="bi bi-speedometer2"></i>Dashboard</a><a href="#"><i class="bi bi-inbox"></i>Laporan</a><a class="active" href="#"><i class="bi bi-link-45deg"></i>Indikator</a><a href="#"><i class="bi bi-tags"></i>Kategori</a><a href="#"><i class="bi bi-broadcast"></i>Kanal</a>
+      <div class="bottom"><div class="who">Petugas TI</div><a href="#"><i class="bi bi-box-arrow-left"></i>Keluar</a></div>
+    </nav>
+    <main class="main">
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <h1 class="h5 fw-bold mb-3">Tambah Indikator</h1>
+          <div class="card p-4">
+            <div class="alert alert-info-lp small py-2"><i class="bi bi-info-circle me-1"></i>Indikator ini sudah tercatat. <a href="#">Lihat data yang ada</a>.</div>
+            <div class="row g-3">
+              <div class="col-6"><label class="form-label fw-semibold">Jenis <span class="text-danger">*</span></label><select class="form-select"><option>Email</option></select></div>
+              <div class="col-6"><label class="form-label fw-semibold">Verifikasi <span class="text-danger">*</span></label><select class="form-select"><option>Phishing</option></select></div>
+              <div class="col-12"><label class="form-label fw-semibold">Nilai <span class="text-danger">*</span></label><input class="form-control" value="hadiah@beasiswa-palsu.example"></div>
+              <div class="col-12"><label class="form-label fw-semibold">Catatan / sumber</label><input class="form-control" placeholder="Contoh: peringatan resmi BSSN"></div>
+            </div>
+            <div class="d-flex gap-2 justify-content-end mt-4"><a class="btn btn-outline-secondary" href="#">Batal</a><button class="btn btn-primary">Simpan</button></div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <h1 class="h5 fw-bold mb-3">Edit Indikator</h1>
+          <div class="card p-4">
+            <div class="row g-3">
+              <div class="col-6"><label class="form-label fw-semibold">Jenis</label><input class="form-control" value="URL" disabled></div>
+              <div class="col-6"><label class="form-label fw-semibold">Verifikasi <span class="text-danger">*</span></label><select class="form-select"><option>Phishing</option></select></div>
+              <div class="col-12"><label class="form-label fw-semibold">Nilai</label><input class="form-control font-monospace" value="hxxps://sso-kampus-verify[.]example/login" disabled><div class="form-text"><i class="bi bi-lock me-1"></i>Jenis dan nilai tidak bisa diubah.</div></div>
+              <div class="col-12"><label class="form-label fw-semibold">Catatan</label><input class="form-control" value="Domain meniru SSO kampus"></div>
+            </div>
+            <div class="small text-muted-lp mt-3"><i class="bi bi-person-check me-1"></i>Diverifikasi oleh Petugas TI · 21/11/2026 14.25</div>
+            <div class="d-flex gap-2 justify-content-end mt-3"><a class="btn btn-outline-secondary" href="#">Batal</a><button class="btn btn-primary">Simpan</button></div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ===================================================== A8 + A9 KATEGORI -->
+<div class="mock-frame">
+  <div class="mock-label"><span>A8 — Daftar Kategori &nbsp;|&nbsp; A9 — Form Kategori</span><span>FR-11, FR-13</span></div>
+  <div class="shell" style="min-height: 480px">
+    <nav class="side">
+      <div class="brand"><i class="bi bi-shield-check me-1"></i>LaporPhish</div>
+      <a href="#"><i class="bi bi-speedometer2"></i>Dashboard</a><a href="#"><i class="bi bi-inbox"></i>Laporan</a><a href="#"><i class="bi bi-link-45deg"></i>Indikator</a><a class="active" href="#"><i class="bi bi-tags"></i>Kategori</a><a href="#"><i class="bi bi-broadcast"></i>Kanal</a>
+      <div class="bottom"><div class="who">Petugas TI</div><a href="#"><i class="bi bi-box-arrow-left"></i>Keluar</a></div>
+    </nav>
+    <main class="main">
+      <div class="row g-4">
+        <div class="col-lg-7">
+          <div class="page-head"><h1 class="h5 fw-bold mb-0">Kategori</h1><a class="btn btn-primary btn-sm" href="#"><i class="bi bi-plus-lg me-1"></i>Tambah</a></div>
+          <div class="alert alert-err small py-2"><i class="bi bi-exclamation-octagon-fill me-1"></i>Kategori "Pencurian akun" tidak bisa dihapus karena masih dipakai 17 laporan.</div>
+          <div class="card">
+            <table class="table align-middle">
+              <thead><tr><th class="ps-3">Nama</th><th>Deskripsi</th><th class="text-center">Laporan</th><th class="pe-3"></th></tr></thead>
+              <tbody>
+                <tr><td class="ps-3 fw-semibold">Pencurian akun</td><td class="small">Halaman login palsu untuk mencuri akun</td><td class="text-center">17</td><td class="pe-3 text-end text-nowrap"><a class="btn btn-sm btn-outline-primary" href="#">Edit</a> <button class="btn btn-sm btn-outline-danger">Hapus</button></td></tr>
+                <tr><td class="ps-3 fw-semibold">APK berbahaya</td><td class="small">File aplikasi yang menyamar sebagai undangan atau dokumen</td><td class="text-center">8</td><td class="pe-3 text-end text-nowrap"><a class="btn btn-sm btn-outline-primary" href="#">Edit</a> <button class="btn btn-sm btn-outline-danger">Hapus</button></td></tr>
+                <tr><td class="ps-3 fw-semibold">Lainnya</td><td class="small">Jenis yang belum tercantum</td><td class="text-center">2</td><td class="pe-3 text-end text-nowrap"><a class="btn btn-sm btn-outline-primary" href="#">Edit</a> <button class="btn btn-sm btn-outline-danger">Hapus</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="col-lg-5">
+          <h1 class="h5 fw-bold mb-3">Tambah / Edit Kategori</h1>
+          <div class="card p-4">
+            <div class="mb-3"><label class="form-label fw-semibold">Nama <span class="text-danger">*</span></label><input class="form-control" value="Pencurian akun"><div class="form-text">Harus unik.</div></div>
+            <div class="mb-3"><label class="form-label fw-semibold">Deskripsi</label><textarea class="form-control" rows="3">Halaman login palsu untuk mencuri akun</textarea><div class="form-text">Tampil sebagai teks bantuan di formulir lapor.</div></div>
+            <div class="d-flex gap-2 justify-content-end"><a class="btn btn-outline-secondary" href="#">Batal</a><button class="btn btn-primary">Simpan</button></div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ===================================================== A10 + A11 KANAL -->
+<div class="mock-frame">
+  <div class="mock-label"><span>A10 — Daftar Kanal &nbsp;|&nbsp; A11 — Form Kanal</span><span>FR-12, FR-13</span></div>
+  <div class="shell" style="min-height: 460px">
+    <nav class="side">
+      <div class="brand"><i class="bi bi-shield-check me-1"></i>LaporPhish</div>
+      <a href="#"><i class="bi bi-speedometer2"></i>Dashboard</a><a href="#"><i class="bi bi-inbox"></i>Laporan</a><a href="#"><i class="bi bi-link-45deg"></i>Indikator</a><a href="#"><i class="bi bi-tags"></i>Kategori</a><a class="active" href="#"><i class="bi bi-broadcast"></i>Kanal</a>
+      <div class="bottom"><div class="who">Petugas TI</div><a href="#"><i class="bi bi-box-arrow-left"></i>Keluar</a></div>
+    </nav>
+    <main class="main">
+      <div class="row g-4">
+        <div class="col-lg-7">
+          <div class="page-head"><h1 class="h5 fw-bold mb-0">Kanal</h1><a class="btn btn-primary btn-sm" href="#"><i class="bi bi-plus-lg me-1"></i>Tambah</a></div>
+          <div class="alert alert-ok small py-2"><i class="bi bi-check-circle-fill me-1"></i>Kanal "Telegram" berhasil ditambahkan.</div>
+          <div class="card">
+            <table class="table align-middle">
+              <thead><tr><th class="ps-3">Nama</th><th class="text-center">Laporan</th><th class="pe-3"></th></tr></thead>
+              <tbody>
+                <tr><td class="ps-3 fw-semibold">WhatsApp</td><td class="text-center">19</td><td class="pe-3 text-end text-nowrap"><a class="btn btn-sm btn-outline-primary" href="#">Edit</a> <button class="btn btn-sm btn-outline-danger">Hapus</button></td></tr>
+                <tr><td class="ps-3 fw-semibold">Email</td><td class="text-center">12</td><td class="pe-3 text-end text-nowrap"><a class="btn btn-sm btn-outline-primary" href="#">Edit</a> <button class="btn btn-sm btn-outline-danger">Hapus</button></td></tr>
+                <tr><td class="ps-3 fw-semibold">SMS</td><td class="text-center">6</td><td class="pe-3 text-end text-nowrap"><a class="btn btn-sm btn-outline-primary" href="#">Edit</a> <button class="btn btn-sm btn-outline-danger">Hapus</button></td></tr>
+                <tr><td class="ps-3 fw-semibold">Telegram</td><td class="text-center">0</td><td class="pe-3 text-end text-nowrap"><a class="btn btn-sm btn-outline-primary" href="#">Edit</a> <button class="btn btn-sm btn-outline-danger">Hapus</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="col-lg-5">
+          <h1 class="h5 fw-bold mb-3">Tambah / Edit Kanal</h1>
+          <div class="card p-4">
+            <div class="mb-3"><label class="form-label fw-semibold">Nama <span class="text-danger">*</span></label><input class="form-control is-invalid" value="WhatsApp"><div class="invalid-feedback">Nama kanal sudah ada.</div></div>
+            <div class="d-flex gap-2 justify-content-end"><a class="btn btn-outline-secondary" href="#">Batal</a><button class="btn btn-primary">Simpan</button></div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Wireframe LaporPhish — Halaman Admin</title>
+<style>
+  /* Wireframe low-fidelity: abu-abu saja, tanpa library eksternal */
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 24px; background: #e9e9e9; font-family: Arial, Helvetica, sans-serif; color: #333; font-size: 14px; }
+  h1.doc { margin: 0 0 4px; font-size: 20px; }
+  p.doc { margin: 0 0 24px; color: #666; }
+  .frame { background: #fff; border: 2px solid #999; max-width: 1080px; margin: 0 auto 40px; }
+  .frame-label { background: #555; color: #fff; padding: 6px 12px; font-size: 13px; display: flex; justify-content: space-between; }
+  .shell { display: grid; grid-template-columns: 190px 1fr; min-height: 380px; }
+  .side { background: #d9d9d9; border-right: 1px solid #aaa; padding: 14px 0; }
+  .side .brand { font-weight: bold; padding: 0 16px 14px; border-bottom: 1px solid #aaa; margin-bottom: 8px; }
+  .side div.m { padding: 8px 16px; color: #444; }
+  .side div.m.active { background: #999; color: #fff; font-weight: bold; }
+  .side hr { border: 0; border-top: 1px solid #aaa; margin: 10px 0; }
+  .main { padding: 20px 26px; }
+  .topline { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+  .topline .who { color: #777; font-size: 12px; }
+  h2 { font-size: 20px; margin: 0; }
+  h3 { font-size: 15px; margin: 18px 0 8px; }
+  .muted { color: #777; }
+  .box { border: 1px dashed #999; padding: 14px; background: #fafafa; }
+  .cards { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+  .card { border: 1px solid #bbb; padding: 12px; background: #fafafa; }
+  .card .num { font-size: 26px; font-weight: bold; }
+  .btn { display: inline-block; border: 1px solid #666; background: #ddd; padding: 5px 12px; }
+  .btn.primary { background: #555; color: #fff; border-color: #555; }
+  .btn.danger { border-style: dashed; }
+  .btn.small { padding: 2px 8px; font-size: 12px; }
+  .btn.disabled { color: #aaa; border-color: #bbb; background: #eee; }
+  .field { margin-bottom: 12px; }
+  .field label { display: block; font-weight: bold; margin-bottom: 4px; }
+  .input { border: 1px solid #999; background: #fff; padding: 7px 8px; color: #999; min-height: 32px; }
+  .input.ro { background: #eee; color: #555; }
+  .input.area { min-height: 80px; }
+  .row { display: grid; gap: 12px; }
+  .row.c2 { grid-template-columns: 1fr 1fr; }
+  .row.c3 { grid-template-columns: 1fr 1fr 1fr; }
+  .row.filter { grid-template-columns: 2fr 1fr 1fr 1fr 1fr auto; align-items: end; }
+  .help { font-size: 12px; color: #777; margin-top: 3px; }
+  .note { background: #fff7c2; border: 1px solid #d8c55a; padding: 6px 10px; font-size: 12px; margin: 8px 0; }
+  .alert { border: 2px solid #777; padding: 8px 12px; margin-bottom: 12px; background: #f2f2f2; }
+  .badge { display: inline-block; border: 1px solid #666; padding: 1px 8px; font-size: 12px; background: #eee; }
+  .mono { font-family: "Courier New", monospace; }
+  table { border-collapse: collapse; width: 100%; }
+  td, th { border: 1px solid #ccc; padding: 6px 8px; text-align: left; vertical-align: top; }
+  th { background: #eee; }
+  .timeline { border-left: 3px solid #999; margin-left: 8px; padding-left: 16px; }
+  .timeline .item { margin-bottom: 10px; }
+  .login { max-width: 360px; margin: 40px auto; border: 1px solid #bbb; padding: 24px; background: #fafafa; }
+  .split { display: grid; grid-template-columns: 1.3fr 1fr; gap: 18px; }
+  .tables3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+</style>
+</head>
+<body>
+
+<h1 class="doc">Wireframe LaporPhish — Halaman Admin (A1–A11)</h1>
+<p class="doc">Low-fidelity. Hanya tata letak dan isi, bukan tampilan akhir. Kotak kuning = catatan rancangan. Semua data adalah contoh fiktif.</p>
+
+<!-- ===================== A1 LOGIN ===================== -->
+<div class="frame">
+  <div class="frame-label"><span>A1 — Login Admin</span><span>FR-06</span></div>
+  <div class="login">
+    <div style="text-align:center; font-weight:bold; font-size:18px;">[ikon perisai] LaporPhish</div>
+    <p class="muted" style="text-align:center">Masuk sebagai petugas unit TI</p>
+    <div class="alert">Username atau password salah.</div>
+    <div class="field"><label>Username</label><div class="input">admin</div></div>
+    <div class="field"><label>Password</label><div class="input">••••••••</div></div>
+    <span class="btn primary" style="display:block; text-align:center">Masuk</span>
+    <p style="text-align:center; font-size:12px"><span class="muted">← Kembali ke beranda</span></p>
+  </div>
+  <div class="note" style="margin:0 20px 16px">Pesan galat sama untuk username maupun password yang salah, agar tidak membocorkan username mana yang terdaftar. Akun admin dibuat lewat file <span class="mono">.sql</span>.</div>
+</div>
+
+<!-- ===================== A2 DASHBOARD ===================== -->
+<div class="frame">
+  <div class="frame-label"><span>A2 — Dashboard Rekap</span><span>FR-07</span></div>
+  <div class="shell">
+    <div class="side"><div class="brand">[ikon] LaporPhish</div><div class="m active">Dashboard</div><div class="m">Laporan</div><div class="m">Indikator</div><div class="m">Kategori</div><div class="m">Kanal</div><hr><div class="m">Keluar</div></div>
+    <div class="main">
+      <div class="topline"><h2>Dashboard</h2><span class="who">Masuk sebagai: Petugas TI</span></div>
+      <div class="cards">
+        <div class="card"><div class="muted">Total laporan</div><div class="num">42</div></div>
+        <div class="card"><div class="muted">Baru</div><div class="num">6</div></div>
+        <div class="card"><div class="muted">Ditinjau</div><div class="num">9</div></div>
+        <div class="card"><div class="muted">Valid</div><div class="num">21</div></div>
+        <div class="card"><div class="muted">Tidak valid</div><div class="num">6</div></div>
+      </div>
+      <div class="note">Kartu status bisa diklik dan membuka Daftar Laporan (A3) yang sudah terfilter sesuai status itu.</div>
+      <div class="tables3">
+        <div><h3>Per kategori</h3><table><tr><th>Kategori</th><th>Jumlah</th></tr><tr><td>Pencurian akun</td><td>17</td></tr><tr><td>Hadiah/beasiswa palsu</td><td>11</td></tr><tr><td>APK berbahaya</td><td>8</td></tr><tr><td>Lowongan palsu</td><td>4</td></tr><tr><td>Lainnya</td><td>2</td></tr></table></div>
+        <div><h3>Per kanal</h3><table><tr><th>Kanal</th><th>Jumlah</th></tr><tr><td>WhatsApp</td><td>19</td></tr><tr><td>Email</td><td>12</td></tr><tr><td>SMS</td><td>6</td></tr><tr><td>Media sosial</td><td>4</td></tr><tr><td>Lainnya</td><td>1</td></tr></table></div>
+        <div><h3>Per bulan (laporan masuk)</h3><table><tr><th>Bulan</th><th>Jumlah</th></tr><tr><td>Nov 2026</td><td>9</td></tr><tr><td>Okt 2026</td><td>11</td></tr><tr><td>Sep 2026</td><td>8</td></tr><tr><td>Agu 2026</td><td>7</td></tr><tr><td>Jul 2026</td><td>4</td></tr><tr><td>Jun 2026</td><td>3</td></tr></table></div>
+      </div>
+      <div class="note">Hanya kartu dan tabel angka (tanpa grafik). Angka di atas hanya contoh; nilai sebenarnya dihitung dari data dummy di file <span class="mono">.sql</span>.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== A3 DAFTAR LAPORAN ===================== -->
+<div class="frame">
+  <div class="frame-label"><span>A3 — Daftar Laporan</span><span>FR-08</span></div>
+  <div class="shell">
+    <div class="side"><div class="brand">[ikon] LaporPhish</div><div class="m">Dashboard</div><div class="m active">Laporan</div><div class="m">Indikator</div><div class="m">Kategori</div><div class="m">Kanal</div><hr><div class="m">Keluar</div></div>
+    <div class="main">
+      <div class="topline"><h2>Laporan</h2><span class="who">Masuk sebagai: Petugas TI</span></div>
+      <div class="row filter">
+        <div class="field"><label>Cari</label><div class="input">Kode tiket atau kata di kronologi</div></div>
+        <div class="field"><label>Status</label><div class="input">Semua ▾</div></div>
+        <div class="field"><label>Kategori</label><div class="input">Semua ▾</div></div>
+        <div class="field"><label>Masuk dari</label><div class="input">dd/mm/yyyy</div></div>
+        <div class="field"><label>Sampai</label><div class="input">dd/mm/yyyy</div></div>
+        <div class="field"><span class="btn primary">Terapkan</span> <span class="btn">Reset</span></div>
+      </div>
+      <p class="muted">Menampilkan 3 dari 42 laporan</p>
+      <table>
+        <tr><th>Kode tiket</th><th>Tgl masuk</th><th>Kategori</th><th>Kanal</th><th>Indikator</th><th>Status</th><th></th></tr>
+        <tr><td class="mono">LP-7F3K9QX2</td><td>20/11/2026</td><td>Pencurian akun</td><td>WhatsApp</td><td>2</td><td><span class="badge">Valid</span></td><td><span class="btn small">Detail</span></td></tr>
+        <tr><td class="mono">LP-M4T8B2PA</td><td>20/11/2026</td><td>Pencurian akun</td><td>Email</td><td>1</td><td><span class="badge">Baru</span></td><td><span class="btn small">Detail</span></td></tr>
+        <tr><td class="mono">LP-Q9W2E7RT</td><td>18/11/2026</td><td>APK berbahaya</td><td>WhatsApp</td><td>1</td><td><span class="badge">Ditinjau</span></td><td><span class="btn small">Detail</span></td></tr>
+      </table>
+      <div class="note">Diurutkan dari laporan terbaru. Tanpa paginasi karena data demo di bawah 50 baris (paginasi bisa ditambahkan di fase lanjutan). Tidak ada tombol "Tambah", karena laporan dibuat pengunjung lewat P2.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== A4 DETAIL LAPORAN ===================== -->
+<div class="frame">
+  <div class="frame-label"><span>A4 — Detail Laporan</span><span>FR-08, FR-09, FR-10</span></div>
+  <div class="shell">
+    <div class="side"><div class="brand">[ikon] LaporPhish</div><div class="m">Dashboard</div><div class="m active">Laporan</div><div class="m">Indikator</div><div class="m">Kategori</div><div class="m">Kanal</div><hr><div class="m">Keluar</div></div>
+    <div class="main">
+      <div class="topline"><h2>Laporan <span class="mono">LP-7F3K9QX2</span> &nbsp;<span class="badge">Ditinjau</span></h2><span><span class="btn">Edit laporan</span> <span class="btn danger">Hapus</span></span></div>
+      <div class="split">
+        <div>
+          <table>
+            <tr><th style="width:150px">Tanggal masuk</th><td>20/11/2026 09.12</td></tr>
+            <tr><th>Terakhir diedit</th><td>–</td></tr>
+            <tr><th>Tanggal kejadian</th><td>02/11/2026</td></tr>
+            <tr><th>Kategori</th><td>Pencurian akun</td></tr>
+            <tr><th>Kanal</th><td>WhatsApp</td></tr>
+            <tr><th>Kronologi</th><td>Menerima pesan WA yang mengatasnamakan BAAK, diminta login ulang akun SSO lewat tautan berikut…</td></tr>
+            <tr><th>Pelapor</th><td>Rina — rina@kampus.example<br><span class="muted">(atau "Anonim" jika tidak diisi)</span></td></tr>
+          </table>
+
+          <h3>Indikator</h3>
+          <table>
+            <tr><th>Jenis</th><th>Nilai</th><th>Verifikasi</th><th></th></tr>
+            <tr><td>URL</td><td class="mono">hxxps://sso-kampus-verify[.]example/login</td><td><span class="input" style="display:inline-block; min-height:0; padding:2px 6px">Belum ▾</span></td><td><span class="btn small">Simpan</span></td></tr>
+            <tr><td>Nomor</td><td class="mono">6281200001111</td><td><span class="input" style="display:inline-block; min-height:0; padding:2px 6px">Phishing ▾</span></td><td><span class="btn small">Simpan</span></td></tr>
+          </table>
+          <div class="note">Verifikasi cepat langsung dari sini. Untuk mengisi catatan verifikasi, buka form indikator (A7). Nilai selalu ditampilkan dalam bentuk <i>defanged</i>.</div>
+        </div>
+        <div>
+          <h3 style="margin-top:0">Ubah status</h3>
+          <div class="field"><label>Status baru *</label><div class="input">Valid ▾</div></div>
+          <div class="field"><label>Catatan</label><div class="input area">Catatan ini tampil di halaman Lacak pelapor.</div><div class="help">Jangan menulis informasi internal.</div></div>
+          <span class="btn primary">Simpan status</span>
+
+          <h3>Riwayat status</h3>
+          <div class="timeline">
+            <div class="item"><b>Ditinjau</b> <span class="muted">— 21/11/2026 09.05 · Petugas TI</span><br>Laporan sedang diperiksa unit TI.</div>
+            <div class="item"><b>Baru</b> <span class="muted">— 20/11/2026 09.12 · Sistem</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="note">Tombol Hapus mengirim form POST dan memunculkan dialog konfirmasi: "Hapus laporan LP-7F3K9QX2? Riwayat status ikut terhapus. Indikator tetap tersimpan."</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== A5 EDIT LAPORAN ===================== -->
+<div class="frame">
+  <div class="frame-label"><span>A5 — Edit Laporan</span><span>FR-08</span></div>
+  <div class="shell">
+    <div class="side"><div class="brand">[ikon] LaporPhish</div><div class="m">Dashboard</div><div class="m active">Laporan</div><div class="m">Indikator</div><div class="m">Kategori</div><div class="m">Kanal</div><hr><div class="m">Keluar</div></div>
+    <div class="main">
+      <div class="topline"><h2>Edit Laporan <span class="mono">LP-7F3K9QX2</span></h2><span class="who">Masuk sebagai: Petugas TI</span></div>
+      <div class="row c3">
+        <div class="field"><label>Kategori *</label><div class="input">Pencurian akun ▾</div></div>
+        <div class="field"><label>Kanal *</label><div class="input">WhatsApp ▾</div></div>
+        <div class="field"><label>Tanggal kejadian *</label><div class="input">02/11/2026</div></div>
+      </div>
+      <div class="field"><label>Kronologi *</label><div class="input area">Menerima pesan WA yang mengatasnamakan BAAK…</div></div>
+      <span class="btn primary">Simpan perubahan</span> <span class="btn">Batal</span>
+      <div class="note">Hanya empat kolom ini yang bisa diubah. Status diubah di A4, indikator di A6/A7, dan identitas pelapor tidak bisa diedit.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== A6 DAFTAR INDIKATOR ===================== -->
+<div class="frame">
+  <div class="frame-label"><span>A6 — Daftar Indikator</span><span>FR-10, FR-13</span></div>
+  <div class="shell">
+    <div class="side"><div class="brand">[ikon] LaporPhish</div><div class="m">Dashboard</div><div class="m">Laporan</div><div class="m active">Indikator</div><div class="m">Kategori</div><div class="m">Kanal</div><hr><div class="m">Keluar</div></div>
+    <div class="main">
+      <div class="topline"><h2>Indikator</h2><span class="btn primary">+ Tambah indikator</span></div>
+      <div class="alert">Indikator tidak bisa dihapus karena masih menjadi bukti di 2 laporan. Tandai sebagai "Bukan phishing" jika ternyata aman.</div>
+      <div class="row" style="grid-template-columns: 2fr 1fr 1fr auto; align-items:end;">
+        <div class="field"><label>Cari</label><div class="input">Nilai indikator</div></div>
+        <div class="field"><label>Jenis</label><div class="input">Semua ▾</div></div>
+        <div class="field"><label>Verifikasi</label><div class="input">Semua ▾</div></div>
+        <div class="field"><span class="btn primary">Terapkan</span></div>
+      </div>
+      <table>
+        <tr><th>Jenis</th><th>Nilai</th><th>Verifikasi</th><th>Laporan</th><th>Catatan</th><th></th></tr>
+        <tr><td>URL</td><td class="mono">hxxps://sso-kampus-verify[.]example/login</td><td><span class="badge">Phishing</span></td><td>2</td><td>Domain meniru SSO kampus</td><td><span class="btn small">Edit</span> <span class="btn small disabled">Hapus</span></td></tr>
+        <tr><td>Nomor</td><td class="mono">6281200001111</td><td><span class="badge">Belum</span></td><td>1</td><td>–</td><td><span class="btn small">Edit</span> <span class="btn small disabled">Hapus</span></td></tr>
+        <tr><td>Email</td><td class="mono">hadiah@beasiswa-palsu[.]example</td><td><span class="badge">Phishing</span></td><td>0</td><td>Sumber: peringatan resmi</td><td><span class="btn small">Edit</span> <span class="btn small danger">Hapus</span></td></tr>
+      </table>
+      <div class="note">Tombol Hapus hanya aktif jika indikator tidak terkait laporan mana pun (kolom Laporan = 0). Jika tetap dicoba lewat cara lain, database menolak (RESTRICT) dan pesan di atas ditampilkan.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== A7 FORM INDIKATOR ===================== -->
+<div class="frame">
+  <div class="frame-label"><span>A7 — Form Indikator (Tambah / Edit)</span><span>FR-10</span></div>
+  <div class="shell">
+    <div class="side"><div class="brand">[ikon] LaporPhish</div><div class="m">Dashboard</div><div class="m">Laporan</div><div class="m active">Indikator</div><div class="m">Kategori</div><div class="m">Kanal</div><hr><div class="m">Keluar</div></div>
+    <div class="main">
+      <div class="split">
+        <div>
+          <h2>Tambah Indikator</h2><br>
+          <div class="alert">Indikator ini sudah tercatat. <u>Lihat data yang ada</u>.</div>
+          <div class="row c2">
+            <div class="field"><label>Jenis *</label><div class="input">Email ▾</div></div>
+            <div class="field"><label>Status verifikasi *</label><div class="input">Phishing ▾</div></div>
+          </div>
+          <div class="field"><label>Nilai *</label><div class="input">hadiah@beasiswa-palsu.example</div></div>
+          <div class="field"><label>Catatan / sumber</label><div class="input">Contoh: peringatan resmi BSSN</div></div>
+          <span class="btn primary">Simpan</span> <span class="btn">Batal</span>
+        </div>
+        <div>
+          <h2>Edit Indikator</h2><br>
+          <div class="row c2">
+            <div class="field"><label>Jenis</label><div class="input ro">URL</div></div>
+            <div class="field"><label>Status verifikasi *</label><div class="input">Phishing ▾</div></div>
+          </div>
+          <div class="field"><label>Nilai</label><div class="input ro mono">hxxps://sso-kampus-verify[.]example/login</div><div class="help">Jenis dan nilai tidak bisa diubah.</div></div>
+          <div class="field"><label>Catatan</label><div class="input">Domain meniru SSO kampus</div></div>
+          <p class="muted" style="font-size:12px">Diverifikasi oleh Petugas TI · 21/11/2026 14.25</p>
+          <span class="btn primary">Simpan</span> <span class="btn">Batal</span>
+        </div>
+      </div>
+      <div class="note">Satu file PHP untuk dua mode. Saat ditambah, nilai dinormalisasi lebih dulu sebelum dicek apakah sudah ada.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== A8 + A9 KATEGORI ===================== -->
+<div class="frame">
+  <div class="frame-label"><span>A8 — Daftar Kategori &nbsp;|&nbsp; A9 — Form Kategori</span><span>FR-11, FR-13</span></div>
+  <div class="shell">
+    <div class="side"><div class="brand">[ikon] LaporPhish</div><div class="m">Dashboard</div><div class="m">Laporan</div><div class="m">Indikator</div><div class="m active">Kategori</div><div class="m">Kanal</div><hr><div class="m">Keluar</div></div>
+    <div class="main">
+      <div class="split">
+        <div>
+          <div class="topline"><h2>Kategori</h2><span class="btn primary">+ Tambah</span></div>
+          <div class="alert">Kategori "Pencurian akun" tidak bisa dihapus karena masih dipakai 17 laporan.</div>
+          <table>
+            <tr><th>Nama</th><th>Deskripsi</th><th>Laporan</th><th></th></tr>
+            <tr><td>Pencurian akun</td><td>Halaman login palsu untuk mencuri akun</td><td>17</td><td><span class="btn small">Edit</span> <span class="btn small danger">Hapus</span></td></tr>
+            <tr><td>APK berbahaya</td><td>File aplikasi yang menyamar sebagai undangan/dokumen</td><td>8</td><td><span class="btn small">Edit</span> <span class="btn small danger">Hapus</span></td></tr>
+            <tr><td>Lainnya</td><td>Jenis yang belum tercantum</td><td>2</td><td><span class="btn small">Edit</span> <span class="btn small danger">Hapus</span></td></tr>
+          </table>
+        </div>
+        <div>
+          <h2>Tambah / Edit Kategori</h2><br>
+          <div class="field"><label>Nama *</label><div class="input">Pencurian akun</div><div class="help">Harus unik.</div></div>
+          <div class="field"><label>Deskripsi</label><div class="input area">Tampil sebagai teks bantuan di formulir lapor.</div></div>
+          <span class="btn primary">Simpan</span> <span class="btn">Batal</span>
+        </div>
+      </div>
+      <div class="note">Berbeda dengan indikator, tombol Hapus kategori tetap aktif. Penolakan datang dari database (RESTRICT) agar aturan FR-13 bisa didemokan langsung.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== A10 + A11 KANAL ===================== -->
+<div class="frame">
+  <div class="frame-label"><span>A10 — Daftar Kanal &nbsp;|&nbsp; A11 — Form Kanal</span><span>FR-12, FR-13</span></div>
+  <div class="shell">
+    <div class="side"><div class="brand">[ikon] LaporPhish</div><div class="m">Dashboard</div><div class="m">Laporan</div><div class="m">Indikator</div><div class="m">Kategori</div><div class="m active">Kanal</div><hr><div class="m">Keluar</div></div>
+    <div class="main">
+      <div class="split">
+        <div>
+          <div class="topline"><h2>Kanal</h2><span class="btn primary">+ Tambah</span></div>
+          <table>
+            <tr><th>Nama</th><th>Laporan</th><th></th></tr>
+            <tr><td>WhatsApp</td><td>19</td><td><span class="btn small">Edit</span> <span class="btn small danger">Hapus</span></td></tr>
+            <tr><td>Email</td><td>12</td><td><span class="btn small">Edit</span> <span class="btn small danger">Hapus</span></td></tr>
+            <tr><td>SMS</td><td>6</td><td><span class="btn small">Edit</span> <span class="btn small danger">Hapus</span></td></tr>
+            <tr><td>Media sosial</td><td>4</td><td><span class="btn small">Edit</span> <span class="btn small danger">Hapus</span></td></tr>
+            <tr><td>Lainnya</td><td>1</td><td><span class="btn small">Edit</span> <span class="btn small danger">Hapus</span></td></tr>
+          </table>
+        </div>
+        <div>
+          <h2>Tambah / Edit Kanal</h2><br>
+          <div class="field"><label>Nama *</label><div class="input">WhatsApp</div><div class="help">Harus unik.</div></div>
+          <span class="btn primary">Simpan</span> <span class="btn">Batal</span>
+        </div>
+      </div>
+      <div class="note">Pola sama dengan kategori. Penghapusan kanal yang masih dipakai ditolak dengan pesan seperti di A8.</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

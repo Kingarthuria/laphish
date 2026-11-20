@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Wireframe LaporPhish — Halaman Publik</title>
+<style>
+  /* Wireframe low-fidelity: abu-abu saja, tanpa library eksternal */
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 24px; background: #e9e9e9; font-family: Arial, Helvetica, sans-serif; color: #333; font-size: 14px; }
+  h1.doc { margin: 0 0 4px; font-size: 20px; }
+  p.doc { margin: 0 0 24px; color: #666; }
+  .frame { background: #fff; border: 2px solid #999; max-width: 980px; margin: 0 auto 40px; }
+  .frame-label { background: #555; color: #fff; padding: 6px 12px; font-size: 13px; display: flex; justify-content: space-between; }
+  .nav { display: flex; align-items: center; gap: 20px; padding: 12px 20px; border-bottom: 1px solid #ccc; background: #f4f4f4; }
+  .nav .brand { font-weight: bold; font-size: 16px; margin-right: auto; }
+  .nav span { color: #555; }
+  .nav span.active { font-weight: bold; text-decoration: underline; }
+  .page { padding: 24px 32px; }
+  .footer { border-top: 1px solid #ccc; padding: 10px 20px; color: #777; font-size: 12px; display: flex; justify-content: space-between; background: #f4f4f4; }
+  h2 { font-size: 20px; margin: 0 0 6px; }
+  h3 { font-size: 15px; margin: 18px 0 8px; }
+  .muted { color: #777; }
+  .box { border: 1px dashed #999; padding: 16px; background: #fafafa; }
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 16px; }
+  .card { border: 1px solid #bbb; padding: 16px; background: #fafafa; }
+  .card .icon { width: 36px; height: 36px; background: #ccc; margin-bottom: 8px; }
+  .btn { display: inline-block; border: 1px solid #666; background: #ddd; padding: 6px 14px; margin-top: 8px; }
+  .btn.primary { background: #555; color: #fff; border-color: #555; }
+  .btn.small { padding: 2px 8px; font-size: 12px; margin-top: 0; }
+  .field { margin-bottom: 12px; }
+  .field label { display: block; font-weight: bold; margin-bottom: 4px; }
+  .input { border: 1px solid #999; background: #fff; padding: 7px 8px; color: #999; min-height: 32px; }
+  .input.area { min-height: 80px; }
+  .row { display: grid; gap: 12px; }
+  .row.c2 { grid-template-columns: 1fr 1fr; }
+  .row.ind { grid-template-columns: 140px 1fr 70px; align-items: center; }
+  .help { font-size: 12px; color: #777; margin-top: 3px; }
+  .note { background: #fff7c2; border: 1px solid #d8c55a; padding: 6px 10px; font-size: 12px; margin: 8px 0; }
+  .ticket { font-family: "Courier New", monospace; font-size: 30px; font-weight: bold; letter-spacing: 3px; border: 2px dashed #555; padding: 12px 24px; display: inline-block; margin: 12px 0; }
+  .result { border: 2px solid #777; padding: 12px 16px; margin-bottom: 12px; }
+  .result.thick { border-width: 4px; }
+  .badge { display: inline-block; border: 1px solid #666; padding: 1px 8px; font-size: 12px; background: #eee; }
+  .mono { font-family: "Courier New", monospace; }
+  table { border-collapse: collapse; width: 100%; }
+  td, th { border: 1px solid #ccc; padding: 6px 8px; text-align: left; vertical-align: top; }
+  th { background: #eee; }
+  .timeline { border-left: 3px solid #999; margin-left: 8px; padding-left: 16px; }
+  .timeline .item { margin-bottom: 12px; }
+  .center { text-align: center; }
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+</style>
+</head>
+<body>
+
+<h1 class="doc">Wireframe LaporPhish — Halaman Publik (P1–P5)</h1>
+<p class="doc">Low-fidelity. Hanya tata letak dan isi, bukan tampilan akhir. Kotak kuning = catatan rancangan. Semua data adalah contoh fiktif (domain <span class="mono">.example</span>).</p>
+
+<!-- ===================== P1 BERANDA ===================== -->
+<div class="frame">
+  <div class="frame-label"><span>P1 — Beranda</span><span>FR-01</span></div>
+  <div class="nav"><span class="brand">[ikon perisai] LaporPhish</span><span class="active">Beranda</span><span>Lapor</span><span>Cek</span><span>Lacak</span></div>
+  <div class="page">
+    <div class="box center">
+      <h2>Terima pesan atau tautan mencurigakan?</h2>
+      <p class="muted">Cek dulu sebelum diklik. Laporkan agar sivitas akademika lain tidak ikut tertipu.</p>
+      <span class="btn primary">Cek tautan sekarang</span>
+    </div>
+    <div class="cards">
+      <div class="card"><div class="icon"></div><b>Lapor</b><p class="muted">Laporkan tautan, email, atau nomor phishing yang Anda terima. Identitas boleh dikosongkan.</p><span class="btn">Buat laporan</span></div>
+      <div class="card"><div class="icon"></div><b>Cek</b><p class="muted">Periksa apakah tautan, email, atau nomor sudah pernah dilaporkan atau terverifikasi phishing.</p><span class="btn">Cek indikator</span></div>
+      <div class="card"><div class="icon"></div><b>Lacak</b><p class="muted">Pantau tindak lanjut laporan Anda memakai kode tiket.</p><span class="btn">Lacak laporan</span></div>
+    </div>
+    <h3>Cara kerja</h3>
+    <div class="steps">
+      <div class="box">1. Kirim laporan beserta tautan/nomor/email yang mencurigakan.</div>
+      <div class="box">2. Unit TI memeriksa dan memverifikasi laporan.</div>
+      <div class="box">3. Hasil verifikasi bisa dicek oleh siapa saja lewat halaman Cek.</div>
+    </div>
+  </div>
+  <div class="footer"><span>LaporPhish — proyek akhir Pemrograman Berbasis Web</span><span>Masuk admin</span></div>
+</div>
+
+<!-- ===================== P2 FORMULIR LAPOR ===================== -->
+<div class="frame">
+  <div class="frame-label"><span>P2 — Formulir Lapor</span><span>FR-02</span></div>
+  <div class="nav"><span class="brand">[ikon perisai] LaporPhish</span><span>Beranda</span><span class="active">Lapor</span><span>Cek</span><span>Lacak</span></div>
+  <div class="page">
+    <h2>Laporkan Phishing</h2>
+    <p class="muted">Kolom bertanda * wajib diisi.</p>
+
+    <h3>1. Detail kejadian</h3>
+    <div class="row c2">
+      <div class="field"><label>Kanal *</label><div class="input">-- Pilih kanal (Email, WhatsApp, SMS, ...) --</div></div>
+      <div class="field"><label>Tanggal kejadian *</label><div class="input">dd/mm/yyyy</div><div class="help">Tidak boleh tanggal di masa depan.</div></div>
+    </div>
+    <div class="field"><label>Kategori *</label><div class="input">-- Pilih kategori --</div><div class="help">Pencurian akun: halaman login palsu untuk mencuri akun.</div></div>
+    <div class="note">Teks bantuan di bawah kategori diambil dari kolom <span class="mono">categories.description</span> dan berubah sesuai kategori yang dipilih.</div>
+    <div class="field"><label>Kronologi *</label><div class="input area">Ceritakan singkat: pesan apa yang diterima, dari siapa, dan apa yang diminta.</div></div>
+
+    <h3>2. Indikator (1–5) *</h3>
+    <div class="row ind" style="margin-bottom:6px; font-weight:bold;"><span>Jenis</span><span>Nilai</span><span></span></div>
+    <div class="row ind field"><div class="input">URL ▾</div><div class="input">https://sso-kampus-verify.example/login</div><span></span></div>
+    <div class="row ind field"><div class="input">Nomor ▾</div><div class="input">0812-0000-1111</div><span class="btn small">Hapus</span></div>
+    <span class="btn">+ Tambah indikator</span> <span class="muted">(maksimal 5)</span>
+    <div class="note">Baris pertama wajib dan tidak bisa dihapus. Tombol "Tambah" hilang setelah 5 baris. Jumlah dan duplikat dicek ulang di PHP.</div>
+
+    <h3>3. Identitas pelapor (opsional)</h3>
+    <div class="row c2">
+      <div class="field"><label>Nama</label><div class="input">Boleh dikosongkan</div></div>
+      <div class="field"><label>Email</label><div class="input">Boleh dikosongkan</div><div class="help">Hanya dipakai unit TI untuk menghubungi Anda. Tidak ditampilkan di halaman publik.</div></div>
+    </div>
+
+    <span class="btn primary">Kirim laporan</span>
+  </div>
+  <div class="footer"><span>LaporPhish</span><span>Masuk admin</span></div>
+</div>
+
+<!-- ===================== P3 LAPORAN TERKIRIM ===================== -->
+<div class="frame">
+  <div class="frame-label"><span>P3 — Laporan Terkirim</span><span>FR-03</span></div>
+  <div class="nav"><span class="brand">[ikon perisai] LaporPhish</span><span>Beranda</span><span class="active">Lapor</span><span>Cek</span><span>Lacak</span></div>
+  <div class="page center">
+    <h2>Laporan berhasil dikirim</h2>
+    <p class="muted">Terima kasih. Simpan kode tiket berikut untuk melacak tindak lanjut laporan Anda.</p>
+    <div class="ticket">LP-7F3K9QX2</div>
+    <p><b>Penting:</b> kode tiket tidak bisa dipulihkan jika hilang. Salin atau screenshot halaman ini.</p>
+    <span class="btn primary">Lacak laporan ini</span> &nbsp; <span class="btn">Kembali ke beranda</span>
+    <div class="note" style="text-align:left">Kode tiket acak (tidak berurutan) agar laporan orang lain tidak bisa ditebak.</div>
+  </div>
+  <div class="footer"><span>LaporPhish</span><span>Masuk admin</span></div>
+</div>
+
+<!-- ===================== P4 CEK INDIKATOR ===================== -->
+<div class="frame">
+  <div class="frame-label"><span>P4 — Cek Indikator</span><span>FR-05</span></div>
+  <div class="nav"><span class="brand">[ikon perisai] LaporPhish</span><span>Beranda</span><span>Lapor</span><span class="active">Cek</span><span>Lacak</span></div>
+  <div class="page">
+    <h2>Cek Tautan, Email, atau Nomor</h2>
+    <p class="muted">Jangan klik tautannya. Salin lalu tempel di sini.</p>
+    <div class="row" style="grid-template-columns: 160px 1fr 100px; align-items:end;">
+      <div class="field"><label>Jenis *</label><div class="input">URL ▾</div></div>
+      <div class="field"><label>Nilai *</label><div class="input">https://sso-kampus-verify.example/login</div></div>
+      <div class="field"><span class="btn primary">Cek</span></div>
+    </div>
+
+    <h3>Varian hasil (hanya satu yang muncul)</h3>
+    <div class="note">Nilai yang dicari selalu ditampilkan ulang dalam bentuk <i>defanged</i> dan tidak bisa diklik.</div>
+
+    <div class="result thick">
+      <b>① TERVERIFIKASI PHISHING</b> &nbsp;<span class="badge">phishing</span><br>
+      <span class="mono">hxxps://sso-kampus-verify[.]example/login</span><br>
+      Jangan klik, jangan isi data, dan jangan balas. Dilaporkan dalam 2 laporan.
+    </div>
+    <div class="result">
+      <b>② TERCATAT, MASIH DITINJAU</b> &nbsp;<span class="badge">belum diverifikasi</span><br>
+      <span class="mono">hxxps://sso-kampus-verify[.]example/login</span><br>
+      Sudah dilaporkan (2 laporan) dan sedang diperiksa unit TI. Tetap waspada.
+    </div>
+    <div class="result">
+      <b>③ SUDAH DIPERIKSA, TIDAK TERBUKTI PHISHING</b> &nbsp;<span class="badge">bukan phishing</span><br>
+      Unit TI tidak menemukan tanda phishing. Tetap waspada terhadap permintaan data pribadi.
+    </div>
+    <div class="result">
+      <b>④ BELUM ADA DATA</b><br>
+      Belum ada laporan atau data tentang nilai ini. Ini <u>bukan</u> jaminan aman.
+      <br><span class="btn">Laporkan nilai ini</span>
+    </div>
+  </div>
+  <div class="footer"><span>LaporPhish</span><span>Masuk admin</span></div>
+</div>
+
+<!-- ===================== P5 LACAK STATUS ===================== -->
+<div class="frame">
+  <div class="frame-label"><span>P5 — Lacak Status</span><span>FR-04</span></div>
+  <div class="nav"><span class="brand">[ikon perisai] LaporPhish</span><span>Beranda</span><span>Lapor</span><span>Cek</span><span class="active">Lacak</span></div>
+  <div class="page">
+    <h2>Lacak Laporan</h2>
+    <div class="row" style="grid-template-columns: 1fr 100px; align-items:end;">
+      <div class="field"><label>Kode tiket *</label><div class="input">LP-XXXXXXXX</div></div>
+      <div class="field"><span class="btn primary">Lacak</span></div>
+    </div>
+
+    <h3>Hasil</h3>
+    <table>
+      <tr><th style="width:180px">Kode tiket</th><td class="mono">LP-7F3K9QX2</td></tr>
+      <tr><th>Kategori</th><td>Pencurian akun</td></tr>
+      <tr><th>Kanal</th><td>WhatsApp</td></tr>
+      <tr><th>Tanggal kejadian</th><td>02/11/2026</td></tr>
+      <tr><th>Status terakhir</th><td><span class="badge">Valid</span></td></tr>
+    </table>
+
+    <h3>Riwayat penanganan</h3>
+    <div class="timeline">
+      <div class="item"><b>Valid</b> <span class="muted">— 21/11/2026 14.30</span><br>Tautan terkonfirmasi phishing dan sudah ditandai di fitur Cek.</div>
+      <div class="item"><b>Ditinjau</b> <span class="muted">— 21/11/2026 09.05</span><br>Laporan sedang diperiksa unit TI.</div>
+      <div class="item"><b>Baru</b> <span class="muted">— 20/11/2026 09.12</span><br><span class="muted">Laporan diterima.</span></div>
+    </div>
+    <div class="note">Tidak menampilkan identitas pelapor maupun indikator. Catatan admin pada setiap status tampil di sini, jadi admin tidak boleh menulis informasi internal.</div>
+    <div class="result">Jika kode tidak ditemukan: <b>"Kode tiket tidak ditemukan. Periksa kembali penulisannya."</b></div>
+  </div>
+  <div class="footer"><span>LaporPhish</span><span>Masuk admin</span></div>
+</div>
+
+</body>
+</html>
