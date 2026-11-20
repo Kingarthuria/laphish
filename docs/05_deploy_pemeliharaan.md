@@ -3,7 +3,7 @@
 Proyek: **LaporPhish: Lapor dan Cek Phishing di Kampus**
 Dasar: `03_implementasi.md` dan `04_pengujian.md`.
 
-Status: **rencana** (2026-11-21). Sesuai ketentuan tugas, aplikasi fase 1 berjalan di localhost. Dokumen ini berisi skema jika aplikasi di-deploy online di masa mendatang, beserta rencana pemeliharaan dan pengembangannya.
+Status: **rencana** (2026-11-21). Sesuai ketentuan tugas, aplikasi fase 1 berjalan di localhost. Dokumen ini berisi skema jika aplikasi di-deploy online di masa mendatang, beserta rencana pemeliharaan dan pengembangannya. Kelayakan hosting gratis sudah **diuji langsung** pada 2026-11-21 (bagian 3), dan hasilnya menentukan skema yang dipilih.
 
 ## 1. Tujuan deploy
 
@@ -11,7 +11,9 @@ Deploy online yang direncanakan adalah **demo publik dengan data dummy**, untuk 
 
 ## 2. Skema yang dipilih
 
-**Hosting PHP gratis** (contoh: InfinityFree), dengan satu syarat: lolos uji kelayakan di bagian 3 lebih dulu. Jika tidak lolos, demo dipindah ke **shared hosting berbayar** dengan langkah yang sama.
+**Shared hosting berbayar** yang menyediakan Apache, PHP 8.1 atau lebih baru, dan MySQL/MariaDB dengan hak membuat view.
+
+Rencana awal memakai hosting PHP gratis. Uji langsung di bagian 3 menunjukkan hosting gratis mendukung InnoDB, foreign key, RESTRICT, CASCADE, dan PHP 8.3, tetapi **menolak pembuatan view** (`#1142 - CREATE VIEW command denied`). Padahal LaporPhish membaca status terakhir setiap laporan lewat view `v_report_status`. Sesuai aturan keputusan di bagian 3, skema deploy dipindah ke shared hosting berbayar.
 
 ```mermaid
 flowchart LR
@@ -24,56 +26,67 @@ flowchart LR
 
 ### Perbandingan opsi
 
-| Kriteria | Hosting gratis (dipilih untuk demo) | Shared hosting berbayar (cadangan) | Server unit TI (pemakaian nyata) |
+| Kriteria | Hosting gratis (diuji, tidak lolos) | Shared hosting berbayar (dipilih) | Server unit TI (pemakaian nyata) |
 |---|---|---|---|
 | Biaya | Gratis | Biaya bulanan atau tahunan | Ditanggung kampus |
-| Foreign key dan view | **Belum pasti**, harus diuji (bagian 3) | Umumnya didukung, tetap diuji sebelum membeli | Didukung penuh, sama seperti XAMPP |
-| Kendali konfigurasi | Terbatas, tanpa SSH dan cron | Terbatas (cPanel) | Penuh |
+| Foreign key dan view | Foreign key berjalan, **view ditolak** (bagian 3) | Umumnya didukung, tetap diuji dengan U1–U6 sebelum aplikasi diunggah | Didukung penuh, sama seperti XAMPP |
+| Kendali konfigurasi | Terbatas, tanpa SSH | Terbatas (cPanel) | Penuh |
 | Data laporan sungguhan | Tidak layak | Kurang ideal (data di pihak ketiga) | Layak, data tetap di kampus |
-| Cocok untuk | Demo portofolio | Demo jika hosting gratis gagal uji | Operasional unit TI |
+| Cocok untuk | Tidak dipakai | Demo publik dengan data dummy | Operasional unit TI |
 
-Platform yang biasa dipakai untuk aplikasi Python (Streamlit Cloud, Hugging Face Spaces) tidak menjalankan PHP + MySQL. Render memerlukan Docker untuk PHP, sehingga tidak dipilih.
+Platform yang biasa dipakai untuk aplikasi Python (Streamlit Cloud, Hugging Face Spaces) tidak menjalankan PHP + MySQL. Vercel menjalankan PHP hanya lewat runtime komunitas dalam bentuk *serverless function*, tanpa MySQL bawaan dan tanpa dukungan `.htaccess`. Render memerlukan Docker untuk PHP. Karena itu ketiganya tidak dipilih.
 
-### Spesifikasi hosting gratis yang tercatat
+### Hosting PHP gratis yang dibandingkan
 
-Dicek 2026-11-21 dari ulasan pihak ketiga (bukan halaman resmi), jadi angkanya diperiksa ulang di panel saat mendaftar:
+Dicek 2026-11-21. Baris "Hasil uji" berasal dari uji langsung di bagian 3. Baris lainnya berasal dari halaman resmi atau ulasan pihak ketiga.
 
-| Bagian | Keterangan |
-|---|---|
-| PHP | 8.3 (sumber lain menyebut 8.2). LaporPhish butuh **PHP 8.1 atau lebih baru** karena memakai tipe kembalian `never` |
-| Penyimpanan | 5 GB |
-| Database | Hingga 400 database MySQL, dibuat lewat panel |
-| SSL | Gratis (Let's Encrypt) |
-| Batas | Sekitar 50.000 hit per hari, waktu eksekusi PHP maksimal 10 detik, tanpa SSH. Ketersediaan cron di paket gratis tidak konsisten antarsumber |
+| Kriteria | InfinityFree | Byet.host | TinkerHost | AwardSpace |
+|---|---|---|---|---|
+| Pengelola platform | iFastNet | iFastNet | Paket gratisnya berjalan di platform iFastNet (server database `byetcluster.com`, panel vPanel) | AwardSpace |
+| PHP | 8.3 | 8.3 | 8.3 (terlihat di panel) | **Hanya PHP 5 dan 7** di paket gratis, sehingga **tidak memenuhi** syarat PHP 8.1 |
+| InnoDB | Ditambahkan 2022 (forum) | Mengikuti iFastNet | Tersedia (hasil uji) | Tersedia, termasuk paket gratis (halaman resmi) |
+| View | Tidak termasuk hak akun (forum, 2019) | Mengikuti iFastNet | **Ditolak** (hasil uji) | Tidak ada data |
+| Keputusan | Tidak dipilih: platform sama dengan TinkerHost | Tidak dipilih: platform sama dengan TinkerHost | Diuji, tidak lolos U4 | Gugur karena versi PHP |
+
+Ketiga layanan pertama berjalan di platform yang sama, sehingga hasil uji di TinkerHost mewakili ketiganya.
 
 ## 3. Uji kelayakan sebelum deploy
 
-Forum resmi InfinityFree pernah menyatakan (2019) bahwa paket gratis hanya mendukung MyISAM, foreign key diabaikan, dan hak `CREATE VIEW` tidak termasuk yang diberikan. Pada 2022 InnoDB sudah ditambahkan, tetapi masih ada laporan galat `REFERENCES command not allowed` (1142) saat membuat foreign key. Karena bukti ini tercampur dan sebagian sudah lama, kelayakan **diuji langsung** di akun hosting sebelum aplikasi diunggah.
+Forum resmi InfinityFree pernah menyatakan (2019) bahwa paket gratis hanya mendukung MyISAM, foreign key diabaikan, dan hak `CREATE VIEW` tidak termasuk yang diberikan. Pada 2022 InnoDB sudah ditambahkan, tetapi masih ada laporan galat `REFERENCES command not allowed` (1142) saat membuat foreign key. Karena bukti ini tercampur dan sebagian sudah lama, kelayakan **diuji langsung** sebelum aplikasi diunggah ke hosting mana pun.
 
-Uji dijalankan di phpMyAdmin hosting dengan tabel uji sementara, lalu tabel itu dihapus:
+### Hasil uji di hosting gratis (2026-11-21)
 
-| No | Yang diuji | Cara | Lolos jika |
-|---|---|---|---|
-| U1 | Engine InnoDB | `CREATE TABLE t_induk (...) ENGINE=InnoDB`, lalu `SHOW TABLE STATUS` | Engine tercatat `InnoDB`, bukan `MyISAM` |
-| U2 | Foreign key | `CREATE TABLE t_anak (... FOREIGN KEY ... REFERENCES t_induk ...)` | Tidak muncul galat 1142 |
-| U3 | ON DELETE RESTRICT | Hapus baris induk yang masih dipakai | Muncul galat 1451 (penghapusan ditolak) |
-| U4 | View | `CREATE VIEW v_uji AS SELECT ...` | View berhasil dibuat |
-| U5 | Versi PHP | Lihat di panel | 8.1 atau lebih baru |
-| U6 | Perlindungan folder | Unggah `.htaccess` berisi `Require all denied` ke folder uji, lalu buka dari browser | Muncul 403 |
+Lingkungan: paket gratis TinkerHost, MariaDB 11.4.13 (server `byetcluster.com`), phpMyAdmin 4.9. Uji memakai tabel sementara `t_induk`, `t_anak`, dan `t_anak2` di database uji kosong, lalu semuanya dihapus. Kode dan data LaporPhish tidak diunggah.
 
-**Aturan keputusan:** semua lolos berarti lanjut ke bagian 4. Satu saja gagal berarti **pindah ke shared hosting berbayar** dan ulangi uji yang sama sebelum membeli paket.
+| No | Yang diuji | Cara | Lolos jika | Hasil | Status |
+|---|---|---|---|---|---|
+| — | Hak akun database | Membaca `information_schema.SCHEMA_PRIVILEGES` | — | SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER, LOCK TABLES. Tidak ada `CREATE VIEW` dan `REFERENCES`. Engine bawaan server adalah MyISAM | Info |
+| U1 | Engine InnoDB | `CREATE TABLE ... ENGINE=InnoDB`, lalu baca engine di `information_schema.TABLES` | Tercatat `InnoDB` | Kedua tabel tercatat `InnoDB` | Lolos |
+| U2 | Foreign key | `CREATE TABLE t_anak (... CONSTRAINT fk_uji FOREIGN KEY ... REFERENCES t_induk(id) ON DELETE RESTRICT)` | Tidak ada galat, constraint tercatat | Tanpa galat. `fk_uji` tercatat dengan `ON DELETE RESTRICT` | Lolos |
+| U3 | ON DELETE RESTRICT | Hapus baris induk yang masih dipakai | Ditolak dengan galat 1451 | `#1451 - Cannot delete or update a parent row: a foreign key constraint fails` | Lolos |
+| U3b | ON DELETE CASCADE | Tabel `t_anak2` dengan `ON DELETE CASCADE`, isi 2 baris anak, lalu hapus induknya | Baris anak ikut terhapus | Sisa baris anak: 0 | Lolos |
+| U4 | View | `CREATE VIEW v_uji AS SELECT ...` | View berhasil dibuat | `#1142 - CREATE VIEW command denied to user` | **Gagal** |
+| U5 | Versi PHP | Halaman pengaturan akun di panel | 8.1 atau lebih baru | PHP 8.3 | Lolos |
+| U6 | Perlindungan folder | Unggah `.htaccess` berisi `Require all denied`, lalu buka dari browser | Muncul 403 | Tidak dijalankan, karena U4 sudah gagal. Panel menyatakan `.htaccess` aktif | Tidak diuji |
 
-Desain database **tidak** diubah agar muat di hosting gratis. Foreign key dengan aturan RESTRICT/CASCADE dan view `v_report_status` adalah inti integritas data (FR-13, `02a_desain_database.md`). Tanpa keduanya, kategori yang masih dipakai bisa terhapus dan meninggalkan laporan tanpa kategori.
+**Kesimpulan:** hosting gratis **tidak lolos** karena U4. Klaim lama bahwa foreign key diabaikan sudah tidak berlaku: foreign key, RESTRICT, dan CASCADE berjalan sama seperti di XAMPP. Penghalangnya tinggal hak `CREATE VIEW`.
+
+**Aturan keputusan:** semua uji lolos berarti lanjut ke bagian 4. Satu saja gagal berarti pindah ke shared hosting berbayar dan menjalankan uji U1–U6 yang sama di sana sebelum aplikasi diunggah.
+
+Desain database **tidak** diubah agar muat di hosting gratis. Foreign key dengan aturan RESTRICT/CASCADE adalah inti integritas data (FR-13, `02a_desain_database.md`), dan view `v_report_status` menjadi satu-satunya tempat aturan "status terakhir" ditulis. Mengganti view dengan subquery di kode PHP (dipakai di 4 file) secara teknis bisa membuat hosting gratis lolos. Tetapi perubahan itu tidak diperlukan untuk tugas yang berjalan di localhost, dan berarti pengujian harus diulang. Jika nanti tetap ingin memakai hosting gratis, perubahan ini masuk rencana pengembangan (bagian 7).
 
 ## 4. Langkah deploy
 
-1. **Buat database lewat panel.** Hosting memberi nama database berawalan (misalnya `xxxx_laporphish`), username, password, dan alamat host MySQL. Alamat host belum tentu `localhost`.
-2. **Siapkan file SQL versi hosting.** Salin `database/laporphish.sql`, lalu hapus dua baris awal `CREATE DATABASE ...` dan `USE laporphish;`, karena database sudah dibuat oleh panel dan akun hosting tidak berhak membuat database sendiri. Impor salinan ini ke database tadi lewat phpMyAdmin hosting.
-3. **Unggah kode** lewat FTP atau File Manager ke folder web (`htdocs`). Yang **tidak** diunggah: `.git/`, `.claude/`, `database/`, dan file PDF deskripsi tugas.
-4. **Buat `includes/config.php` di server** dari `config.example.php`, isi dengan data dari langkah 1, dan pastikan `'debug' => false`. File ini hanya ada di server, tidak di repo.
-5. **Ganti password admin demo.** Password demo tercantum di README publik, jadi harus diganti sebelum situs bisa diakses. Hash baru dibuat di komputer sendiri dengan `password_hash()`, lalu disimpan lewat phpMyAdmin: `UPDATE admins SET password_hash = '<hash baru>' WHERE username = 'admin';`. Password baru tidak ditulis di repo.
-6. **Aktifkan HTTPS** di panel dan arahkan semua akses `http://` ke `https://` lewat `.htaccess`.
-7. **Uji asap (smoke test)** di alamat online, memakai kasus dari `04_pengujian.md`: TC-01 (beranda), TC-02 (kirim laporan), TC-15 (lacak), TC-20 (cek), TC-30 (login), TC-44 dan TC-48 (RESTRICT), TC-37 (CASCADE), TC-55 (galat koneksi tanpa detail teknis), dan TC-56 (file sensitif terkunci).
+Langkah ini berlaku untuk shared hosting berbayar dengan panel seperti cPanel.
+
+1. **Jalankan uji U1–U6** (bagian 3) di hosting yang dipilih, dengan tabel uji sementara, sebelum mengunggah apa pun. Lanjut hanya jika semuanya lolos.
+2. **Buat database lewat panel.** Hosting memberi nama database berawalan (misalnya `xxxx_laporphish`), username, password, dan alamat host MySQL. Alamat host belum tentu `localhost`.
+3. **Siapkan file SQL versi hosting.** Salin `database/laporphish.sql`, lalu hapus dua baris awal `CREATE DATABASE ...` dan `USE laporphish;`, karena database sudah dibuat oleh panel dan akun hosting tidak berhak membuat database sendiri. Impor salinan ini ke database tadi lewat phpMyAdmin hosting.
+4. **Unggah kode** lewat FTP atau File Manager ke folder web (`htdocs` atau `public_html`). Yang **tidak** diunggah: `.git/`, `.claude/`, `database/`, serta dokumen tugas dari dosen (PDF deskripsi dan `Penjelasan Tambahan.txt`).
+5. **Buat `includes/config.php` di server** dari `config.example.php`, isi dengan data dari langkah 2, dan pastikan `'debug' => false`. File ini hanya ada di server, tidak di repo.
+6. **Ganti password admin demo.** Password demo tercantum di README publik, jadi harus diganti sebelum situs bisa diakses. Hash baru dibuat di komputer sendiri dengan `password_hash()`, lalu disimpan lewat phpMyAdmin: `UPDATE admins SET password_hash = '<hash baru>' WHERE username = 'admin';`. Password baru tidak ditulis di repo.
+7. **Aktifkan HTTPS** di panel dan arahkan semua akses `http://` ke `https://` lewat `.htaccess`.
+8. **Uji asap (smoke test)** di alamat online, memakai kasus dari `04_pengujian.md`: TC-01 (beranda), TC-02 (kirim laporan), TC-15 (lacak), TC-20 (cek), TC-30 (login), TC-44 dan TC-48 (RESTRICT), TC-37 (CASCADE), TC-55 (galat koneksi tanpa detail teknis), dan TC-56 (file sensitif terkunci).
 
 ## 5. Penyesuaian kode sebelum online
 
@@ -91,18 +104,19 @@ Penyesuaian berikut belum diperlukan di localhost, tetapi dikerjakan sebelum apl
 
 | Kegiatan | Frekuensi | Cara |
 |---|---|---|
-| Cadangan database | Mingguan, dan sebelum setiap perubahan | Cron di paket gratis tidak bisa diandalkan, jadi cadangan dibuat manual lewat **Export** di phpMyAdmin. Simpan 4 cadangan terakhir di luar hosting, tidak di repo |
-| Reset data demo | Bila data demo berantakan oleh kiriman pengunjung | Impor ulang file SQL versi hosting (bagian 4 langkah 2) |
+| Cadangan database | Mingguan, dan sebelum setiap perubahan | **Export** di phpMyAdmin, atau `mysqldump` terjadwal lewat cron jika paket menyediakannya. Simpan 4 cadangan terakhir di luar hosting, tidak di repo |
+| Reset data demo | Bila data demo berantakan oleh kiriman pengunjung | Impor ulang file SQL versi hosting (bagian 4 langkah 3) |
 | Cek ketersediaan situs | Mingguan | Buka beranda dan halaman Cek. Jika situs ditangguhkan hosting, pulihkan dari cadangan terakhir |
 | Pantau galat | Mingguan | Baca log galat PHP di panel hosting. Galat koneksi database dicatat lewat `error_log()` tanpa ditampilkan ke pengunjung |
 | Pembaruan perangkat lunak | Per semester | Cek versi PHP di panel serta rilis keamanan Bootstrap dan Bootstrap Icons, lalu perbarui file di `assets/vendor/` |
 | Alur perubahan kode | Setiap perubahan | Ubah dan uji di localhost (ulang kasus di `04_pengujian.md` yang terdampak), commit ke GitHub, lalu unggah file yang berubah |
-| Ganti password admin | Per semester, atau segera jika diduga bocor | Seperti bagian 4 langkah 5 |
+| Ganti password admin | Per semester, atau segera jika diduga bocor | Seperti bagian 4 langkah 6 |
 
 ## 7. Rencana pengembangan
 
 **Jangka pendek (setelah tugas dinilai)**
 - Penyesuaian P1–P4 di bagian 5.
+- Jika demo ingin tetap gratis: mengganti view `v_report_status` dengan subquery di kode PHP, lalu mengulang uji Black-Box yang terdampak dan uji U1–U6 di hosting gratis (bagian 3).
 - Fitur yang ditunda dari fase 1: halaman kelola akun admin (termasuk ganti password lewat aplikasi), grafik di dashboard, dan status "Selesai".
 
 **Fase 2: klasifikasi URL phishing**
@@ -117,6 +131,9 @@ Penyesuaian berikut belum diperlukan di localhost, tetapi dikerjakan sebelum apl
 ## 8. Sumber
 
 Dicek 2026-11-21.
+- Uji langsung di paket gratis TinkerHost, 2026-11-21 (bagian 3).
+- AwardSpace, *Free Web Hosting* (versi PHP dan MySQL paket gratis): https://www.awardspace.com/free-hosting/
+- AwardSpace, *How Do I Create a MySQL Table That Uses the InnoDB Storage Engine?*: https://awardspace.com/kb/create-innodb-database
 - DeployHQ, *9 Actually-Free PHP Hosting Options in 2026*: https://deployhq.com/blog/how-to-deploy-a-php-website-for-free
 - TechRadar, *InfinityFree web hosting review*: https://www.techradar.com/reviews/infinity-free
 - Forum InfinityFree, *Complete list of all MySQL limitations?* (Juni 2019): https://forum.infinityfree.com/t/complete-list-of-all-mysql-limitations/17174
