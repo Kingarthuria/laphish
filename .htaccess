@@ -1,0 +1,10 @@
+# LaporPhish — pengaturan Apache untuk folder proyek
+# Jangan tampilkan daftar isi folder
+Options -Indexes
+DirectoryIndex index.php
+
+# Sembunyikan folder dan file tersembunyi (.git, .claude, .gitignore, .htaccess)
+RedirectMatch 404 /\.(git|claude)(/|$)
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>

@@ -1,0 +1,145 @@
+/* =====================================================================
+   LaporPhish — gaya aplikasi
+   Mengikuti panduan visual di docs/02b_mockup.md bagian 0
+   (warna logo Universitas Gunadarma, font Plus Jakarta Sans).
+   ===================================================================== */
+
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  src: url("../vendor/plus-jakarta-sans/plus-jakarta-sans-latin-wght-normal.woff2") format("woff2");
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* Warna merek */
+  --lp-primary: #653F99;        /* ungu logo UG: tombol, link, elemen aktif */
+  --lp-primary-hover: #533280;
+  --lp-primary-tint: #EFE9F7;
+  --lp-dark: #231F40;           /* navbar, sidebar, judul, teks */
+  --lp-accent: #E5BD36;         /* kuning api logo: HANYA dekorasi */
+  --lp-bg: #F7F5FB;
+  --lp-muted: #6F6B80;
+  --lp-border: #E5E1EE;
+  /* Warna status */
+  --lp-red: #DC2626;    --lp-red-bg: #FEF2F2;    --lp-red-text: #991B1B;
+  --lp-orange: #B45309; --lp-orange-bg: #FFF7ED; --lp-orange-text: #92400E;
+  --lp-green: #16A34A;  --lp-green-bg: #F0FDF4;  --lp-green-text: #166534;
+  --lp-grey: #6B7280;   --lp-grey-bg: #F3F4F6;   --lp-grey-text: #374151;
+
+  /* Sambungan ke variabel Bootstrap */
+  --bs-body-font-family: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --bs-body-color: var(--lp-dark);
+  --bs-body-bg: var(--lp-bg);
+  --bs-border-radius: .5rem;
+  --bs-link-color-rgb: 101, 63, 153;
+  --bs-link-hover-color-rgb: 83, 50, 128;
+}
+
+.text-muted-lp { color: var(--lp-muted) !important; }
+.lp-defang { font-family: "Courier New", ui-monospace, monospace; word-break: break-all; }
+
+/* ---------- Tombol dan form ---------- */
+.btn-primary {
+  --bs-btn-bg: var(--lp-primary); --bs-btn-border-color: var(--lp-primary);
+  --bs-btn-hover-bg: var(--lp-primary-hover); --bs-btn-hover-border-color: var(--lp-primary-hover);
+  --bs-btn-active-bg: var(--lp-primary-hover); --bs-btn-active-border-color: var(--lp-primary-hover);
+  --bs-btn-disabled-bg: var(--lp-primary); --bs-btn-disabled-border-color: var(--lp-primary);
+}
+.btn-outline-primary {
+  --bs-btn-color: var(--lp-primary); --bs-btn-border-color: var(--lp-primary);
+  --bs-btn-hover-bg: var(--lp-primary); --bs-btn-hover-border-color: var(--lp-primary);
+  --bs-btn-active-bg: var(--lp-primary); --bs-btn-active-border-color: var(--lp-primary);
+}
+.form-control:focus, .form-select:focus { border-color: var(--lp-primary); box-shadow: 0 0 0 .2rem rgba(101, 63, 153, .2); }
+.form-label { font-weight: 600; }
+.req { color: var(--lp-red); }
+
+/* ---------- Kartu dan tabel ---------- */
+.card { border: 0; box-shadow: 0 1px 3px rgba(35, 31, 64, .08), 0 1px 2px rgba(35, 31, 64, .06); }
+.table { --bs-table-color: var(--lp-dark); margin-bottom: 0; }
+.table thead th { font-size: .78rem; text-transform: uppercase; letter-spacing: .03em; color: var(--lp-muted); font-weight: 600; background: #FAF9FD; }
+
+/* ---------- Badge status (pemetaan warna: 02b bagian 0) ---------- */
+.st { display: inline-flex; align-items: center; gap: .3rem; font-size: .75rem; font-weight: 600; padding: .22rem .6rem; border-radius: 999px; color: #fff; white-space: nowrap; }
+.st-red { background: var(--lp-red); }
+.st-orange { background: var(--lp-orange); }
+.st-green { background: var(--lp-green); }
+.st-grey { background: var(--lp-grey); }
+.st-purple { background: var(--lp-primary); }
+
+/* ---------- Pesan (alert) ---------- */
+.alert-ok, .alert-err, .alert-info-lp, .alert-warn { border: 0; border-left: 5px solid; }
+.alert-ok { background: var(--lp-green-bg); border-color: var(--lp-green); color: var(--lp-green-text); }
+.alert-err { background: var(--lp-red-bg); border-color: var(--lp-red); color: var(--lp-red-text); }
+.alert-info-lp { background: var(--lp-primary-tint); border-color: var(--lp-primary); color: var(--lp-dark); }
+.alert-warn { background: var(--lp-orange-bg); border-color: var(--lp-orange); color: var(--lp-orange-text); }
+
+/* ---------- Kotak hasil Cek ---------- */
+.res { border-left: 6px solid; border-radius: .5rem; padding: 1rem 1.25rem; }
+.res-red { background: var(--lp-red-bg); border-color: var(--lp-red); }       .res-red .t { color: var(--lp-red-text); }
+.res-orange { background: var(--lp-orange-bg); border-color: var(--lp-orange); } .res-orange .t { color: var(--lp-orange-text); }
+.res-green { background: var(--lp-green-bg); border-color: var(--lp-green); }   .res-green .t { color: var(--lp-green-text); }
+.res-grey { background: var(--lp-grey-bg); border-color: var(--lp-grey); }      .res-grey .t { color: var(--lp-grey-text); }
+
+/* ---------- Linimasa riwayat status ---------- */
+.timeline { border-left: 3px solid #DDD6EA; margin-left: .5rem; padding-left: 1.25rem; }
+.timeline .item { position: relative; margin-bottom: 1rem; }
+.timeline .item:last-child { margin-bottom: 0; }
+.timeline .item::before { content: ""; position: absolute; left: -1.62rem; top: .35rem; width: .8rem; height: .8rem; border-radius: 50%; background: var(--lp-primary); border: 2px solid #fff; }
+
+/* =====================================================================
+   HALAMAN PUBLIK
+   ===================================================================== */
+body.lp-public { min-height: 100vh; display: flex; flex-direction: column; }
+.lp-nav { background: var(--lp-dark); border-bottom: 4px solid var(--lp-accent); }
+.lp-nav .navbar-brand { font-weight: 800; color: #fff; }
+.lp-nav .navbar-brand i { color: var(--lp-accent); }
+.lp-nav .nav-link { color: rgba(255, 255, 255, .75); font-weight: 500; }
+.lp-nav .nav-link:hover { color: #fff; }
+.lp-nav .nav-link.active { color: #fff; border-bottom: 2px solid var(--lp-accent); }
+.lp-footer { background: var(--lp-dark); color: rgba(255, 255, 255, .7); font-size: .85rem; }
+.lp-footer a { color: rgba(255, 255, 255, .85); }
+.lp-page { background: var(--lp-bg); }
+
+.lp-feature > i { font-size: 1.6rem; color: var(--lp-primary); background: var(--lp-primary-tint); border-radius: .5rem; padding: .4rem .6rem; }
+.lp-underline { box-shadow: inset 0 -.35em 0 rgba(229, 189, 54, .55); }
+.lp-step { width: 2rem; height: 2rem; border-radius: 50%; background: var(--lp-primary); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; }
+.lp-ticket { font-family: "Courier New", ui-monospace, monospace; font-size: 2rem; font-weight: 700; letter-spacing: .2em; color: var(--lp-primary); border: 2px dashed var(--lp-primary); border-radius: .5rem; padding: .75rem 1.5rem; display: inline-block; background: #fff; }
+
+/* =====================================================================
+   HALAMAN ADMIN (sidebar kiri)
+   ===================================================================== */
+.lp-shell { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; }
+.lp-side { background: var(--lp-dark); display: flex; flex-direction: column; padding: 1rem .75rem; position: sticky; top: 0; height: 100vh; }
+.lp-side .brand { color: #fff; font-weight: 800; font-size: 1.15rem; padding: .25rem .75rem 1rem; border-bottom: 1px solid rgba(255, 255, 255, .12); margin-bottom: .75rem; text-decoration: none; }
+.lp-side .brand i { color: var(--lp-accent); }
+.lp-side a:not(.brand) { display: flex; align-items: center; gap: .6rem; color: rgba(255, 255, 255, .75); text-decoration: none; padding: .55rem .75rem; border-radius: .5rem; margin-bottom: .15rem; font-weight: 500; }
+.lp-side a:not(.brand):hover { background: rgba(255, 255, 255, .06); color: #fff; }
+.lp-side a.active { background: var(--lp-primary); color: #fff; }
+.lp-side .bottom { margin-top: auto; border-top: 1px solid rgba(255, 255, 255, .12); padding-top: .75rem; }
+.lp-side .who { font-size: .8rem; color: rgba(255, 255, 255, .6); padding: 0 .75rem .5rem; }
+.lp-main { background: var(--lp-bg); padding: 1.75rem 2rem; min-width: 0; }
+.page-head { display: flex; flex-wrap: wrap; gap: .75rem; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; }
+
+.stat { border-left: 5px solid; }
+.stat .num { font-size: 1.9rem; font-weight: 800; line-height: 1; color: var(--lp-dark); }
+.stat.c-dark { border-color: var(--lp-dark); }
+.stat.c-purple { border-color: var(--lp-primary); }
+.stat.c-orange { border-color: var(--lp-orange); }
+.stat.c-red { border-color: var(--lp-red); }
+.stat.c-grey { border-color: var(--lp-grey); }
+
+/* Layar kecil: sidebar berubah menjadi bar di atas */
+@media (max-width: 767.98px) {
+  .lp-shell { grid-template-columns: 1fr; }
+  .lp-side { position: static; height: auto; flex-direction: row; flex-wrap: wrap; align-items: center; gap: .25rem; }
+  .lp-side .brand { border-bottom: 0; margin: 0 .5rem 0 0; padding: .25rem .5rem; }
+  .lp-side .bottom { margin: 0 0 0 auto; border-top: 0; padding-top: 0; display: flex; align-items: center; }
+  .lp-side .who { padding: 0 .5rem; }
+  .lp-main { padding: 1.25rem 1rem; }
+}
+
+/* Halaman login admin */
+.lp-login { min-height: 100vh; background: var(--lp-dark); border-bottom: 4px solid var(--lp-accent); display: flex; align-items: center; justify-content: center; padding: 1.5rem; }
