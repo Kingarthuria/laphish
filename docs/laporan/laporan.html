@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Laporan Proyek Akhir — LaporPhish</title>
+<link rel="stylesheet" href="../../assets/vendor/bootstrap-icons/bootstrap-icons.min.css">
+<link rel="stylesheet" href="laporan.css">
+</head>
+<body>
+
+<!-- ================= SAMPUL ================= -->
+<section class="halaman sampul">
+  <div>
+    <div class="garis"></div>
+    <p class="jenis">Laporan Proyek Akhir · Pemrograman Berbasis Web</p>
+    <h1><span class="merek">LaporPhish</span><br>Lapor dan Cek Phishing di Kampus</h1>
+    <p class="sub">Aplikasi web dinamis berbasis PHP dan MySQL<br>dengan pendekatan SDLC</p>
+    <i class="bi bi-shield-check ikon" aria-hidden="true"></i>
+    <p class="penyusun">Disusun oleh<br><strong>Arthur Pendragon</strong><br>GitHub: Kingarthuria</p>
+  </div>
+  <div>
+    <div class="garis aksen"></div>
+    <p class="kaki">Studi kasus: lingkungan kampus Universitas Gunadarma<br>Proyek individu · November 2026</p>
+  </div>
+</section>
+
+<!-- ================= DAFTAR ISI ================= -->
+<section class="halaman daftar-isi">
+  <h1 class="bab">Daftar Isi</h1>
+  <ol>
+    <li>Bab 1 · Pengenalan dan Nilai Manfaat
+      <ol><li>1.1 Latar belakang masalah</li><li>1.2 Tujuan</li><li>1.3 Target pengguna</li><li>1.4 Nilai manfaat</li></ol></li>
+    <li>Bab 2 · Planning &amp; Requirement Analysis
+      <ol><li>2.1 Ruang lingkup</li><li>2.2 Kebutuhan fungsional</li><li>2.3 Kebutuhan non-fungsional</li><li>2.4 Asumsi dan batasan</li></ol></li>
+    <li>Bab 3 · System &amp; Database Design
+      <ol><li>3.1 Rancangan antarmuka</li><li>3.2 Rancangan basis data (ERD, relasi PK/FK, normalisasi)</li></ol></li>
+    <li>Bab 4 · Implementation (Development)
+      <ol><li>4.1 Teknologi</li><li>4.2 Struktur folder dan kode</li><li>4.3 Mekanisme koneksi aplikasi–database</li><li>4.4 Keamanan dasar</li><li>4.5 Tampilan aplikasi</li></ol></li>
+    <li>Bab 5 · Testing
+      <ol><li>5.1 Metode</li><li>5.2 Tabel Black-Box Testing</li><li>5.3 Ringkasan, temuan, dan batasan</li></ol></li>
+    <li>Bab 6 · Deployment &amp; Maintenance (Rencana)
+      <ol><li>6.1 Skema deploy</li><li>6.2 Uji kelayakan hosting</li><li>6.3 Langkah deploy</li><li>6.4 Rencana pemeliharaan</li><li>6.5 Rencana pengembangan</li></ol></li>
+    <li>Bab 7 · Penutup
+      <ol><li>7.1 Kesimpulan</li><li>7.2 Saran</li></ol></li>
+    <li>Daftar Pustaka</li>
+    <li>Lampiran
+      <ol><li>A. Cara menjalankan aplikasi</li><li>B. Tautan luaran</li></ol></li>
+  </ol>
+</section>
+
+<!-- ================= BAB 1 ================= -->
+<section class="halaman" id="bab1">
+  <h1 class="bab"><span class="no">Bab 1</span>Pengenalan dan Nilai Manfaat</h1>
+  <h2>1.1 Latar belakang masalah</h2>
+  <p>Mahasiswa, dosen, dan staf kampus sering menerima pesan phishing lewat email, WhatsApp, SMS, dan media sosial. Bentuknya bermacam-macam: tautan login palsu, pengumuman beasiswa atau hadiah palsu, lowongan kerja palsu, sampai file APK yang menyamar sebagai undangan.</p>
+  <p>Penanganan yang berjalan saat ini masih manual, dengan beberapa kelemahan:</p>
+  <ul>
+    <li>Peringatan diteruskan dari grup ke grup chat. Pesannya cepat tenggelam dan tidak bisa dicari ulang.</li>
+    <li>Tidak ada catatan terpusat, sehingga unit TI tidak tahu berapa kasus yang terjadi dan jenis apa yang paling sering muncul.</li>
+    <li>Orang yang menerima tautan mencurigakan tidak punya tempat untuk mengecek apakah tautan itu sudah pernah dilaporkan.</li>
+    <li>Pelapor tidak tahu apakah laporannya ditindaklanjuti.</li>
+  </ul>
+  <p>Masalah ini sejalan dengan data yang lebih luas. Sepanjang 2025, Anti-Phishing Working Group (APWG) mencatat 3,8 juta serangan phishing di seluruh dunia, dan phishing melalui SMS terus meningkat karena dapat menghindari filter email (APWG, 2026). Di Indonesia, BSSN mencatat 47,2 juta anomali trafik terkait situs phishing sepanjang 2023, terbanyak kedua setelah Trojan RAT, dan memasukkan phishing ke dalam 10 besar insiden yang ditangani (BSSN, 2024). Angka BSSN ini adalah jumlah deteksi anomali trafik, bukan jumlah korban atau serangan. Salah satu modus yang menonjol adalah file APK berkedok undangan pernikahan yang disebarkan lewat WhatsApp (BSSN, 2024).</p>
+  <p>Dari masalah tersebut dibangun <strong>LaporPhish</strong>, aplikasi web tempat sivitas akademika <strong>melaporkan</strong> tautan, email, atau nomor mencurigakan, <strong>mengecek</strong> apakah suatu tautan pernah dilaporkan sebelum diklik, dan tempat unit TI <strong>memantau</strong> penanganan serta tren kasusnya.</p>
+
+  <h2>1.2 Tujuan</h2>
+  <ol>
+    <li>Menyediakan satu tempat untuk melaporkan insiden phishing di lingkungan kampus.</li>
+    <li>Membantu pengguna mengecek tautan, email, atau nomor mencurigakan sebelum menanggapinya.</li>
+    <li>Membantu unit TI mengelola, memverifikasi, dan memantau status penanganan laporan.</li>
+    <li>Menyediakan rekap kasus per kategori, kanal, dan periode sebagai bahan sosialisasi keamanan.</li>
+  </ol>
+
+  <h2>1.3 Target pengguna</h2>
+  <table>
+    <thead><tr><th style="width:16%">Aktor</th><th style="width:32%">Siapa</th><th>Akses</th></tr></thead>
+    <tbody>
+      <tr><td>Pengunjung</td><td>Mahasiswa, dosen, dan staf (sivitas akademika)</td><td>Tanpa login. Bisa melapor, mengecek indikator, dan melacak status laporan dengan kode tiket.</td></tr>
+      <tr><td>Admin</td><td>Petugas unit TI kampus</td><td>Wajib login. Mengelola semua data dan memverifikasi laporan.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>1.4 Nilai manfaat</h2>
+  <p>Tabel berikut membandingkan cara manual saat ini (peringatan lewat grup chat) dengan LaporPhish.</p>
+  <table>
+    <thead><tr><th style="width:20%">Aspek</th><th style="width:38%">Cara manual (grup chat)</th><th>Dengan LaporPhish</th></tr></thead>
+    <tbody>
+      <tr><td>Pencatatan</td><td>Peringatan tersebar di banyak grup dan cepat tenggelam</td><td>Semua laporan tersimpan di satu database</td></tr>
+      <tr><td>Mengecek tautan mencurigakan</td><td>Harus menggulir riwayat chat atau bertanya ke grup</td><td>Tempel tautan di halaman Cek, hasil langsung muncul</td></tr>
+      <tr><td>Laporan ganda</td><td>Tautan yang sama diteruskan berkali-kali tanpa diketahui sudah dilaporkan</td><td>Tautan yang sama tersimpan sekali dan terhubung ke semua laporannya</td></tr>
+      <tr><td>Kejelasan tindak lanjut</td><td>Pelapor tidak tahu apakah laporannya ditangani</td><td>Pelapor melacak status dan catatan admin dengan kode tiket</td></tr>
+      <tr><td>Rekap untuk sosialisasi</td><td>Unit TI harus menghitung manual, atau tidak ada data sama sekali</td><td>Dashboard menampilkan jumlah per status, kategori, kanal, dan bulan secara otomatis</td></tr>
+      <tr><td>Keamanan saat berbagi</td><td>Tautan berbahaya ikut diteruskan dalam bentuk yang bisa diklik</td><td>Tautan ditampilkan dalam bentuk <em>defanged</em> sehingga tidak bisa diklik</td></tr>
+      <tr><td>Privasi pelapor</td><td>Nama dan nomor pengirim peringatan terlihat oleh seluruh anggota grup</td><td>Identitas opsional dan tidak tampil di halaman publik</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ================= BAB 2 ================= -->
+<section class="halaman" id="bab2">
+  <h1 class="bab"><span class="no">Bab 2</span>Planning &amp; Requirement Analysis</h1>
+  <h2>2.1 Ruang lingkup</h2>
+  <h3>Termasuk</h3>
+  <ul>
+    <li>Pelaporan insiden beserta 1–5 indikator (URL, email, nomor telepon).</li>
+    <li>Pengecekan indikator dengan pencocokan terhadap data indikator yang tercatat, baik dari laporan maupun yang ditambahkan admin.</li>
+    <li>Pelacakan status laporan memakai kode tiket.</li>
+    <li>Panel admin: CRUD laporan, indikator, kategori, dan kanal; perubahan status beserta riwayatnya; dashboard rekap.</li>
+  </ul>
+  <h3>Tidak termasuk (bisa dikembangkan di fase lanjutan)</h3>
+  <ul>
+    <li>Akun untuk pengunjung.</li>
+    <li>Halaman kelola akun admin. Akun admin dibuat lewat file <code>.sql</code>.</li>
+    <li>Unggah tangkapan layar atau file bukti, karena menambah risiko keamanan unggah file.</li>
+    <li>Grafik di dashboard. Fase ini memakai kartu dan tabel angka.</li>
+    <li>Data peran pelapor (mahasiswa/dosen/staf) dan rekap per peran.</li>
+    <li>Status lanjutan setelah Valid/Tidak valid (misalnya "Selesai").</li>
+    <li>Deteksi otomatis atau model machine learning.</li>
+    <li>Pemblokiran tautan, pengiriman notifikasi email/WhatsApp, dan deploy online.</li>
+  </ul>
+
+  <h2>2.2 Kebutuhan fungsional</h2>
+  <h3>Pengunjung</h3>
+  <table>
+    <thead><tr><th style="width:9%">Kode</th><th style="width:22%">Kebutuhan</th><th>Keterangan</th></tr></thead>
+    <tbody>
+      <tr><td>FR-01</td><td>Melihat beranda</td><td>Berisi penjelasan singkat aplikasi dan tombol menuju Lapor, Cek, dan Lacak.</td></tr>
+      <tr><td>FR-02</td><td>Mengirim laporan phishing</td><td>Isian: kanal, kategori, tanggal kejadian, kronologi, dan 1–5 indikator (jenis + nilai). Identitas pelapor (nama, email) boleh dikosongkan.</td></tr>
+      <tr><td>FR-03</td><td>Menerima kode tiket</td><td>Setelah laporan terkirim, sistem menampilkan kode unik acak yang tidak bisa ditebak, misalnya <code>LP-7F3K9QX2</code>.</td></tr>
+      <tr><td>FR-04</td><td>Melacak status laporan</td><td>Memasukkan kode tiket untuk melihat status terakhir dan riwayatnya. Identitas pelapor tidak ditampilkan.</td></tr>
+      <tr><td>FR-05</td><td>Mengecek indikator</td><td>Memilih jenis (URL, Email, atau Nomor) lalu memasukkan nilainya. Nilai dinormalisasi sesuai jenisnya lalu dicocokkan dengan data indikator. Hasil ditentukan oleh status verifikasi indikator: <strong>Terverifikasi phishing</strong>, <strong>Tercatat, masih ditinjau</strong>, <strong>Sudah diperiksa, tidak terbukti phishing</strong>, atau <strong>Belum ada data</strong>. Tiga hasil terakhir disertai imbauan untuk tetap waspada.</td></tr>
+    </tbody>
+  </table>
+  <h3>Admin</h3>
+  <table>
+    <thead><tr><th style="width:9%">Kode</th><th style="width:22%">Kebutuhan</th><th>Keterangan</th></tr></thead>
+    <tbody>
+      <tr><td>FR-06</td><td>Login dan logout</td><td>Memakai username dan password. Password disimpan dalam bentuk hash.</td></tr>
+      <tr><td>FR-07</td><td>Dashboard rekap</td><td>Kartu dan tabel angka: jumlah laporan per status, per kategori, per kanal, dan per bulan (berdasarkan tanggal laporan masuk).</td></tr>
+      <tr><td>FR-08</td><td>Kelola laporan (CRUD)</td><td><strong>Create</strong> dilakukan pengunjung lewat formulir lapor (FR-02). Admin melihat daftar dengan pencarian (kode tiket atau kata di kronologi) dan filter (status, kategori, rentang tanggal laporan masuk), melihat detail, mengubah, dan menghapus. Yang bisa diubah hanya kategori, kanal, tanggal kejadian, dan kronologi. Indikator dikelola lewat FR-10.</td></tr>
+      <tr><td>FR-09</td><td>Mengubah status laporan</td><td>Status: Baru, Ditinjau, Valid, Tidak valid. Alur umumnya Baru → Ditinjau → Valid / Tidak valid, tetapi admin bebas memilih status berikutnya. Setiap perubahan dicatat beserta catatan admin dan waktunya. Status laporan menggambarkan <strong>penanganan kasus</strong>.</td></tr>
+      <tr><td>FR-10</td><td>Kelola indikator (CRUD)</td><td>Satu indikator bisa terkait dengan banyak laporan. Admin menetapkan status verifikasi (Belum diverifikasi, Phishing, Bukan phishing), dan status ini menentukan <strong>hasil fitur Cek</strong>. Admin juga bisa menambah indikator tanpa laporan, misalnya dari peringatan resmi, dengan mengisi catatan sumbernya. Verifikasi bisa dilakukan langsung dari halaman detail laporan. Yang bisa diubah hanya status verifikasi dan catatan; nilai indikator tidak bisa diubah. Jika indikator yang ditambahkan sudah tercatat, sistem menampilkan pesan dan tautan ke data yang sudah ada. Indikator yang masih terkait laporan tidak bisa dihapus karena menjadi bukti laporan, tetapi bisa ditandai Bukan phishing.</td></tr>
+      <tr><td>FR-11</td><td>Kelola kategori (CRUD)</td><td>Contoh: pencurian akun, hadiah/beasiswa palsu, lowongan palsu, APK berbahaya. Deskripsi kategori tampil sebagai teks bantuan di formulir lapor.</td></tr>
+      <tr><td>FR-12</td><td>Kelola kanal (CRUD)</td><td>Contoh: email, WhatsApp, SMS, media sosial, situs web.</td></tr>
+      <tr><td>FR-13</td><td>Mencegah penghapusan data yang masih dipakai</td><td>Kategori, kanal, atau indikator yang masih terkait laporan tidak bisa dihapus. Sistem menampilkan pesan yang jelas.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>2.3 Kebutuhan non-fungsional</h2>
+  <h3>Perangkat lunak</h3>
+  <table>
+    <thead><tr><th style="width:24%">Komponen</th><th>Spesifikasi</th></tr></thead>
+    <tbody>
+      <tr><td>Sistem operasi</td><td>Windows 11</td></tr>
+      <tr><td>Web server</td><td>XAMPP: Apache, PHP 8.2.12, MariaDB 10.4.32</td></tr>
+      <tr><td>Pengelola database</td><td>phpMyAdmin (bawaan XAMPP)</td></tr>
+      <tr><td>Front-end</td><td>Bootstrap 5</td></tr>
+      <tr><td>Browser</td><td>Google Chrome atau Microsoft Edge versi terbaru</td></tr>
+      <tr><td>Alat bantu</td><td>Visual Studio Code, Mermaid untuk ERD, wireframe HTML statis untuk mockup, Git dan GitHub</td></tr>
+    </tbody>
+  </table>
+  <h3>Perangkat keras (minimal)</h3>
+  <table>
+    <thead><tr><th style="width:24%">Komponen</th><th>Spesifikasi</th></tr></thead>
+    <tbody>
+      <tr><td>Prosesor</td><td>Dual-core 2 GHz</td></tr>
+      <tr><td>RAM</td><td>4 GB</td></tr>
+      <tr><td>Penyimpanan kosong</td><td>2 GB untuk XAMPP dan proyek</td></tr>
+    </tbody>
+  </table>
+  <h3>Kualitas sistem</h3>
+  <table>
+    <thead><tr><th style="width:9%">Kode</th><th style="width:22%">Aspek</th><th>Kebutuhan</th></tr></thead>
+    <tbody>
+      <tr><td>NFR-01</td><td>Keamanan kueri</td><td>Semua kueri memakai PDO prepared statement.</td></tr>
+      <tr><td>NFR-02</td><td>Keamanan tampilan</td><td>Semua output di-escape dengan <code>htmlspecialchars</code> untuk mencegah XSS.</td></tr>
+      <tr><td>NFR-03</td><td>Keamanan indikator</td><td>URL berbahaya ditampilkan dalam bentuk <em>defanged</em> (<code>hxxp://contoh[.]com</code>), tidak pernah sebagai link yang bisa diklik.</td></tr>
+      <tr><td>NFR-04</td><td>Autentikasi</td><td>Password memakai <code>password_hash</code>/<code>password_verify</code>. Halaman admin dilindungi session, dan ID session diperbarui saat login (<code>session_regenerate_id</code>).</td></tr>
+      <tr><td>NFR-05</td><td>Konfigurasi</td><td>Kredensial database disimpan di file konfigurasi terpisah yang tidak di-commit. Repo hanya berisi contohnya.</td></tr>
+      <tr><td>NFR-06</td><td>Penanganan galat</td><td>Galat database ditangkap dengan <code>try/catch</code>. Pengguna melihat pesan umum, bukan pesan teknis.</td></tr>
+      <tr><td>NFR-07</td><td>Validasi input</td><td>Input divalidasi di sisi server (wajib isi, format email, format URL, panjang maksimum).</td></tr>
+      <tr><td>NFR-08</td><td>Kemudahan pakai</td><td>Tampilan responsif (Bootstrap). Label dan pesan galat ditulis dalam Bahasa Indonesia.</td></tr>
+      <tr><td>NFR-09</td><td>Privasi</td><td>Identitas pelapor bersifat opsional dan tidak tampil di halaman publik. Seluruh data contoh adalah dummy.</td></tr>
+      <tr><td>NFR-10</td><td>Keamanan aksi hapus</td><td>Penghapusan data hanya lewat form POST dengan dialog konfirmasi, tidak lewat link GET.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>2.4 Asumsi dan batasan</h2>
+  <ul>
+    <li>Aplikasi hanya berjalan di localhost untuk keperluan demo.</li>
+    <li>Hanya ada satu peran admin, tanpa pembagian hak akses yang lebih rinci. Akun admin dibuat lewat file <code>.sql</code>.</li>
+    <li>Pengecekan indikator memakai pencocokan persis setelah normalisasi (huruf kecil, tanpa <code>http://</code>/<code>https://</code>/<code>www.</code>, tanpa garis miring di akhir, nomor <code>08…</code> diubah menjadi <code>628…</code>). Variasi tautan yang sedikit berbeda tidak akan terdeteksi.</li>
+    <li>Hasil "Belum ada data" dan "Tidak terbukti phishing" tidak berarti tautan itu pasti aman.</li>
+  </ul>
+</section>
+
+<!-- ================= BAB 3 ================= -->
+<section class="halaman" id="bab3">
+  <h1 class="bab"><span class="no">Bab 3</span>System &amp; Database Design</h1>
+  <h2>3.1 Rancangan antarmuka</h2>
+  <p>Rancangan antarmuka dibuat dalam dua tingkat, keduanya berupa file HTML statis di folder <code>docs/mockup/</code> pada repositori:</p>
+  <ol>
+    <li><strong>Wireframe (lo-fi):</strong> abu-abu, hanya menunjukkan tata letak dan isi setiap halaman (<code>publik.html</code> dan <code>admin.html</code>).</li>
+    <li><strong>Mockup (hi-fi):</strong> memakai warna, font, ikon, dan gaya Bootstrap sesuai panduan visual. Mockup ini menjadi acuan langsung saat implementasi (<code>hifi_publik.html</code> dan <code>hifi_admin.html</code>).</li>
+  </ol>
+
+  <h3>3.1.1 Panduan visual</h3>
+  <p>Konteks klien adalah lingkungan Universitas Gunadarma. Warna diambil dari file logo resmi dan dari warna teks situs resmi kampus. Logo kampus tidak dipakai, karena repositori bersifat publik dan aplikasi ini bukan layanan resmi kampus.</p>
+  <table>
+    <thead><tr><th style="width:18%">Peran</th><th style="width:14%">Kode</th><th>Sumber dan pemakaian</th></tr></thead>
+    <tbody>
+      <tr><td>Primer</td><td><code>#653F99</code></td><td>Ungu logo kampus. Tombol utama, link, elemen aktif</td></tr>
+      <tr><td>Gelap</td><td><code>#231F40</code></td><td>Warna teks situs kampus. Navbar, sidebar admin, judul, teks utama</td></tr>
+      <tr><td>Aksen</td><td><code>#E5BD36</code></td><td>Kuning logo kampus. Hanya dekorasi (garis bawah navbar, ikon logo), tidak pernah dipakai untuk status</td></tr>
+      <tr><td>Latar</td><td><code>#F7F5FB</code></td><td>Putih keunguan untuk latar halaman</td></tr>
+      <tr><td>Teks redup</td><td><code>#6F6B80</code></td><td>Teks sekunder</td></tr>
+      <tr><td>Merah</td><td><code>#DC2626</code></td><td>Bahaya / terbukti phishing</td></tr>
+      <tr><td>Oranye tua</td><td><code>#B45309</code></td><td>Sedang diproses. Sengaja dibedakan dari kuning aksen</td></tr>
+      <tr><td>Hijau</td><td><code>#16A34A</code></td><td>Aman / tidak terbukti</td></tr>
+      <tr><td>Abu</td><td><code>#6B7280</code></td><td>Netral / tidak ada data</td></tr>
+    </tbody>
+  </table>
+  <table>
+    <thead><tr><th style="width:24%">Hal</th><th>Merah</th><th>Oranye tua</th><th>Hijau</th><th>Abu</th><th>Ungu primer</th></tr></thead>
+    <tbody>
+      <tr><td>Hasil Cek / verifikasi indikator</td><td>Terverifikasi phishing</td><td>Tercatat, masih ditinjau</td><td>Tidak terbukti phishing</td><td>Belum ada data</td><td>–</td></tr>
+      <tr><td>Status laporan</td><td>Valid (terbukti phishing)</td><td>Ditinjau</td><td>–</td><td>Tidak valid</td><td>Baru</td></tr>
+    </tbody>
+  </table>
+  <p>Status laporan "Valid" diberi merah, bukan hijau, karena artinya laporan terbukti berisi phishing. Hijau hanya dipakai untuk arti "aman". Badge status selalu berisi teks dan ikon, tidak mengandalkan warna saja.</p>
+  <table>
+    <thead><tr><th style="width:24%">Elemen</th><th>Keputusan</th></tr></thead>
+    <tbody>
+      <tr><td>Font</td><td>Plus Jakarta Sans untuk semua teks, disimpan lokal di proyek agar demo tetap berjalan tanpa internet</td></tr>
+      <tr><td>Ikon</td><td>Bootstrap Icons, juga disimpan lokal</td></tr>
+      <tr><td>Identitas header</td><td>Ikon perisai (<code>bi-shield-check</code>) dan tulisan LaporPhish</td></tr>
+      <tr><td>Bentuk komponen</td><td>Sudut membulat sedang (sekitar 8 px) dan bayangan tipis pada kartu</td></tr>
+      <tr><td>Tata letak publik</td><td>Navbar atas (Beranda, Lapor, Cek, Lacak), tautan "Masuk admin" di footer</td></tr>
+      <tr><td>Tata letak admin</td><td>Sidebar kiri: Dashboard, Laporan, Indikator, Kategori, Kanal, lalu Keluar</td></tr>
+      <tr><td>Sapaan</td><td>Formal, memakai "Anda"</td></tr>
+    </tbody>
+  </table>
+
+  <h3>3.1.2 Peta halaman</h3>
+  <table>
+    <thead><tr><th style="width:9%">Kode</th><th>Halaman</th><th style="width:22%">Akses</th><th style="width:20%">Kebutuhan</th></tr></thead>
+    <tbody>
+      <tr><td>P1</td><td>Beranda</td><td>Publik</td><td>FR-01</td></tr>
+      <tr><td>P2</td><td>Formulir lapor</td><td>Publik</td><td>FR-02</td></tr>
+      <tr><td>P3</td><td>Laporan terkirim (kode tiket)</td><td>Publik</td><td>FR-03</td></tr>
+      <tr><td>P4</td><td>Cek indikator</td><td>Publik</td><td>FR-05</td></tr>
+      <tr><td>P5</td><td>Lacak status</td><td>Publik</td><td>FR-04</td></tr>
+      <tr><td>A1</td><td>Login admin</td><td>Publik (khusus admin)</td><td>FR-06</td></tr>
+      <tr><td>A2</td><td>Dashboard rekap</td><td>Admin</td><td>FR-07</td></tr>
+      <tr><td>A3</td><td>Daftar laporan (cari dan filter)</td><td>Admin</td><td>FR-08</td></tr>
+      <tr><td>A4</td><td>Detail laporan (ubah status, verifikasi indikator, hapus)</td><td>Admin</td><td>FR-08, FR-09, FR-10</td></tr>
+      <tr><td>A5</td><td>Edit laporan</td><td>Admin</td><td>FR-08</td></tr>
+      <tr><td>A6</td><td>Daftar indikator</td><td>Admin</td><td>FR-10, FR-13</td></tr>
+      <tr><td>A7</td><td>Form indikator (tambah / edit verifikasi)</td><td>Admin</td><td>FR-10</td></tr>
+      <tr><td>A8</td><td>Daftar kategori</td><td>Admin</td><td>FR-11, FR-13</td></tr>
+      <tr><td>A9</td><td>Form kategori (tambah / edit)</td><td>Admin</td><td>FR-11</td></tr>
+      <tr><td>A10</td><td>Daftar kanal</td><td>Admin</td><td>FR-12, FR-13</td></tr>
+      <tr><td>A11</td><td>Form kanal (tambah / edit)</td><td>Admin</td><td>FR-12</td></tr>
+    </tbody>
+  </table>
+  <p>Logout tidak punya halaman sendiri: tombol Keluar di menu admin langsung mengakhiri session lalu kembali ke A1.</p>
+
+  <h3>3.1.3 Alur pengguna</h3>
+  <p class="alur"><strong>Pengunjung melapor</strong>P1 → P2 (isi formulir) → P3 (catat kode tiket) → P5 (lacak kapan saja dengan kode tiket)</p>
+  <p class="alur"><strong>Pengunjung mengecek tautan</strong>P1 → P4 (pilih jenis, tempel nilai) → hasil. Jika hasilnya "Belum ada data", tersedia tombol menuju P2.</p>
+  <p class="alur"><strong>Admin menangani laporan</strong>A1 → A2 → A3 (cari/filter) → A4 (ubah status dan catatan, verifikasi indikator) → kembali ke A3</p>
+  <p class="alur"><strong>Admin mengelola data master</strong>Menu admin → A6/A8/A10 (daftar) → A7/A9/A11 (form). Hapus dilakukan dari halaman daftar lewat tombol POST dengan konfirmasi.</p>
+
+  <h3>3.1.4 Wireframe</h3>
+  <p>Wireframe dibuat untuk ke-16 halaman. Dua contoh ditampilkan di bawah; selebihnya ada di <code>docs/mockup/publik.html</code> dan <code>docs/mockup/admin.html</code>.</p>
+  <figure><img class="layar" src="img/wireframe_P2.png" alt="Wireframe formulir lapor"><figcaption>Gambar 3.1 Wireframe P2 — Formulir Lapor</figcaption></figure>
+  <figure><img class="layar" src="img/wireframe_A4.png" alt="Wireframe detail laporan"><figcaption>Gambar 3.2 Wireframe A4 — Detail Laporan</figcaption></figure>
+
+  <h3>3.1.5 Mockup halaman publik</h3>
+  <figure><img class="layar" src="img/mockup_P1.png" alt="Mockup beranda"><figcaption>Gambar 3.3 Mockup P1 — Beranda</figcaption></figure>
+  <figure><img class="layar tinggi" src="img/mockup_P2.png" alt="Mockup formulir lapor"><figcaption>Gambar 3.4 Mockup P2 — Formulir Lapor</figcaption></figure>
+  <figure><img class="layar" src="img/mockup_P3.png" alt="Mockup laporan terkirim"><figcaption>Gambar 3.5 Mockup P3 — Laporan Terkirim</figcaption></figure>
+  <figure><img class="layar" src="img/mockup_P4.png" alt="Mockup cek indikator"><figcaption>Gambar 3.6 Mockup P4 — Cek Indikator (empat varian hasil ditampilkan bersama)</figcaption></figure>
+  <figure><img class="layar" src="img/mockup_P5.png" alt="Mockup lacak status"><figcaption>Gambar 3.7 Mockup P5 — Lacak Status</figcaption></figure>
+  <table>
+    <thead><tr><th style="width:10%">Halaman</th><th>Keputusan rancangan</th></tr></thead>
+    <tbody>
+      <tr><td>P2</td><td>Indikator tampil satu baris, dengan tombol "Tambah indikator" sampai maksimal 5 baris. Identitas pelapor ditaruh paling bawah dan ditandai opsional. Deskripsi kategori muncul di bawah dropdown kategori.</td></tr>
+      <tr><td>P3</td><td>Kode tiket ditampilkan besar, disertai pesan untuk menyimpannya. Tidak ada cara memulihkan kode tiket yang hilang.</td></tr>
+      <tr><td>P4</td><td>Dropdown jenis wajib dipilih. Nilai yang dicari ditampilkan kembali dalam bentuk <em>defanged</em>. Empat varian hasil mengikuti logika Cek (bagian 3.2.8).</td></tr>
+      <tr><td>P5</td><td>Menampilkan kategori, kanal, tanggal kejadian, status terakhir, dan riwayat status beserta catatan admin. Tidak menampilkan identitas pelapor maupun indikator.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>3.1.6 Mockup halaman admin</h3>
+  <figure><img class="layar" src="img/mockup_A1.png" alt="Mockup login admin"><figcaption>Gambar 3.8 Mockup A1 — Login Admin</figcaption></figure>
+  <figure><img class="layar" src="img/mockup_A2.png" alt="Mockup dashboard"><figcaption>Gambar 3.9 Mockup A2 — Dashboard Rekap</figcaption></figure>
+  <figure><img class="layar" src="img/mockup_A3.png" alt="Mockup daftar laporan"><figcaption>Gambar 3.10 Mockup A3 — Daftar Laporan</figcaption></figure>
+  <figure><img class="layar tinggi" src="img/mockup_A4.png" alt="Mockup detail laporan"><figcaption>Gambar 3.11 Mockup A4 — Detail Laporan</figcaption></figure>
+  <figure><img class="layar" src="img/mockup_A5.png" alt="Mockup edit laporan"><figcaption>Gambar 3.12 Mockup A5 — Edit Laporan</figcaption></figure>
+  <figure><img class="layar" src="img/mockup_A6.png" alt="Mockup daftar indikator"><figcaption>Gambar 3.13 Mockup A6 — Daftar Indikator</figcaption></figure>
+  <figure><img class="layar" src="img/mockup_A7.png" alt="Mockup form indikator"><figcaption>Gambar 3.14 Mockup A7 — Form Indikator (mode tambah dan mode edit)</figcaption></figure>
+  <figure><img class="layar" src="img/mockup_A8_A9.png" alt="Mockup kategori"><figcaption>Gambar 3.15 Mockup A8 dan A9 — Daftar dan Form Kategori</figcaption></figure>
+  <figure><img class="layar" src="img/mockup_A10_A11.png" alt="Mockup kanal"><figcaption>Gambar 3.16 Mockup A10 dan A11 — Daftar dan Form Kanal</figcaption></figure>
+  <table>
+    <thead><tr><th style="width:10%">Halaman</th><th>Keputusan rancangan</th></tr></thead>
+    <tbody>
+      <tr><td>A1</td><td>Pesan galat login sama untuk username maupun password yang salah, agar tidak membocorkan username yang terdaftar.</td></tr>
+      <tr><td>A2</td><td>Lima kartu (total dan empat status) yang bisa diklik untuk membuka A3 dengan filter status. Tiga tabel angka: per kategori, per kanal, dan per bulan (enam bulan terakhir). Tanpa grafik.</td></tr>
+      <tr><td>A3</td><td>Pencarian dan filter dalam satu baris, diurutkan dari laporan terbaru. Tidak ada tombol tambah, karena laporan dibuat lewat P2.</td></tr>
+      <tr><td>A4</td><td>Dua kolom: kiri berisi data laporan dan daftar indikator (verifikasi cepat lewat dropdown), kanan berisi form ubah status dan riwayat. Tombol Edit dan Hapus di kanan atas.</td></tr>
+      <tr><td>A5</td><td>Hanya kategori, kanal, tanggal kejadian, dan kronologi yang bisa diubah.</td></tr>
+      <tr><td>A6</td><td>Tombol Hapus nonaktif jika indikator masih terkait laporan. Kolom "Laporan" menampilkan jumlah laporan terkait.</td></tr>
+      <tr><td>A7</td><td>Satu form untuk dua mode. Mode edit mengunci jenis dan nilai. Mode tambah menampilkan pesan "sudah tercatat" jika nilainya sudah ada.</td></tr>
+      <tr><td>A8–A11</td><td>Di mockup, daftar dan form ditampilkan berdampingan agar ringkas, tetapi di aplikasi tetap halaman terpisah. Tombol Hapus tetap aktif, dan penolakan datang dari database (RESTRICT) sehingga aturan FR-13 bisa didemokan.</td></tr>
+      <tr><td>Semua</td><td>Setiap aksi simpan atau hapus menampilkan pesan hasil di bagian atas halaman. Hapus selalu lewat form POST dengan dialog konfirmasi.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>3.2 Rancangan basis data</h2>
+  <p>Nama tabel dan kolom memakai bahasa Inggris (<code>snake_case</code>), sedangkan label di antarmuka berbahasa Indonesia. Semua tabel memakai <code>ENGINE=InnoDB</code> dan charset <code>utf8mb4</code>. InnoDB wajib dipakai karena engine lain, misalnya MyISAM, mengabaikan foreign key tanpa memunculkan pesan galat.</p>
+
+  <h3>3.2.1 Daftar tabel</h3>
+  <table>
+    <thead><tr><th style="width:6%">No</th><th style="width:24%">Tabel</th><th>Isi</th><th style="width:22%">Dipakai oleh</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><code>admins</code></td><td>Akun petugas unit TI</td><td>FR-06</td></tr>
+      <tr><td>2</td><td><code>categories</code></td><td>Jenis phishing</td><td>FR-11</td></tr>
+      <tr><td>3</td><td><code>channels</code></td><td>Media datangnya phishing</td><td>FR-12</td></tr>
+      <tr><td>4</td><td><code>reporters</code></td><td>Identitas pelapor (opsional)</td><td>FR-02</td></tr>
+      <tr><td>5</td><td><code>reports</code></td><td>Laporan insiden</td><td>FR-02, FR-03, FR-08</td></tr>
+      <tr><td>6</td><td><code>indicators</code></td><td>URL, email, atau nomor yang dilaporkan</td><td>FR-05, FR-10</td></tr>
+      <tr><td>7</td><td><code>report_indicators</code></td><td>Penghubung laporan dan indikator (banyak-ke-banyak)</td><td>FR-02, FR-10</td></tr>
+      <tr><td>8</td><td><code>status_histories</code></td><td>Riwayat perubahan status laporan (satu-satunya tempat status disimpan)</td><td>FR-04, FR-07, FR-09</td></tr>
+    </tbody>
+  </table>
+  <p>Ditambah satu <strong>view</strong> (tabel virtual yang tidak menyimpan data), <code>v_report_status</code>, untuk membaca status terakhir setiap laporan (bagian 3.2.6).</p>
+
+  <h3>3.2.2 Entity Relationship Diagram (ERD)</h3>
+  <p>ERD lengkap dengan seluruh kolom ditampilkan pada halaman berikutnya (Gambar 3.17). Cara membaca kardinalitasnya:</p>
+  <ul>
+    <li>Satu kategori atau kanal dipakai oleh nol sampai banyak laporan. Setiap laporan wajib punya tepat satu kategori dan satu kanal.</li>
+    <li>Satu laporan boleh tanpa pelapor (anonim). Satu pelapor bisa mengirim banyak laporan.</li>
+    <li>Laporan dan indikator berelasi <strong>banyak-ke-banyak</strong>: satu laporan bisa memuat beberapa indikator, dan satu tautan bisa dilaporkan oleh banyak orang. Relasi ini dipecah lewat tabel penghubung <code>report_indicators</code>.</li>
+    <li>Setiap laporan wajib punya minimal satu indikator. Sebaliknya, indikator boleh tidak terkait laporan mana pun, misalnya yang ditambahkan admin dari peringatan resmi.</li>
+    <li>Setiap laporan punya minimal satu riwayat status, yaitu status "baru" saat laporan dibuat.</li>
+  </ul>
+
+  <div class="lanskap">
+    <figure><img src="img/erd.svg" alt="ERD LaporPhish"><figcaption>Gambar 3.17 ERD LaporPhish (8 tabel). PK = primary key, FK = foreign key, UK = unique key</figcaption></figure>
+  </div>
+
+  <h3>3.2.3 Relasi primary key dan foreign key</h3>
+  <p>Setiap tabel punya primary key <code>INT AUTO_INCREMENT</code>, kecuali <code>report_indicators</code> yang memakai primary key gabungan <code>(report_id, indicator_id)</code>. Tabel berikut menjabarkan setiap foreign key beserta aturan saat data induknya dihapus.</p>
+  <table>
+    <thead><tr><th style="width:24%">Foreign key</th><th style="width:19%">Merujuk ke (PK)</th><th style="width:17%">Kardinalitas</th><th style="width:11%">ON DELETE</th><th>Alasan aturan</th></tr></thead>
+    <tbody>
+      <tr><td><code>reports.category_id</code></td><td><code>categories.category_id</code></td><td>1 kategori : 0..n laporan</td><td>RESTRICT</td><td>Kategori yang masih dipakai tidak boleh hilang (FR-13).</td></tr>
+      <tr><td><code>reports.channel_id</code></td><td><code>channels.channel_id</code></td><td>1 kanal : 0..n laporan</td><td>RESTRICT</td><td>Kanal yang masih dipakai tidak boleh hilang (FR-13).</td></tr>
+      <tr><td><code>reports.reporter_id</code> (boleh NULL)</td><td><code>reporters.reporter_id</code></td><td>0..1 pelapor : 0..n laporan</td><td>SET NULL</td><td>Jika data pelapor dihapus (misalnya atas permintaan privasi), laporannya tetap ada sebagai laporan anonim.</td></tr>
+      <tr><td><code>report_indicators.report_id</code></td><td><code>reports.report_id</code></td><td>1 laporan : 1..5 indikator</td><td>CASCADE</td><td>Penghubung tidak bermakna tanpa laporannya.</td></tr>
+      <tr><td><code>report_indicators.indicator_id</code></td><td><code>indicators.indicator_id</code></td><td>1 indikator : 0..n laporan</td><td>RESTRICT</td><td>Indikator yang masih menjadi bukti laporan tidak boleh dihapus. Jika ternyata aman, cukup ditandai Bukan phishing.</td></tr>
+      <tr><td><code>status_histories.report_id</code></td><td><code>reports.report_id</code></td><td>1 laporan : 1..n riwayat</td><td>CASCADE</td><td>Riwayat tidak bermakna tanpa laporannya.</td></tr>
+      <tr><td><code>status_histories.admin_id</code> (boleh NULL)</td><td><code>admins.admin_id</code></td><td>0..1 admin : 0..n riwayat</td><td>SET NULL</td><td>Riwayat tetap tersimpan walaupun akun admin dihapus. NULL juga dipakai untuk entri "baru" dari sistem.</td></tr>
+      <tr><td><code>indicators.verified_by</code> (boleh NULL)</td><td><code>admins.admin_id</code></td><td>0..1 admin : 0..n indikator</td><td>SET NULL</td><td>Status verifikasi tetap tersimpan walaupun akun admin dihapus.</td></tr>
+    </tbody>
+  </table>
+  <p>Kunci unik (UK) yang dipakai: <code>admins.username</code>, <code>categories.name</code>, <code>channels.name</code>, <code>reporters.email</code> (boleh NULL), <code>reports.ticket_code</code>, dan pasangan <code>indicators(type, value)</code> agar tautan yang sama tidak tersimpan dua kali.</p>
+
+  <h3>3.2.4 Kamus data</h3>
+  <p>Keterangan: PK = primary key, FK = foreign key, UK = unique, AI = auto increment.</p>
+  <h4><code>admins</code></h4>
+  <table class="kamus">
+    <thead><tr><th style="width:20%">Kolom</th><th style="width:20%">Tipe</th><th style="width:24%">Aturan</th><th>Keterangan</th></tr></thead>
+    <tbody>
+      <tr><td>admin_id</td><td>INT</td><td>PK, AI</td><td></td></tr>
+      <tr><td>username</td><td>VARCHAR(50)</td><td>UK, NOT NULL</td><td></td></tr>
+      <tr><td>password_hash</td><td>VARCHAR(255)</td><td>NOT NULL</td><td>Hasil <code>password_hash()</code></td></tr>
+      <tr><td>full_name</td><td>VARCHAR(100)</td><td>NOT NULL</td><td></td></tr>
+      <tr><td>created_at</td><td>DATETIME</td><td>DEFAULT CURRENT_TIMESTAMP</td><td></td></tr>
+    </tbody>
+  </table>
+  <h4><code>categories</code></h4>
+  <table class="kamus">
+    <thead><tr><th style="width:20%">Kolom</th><th style="width:20%">Tipe</th><th style="width:24%">Aturan</th><th>Keterangan</th></tr></thead>
+    <tbody>
+      <tr><td>category_id</td><td>INT</td><td>PK, AI</td><td></td></tr>
+      <tr><td>name</td><td>VARCHAR(100)</td><td>UK, NOT NULL</td><td>Contoh: Pencurian akun</td></tr>
+      <tr><td>description</td><td>TEXT</td><td>NULL</td><td>Tampil sebagai teks bantuan di formulir lapor</td></tr>
+    </tbody>
+  </table>
+  <h4><code>channels</code></h4>
+  <table class="kamus">
+    <thead><tr><th style="width:20%">Kolom</th><th style="width:20%">Tipe</th><th style="width:24%">Aturan</th><th>Keterangan</th></tr></thead>
+    <tbody>
+      <tr><td>channel_id</td><td>INT</td><td>PK, AI</td><td></td></tr>
+      <tr><td>name</td><td>VARCHAR(50)</td><td>UK, NOT NULL</td><td>Contoh: WhatsApp</td></tr>
+    </tbody>
+  </table>
+  <h4><code>reporters</code></h4>
+  <table class="kamus">
+    <thead><tr><th style="width:20%">Kolom</th><th style="width:20%">Tipe</th><th style="width:24%">Aturan</th><th>Keterangan</th></tr></thead>
+    <tbody>
+      <tr><td>reporter_id</td><td>INT</td><td>PK, AI</td><td></td></tr>
+      <tr><td>name</td><td>VARCHAR(100)</td><td>NULL</td><td></td></tr>
+      <tr><td>email</td><td>VARCHAR(150)</td><td>UK, NULL</td><td>Hanya untuk dihubungi admin, tidak tampil di halaman publik</td></tr>
+      <tr><td>created_at</td><td>DATETIME</td><td>DEFAULT CURRENT_TIMESTAMP</td><td></td></tr>
+    </tbody>
+  </table>
+  <p>Baris <code>reporters</code> hanya dibuat jika pelapor mengisi minimal satu kolom identitas. Email bersifat UNIQUE tetapi boleh NULL, sehingga satu email hanya tercatat sekali.</p>
+  <h4><code>reports</code></h4>
+  <table class="kamus">
+    <thead><tr><th style="width:20%">Kolom</th><th style="width:20%">Tipe</th><th style="width:24%">Aturan</th><th>Keterangan</th></tr></thead>
+    <tbody>
+      <tr><td>report_id</td><td>INT</td><td>PK, AI</td><td></td></tr>
+      <tr><td>ticket_code</td><td>CHAR(11)</td><td>UK, NOT NULL</td><td>Kode acak <code>LP-XXXXXXXX</code> dari <code>random_bytes()</code>. Sengaja tidak berurutan agar tidak bisa ditebak</td></tr>
+      <tr><td>reporter_id</td><td>INT</td><td>FK → reporters, NULL, ON DELETE SET NULL</td><td>NULL berarti anonim</td></tr>
+      <tr><td>category_id</td><td>INT</td><td>FK → categories, NOT NULL, ON DELETE RESTRICT</td><td></td></tr>
+      <tr><td>channel_id</td><td>INT</td><td>FK → channels, NOT NULL, ON DELETE RESTRICT</td><td></td></tr>
+      <tr><td>incident_date</td><td>DATE</td><td>NOT NULL</td><td>Tidak boleh tanggal di masa depan</td></tr>
+      <tr><td>chronology</td><td>TEXT</td><td>NOT NULL</td><td></td></tr>
+      <tr><td>created_at</td><td>DATETIME</td><td>DEFAULT CURRENT_TIMESTAMP</td><td></td></tr>
+      <tr><td>updated_at</td><td>DATETIME</td><td>NULL, ON UPDATE CURRENT_TIMESTAMP</td><td>Kosong sampai laporan pertama kali diedit admin</td></tr>
+    </tbody>
+  </table>
+  <p>Tabel ini tidak menyimpan status. Status terakhir dibaca dari view <code>v_report_status</code>.</p>
+  <h4><code>indicators</code></h4>
+  <table class="kamus">
+    <thead><tr><th style="width:20%">Kolom</th><th style="width:20%">Tipe</th><th style="width:24%">Aturan</th><th>Keterangan</th></tr></thead>
+    <tbody>
+      <tr><td>indicator_id</td><td>INT</td><td>PK, AI</td><td></td></tr>
+      <tr><td>type</td><td>ENUM('url','email','phone')</td><td>NOT NULL</td><td></td></tr>
+      <tr><td>value</td><td>VARCHAR(500)</td><td>NOT NULL</td><td>Nilai yang sudah dinormalisasi</td></tr>
+      <tr><td>verification_status</td><td>ENUM('belum','phishing', 'bukan_phishing')</td><td>NOT NULL, DEFAULT 'belum'</td><td>Menentukan hasil fitur Cek</td></tr>
+      <tr><td>note</td><td>VARCHAR(255)</td><td>NULL</td><td>Catatan admin, misalnya alasan verifikasi atau sumber indikator</td></tr>
+      <tr><td>verified_by</td><td>INT</td><td>FK → admins, NULL, ON DELETE SET NULL</td><td></td></tr>
+      <tr><td>verified_at</td><td>DATETIME</td><td>NULL</td><td></td></tr>
+      <tr><td>created_at</td><td>DATETIME</td><td>DEFAULT CURRENT_TIMESTAMP</td><td></td></tr>
+    </tbody>
+  </table>
+  <p>Status laporan (di <code>status_histories</code>) menggambarkan penanganan <strong>kasus</strong>, sedangkan <code>verification_status</code> menggambarkan <strong>fakta tentang tautan, email, atau nomor itu</strong> (berbahaya atau tidak) yang dipakai fitur Cek untuk semua orang.</p>
+  <h4><code>report_indicators</code></h4>
+  <table class="kamus">
+    <thead><tr><th style="width:20%">Kolom</th><th style="width:20%">Tipe</th><th style="width:24%">Aturan</th><th>Keterangan</th></tr></thead>
+    <tbody>
+      <tr><td>report_id</td><td>INT</td><td>PK, FK → reports, ON DELETE CASCADE</td><td></td></tr>
+      <tr><td>indicator_id</td><td>INT</td><td>PK, FK → indicators, ON DELETE RESTRICT</td><td></td></tr>
+      <tr><td>raw_value</td><td>VARCHAR(500)</td><td>NOT NULL</td><td>Teks asli yang diketik pelapor, sebelum dinormalisasi</td></tr>
+    </tbody>
+  </table>
+  <p><code>raw_value</code> disimpan di tabel penghubung, bukan di <code>indicators</code>, karena nilainya bergantung pada pasangan laporan dan indikator: dua orang bisa mengetik tautan yang sama dengan cara berbeda.</p>
+  <h4><code>status_histories</code></h4>
+  <table class="kamus">
+    <thead><tr><th style="width:20%">Kolom</th><th style="width:20%">Tipe</th><th style="width:24%">Aturan</th><th>Keterangan</th></tr></thead>
+    <tbody>
+      <tr><td>history_id</td><td>INT</td><td>PK, AI</td><td></td></tr>
+      <tr><td>report_id</td><td>INT</td><td>FK → reports, NOT NULL, ON DELETE CASCADE</td><td></td></tr>
+      <tr><td>status</td><td>ENUM('baru','ditinjau', 'valid','tidak_valid')</td><td>NOT NULL</td><td></td></tr>
+      <tr><td>note</td><td>TEXT</td><td>NULL</td><td>Catatan admin, ikut tampil di halaman lacak</td></tr>
+      <tr><td>admin_id</td><td>INT</td><td>FK → admins, NULL, ON DELETE SET NULL</td><td>NULL untuk entri "baru" saat laporan dikirim</td></tr>
+      <tr><td>changed_at</td><td>DATETIME</td><td>DEFAULT CURRENT_TIMESTAMP</td><td></td></tr>
+    </tbody>
+  </table>
+  <p>Mengubah status cukup dengan satu <code>INSERT</code> baris baru. Baris lama tidak pernah diubah, sehingga riwayatnya utuh.</p>
+
+  <h3>3.2.5 Normalisasi</h3>
+  <p>Contoh data mentah diambil dari formulir laporan seperti yang biasanya dicatat manual di spreadsheet.</p>
+  <h4>Bentuk tidak normal (UNF)</h4>
+  <table class="kecil">
+    <thead><tr><th>Tiket</th><th>Pelapor</th><th>Email pelapor</th><th>Kategori</th><th>Ket. kategori</th><th>Kanal</th><th>Tanggal</th><th>Indikator</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td>LP-7F3K9QX2</td><td>Rina</td><td>rina@kampus.example</td><td>Pencurian akun</td><td>Halaman login palsu untuk mencuri akun</td><td>WhatsApp</td><td>2026-11-02</td><td>https://sso-kampus-verify.example/login, 0812-0000-1111</td><td>ditinjau</td></tr>
+      <tr><td>LP-M4T8B2PA</td><td>(anonim)</td><td>–</td><td>Pencurian akun</td><td>Halaman login palsu untuk mencuri akun</td><td>Email</td><td>2026-11-03</td><td>www.sso-kampus-verify.example/login/</td><td>baru</td></tr>
+    </tbody>
+  </table>
+  <p>Masalahnya: satu sel berisi lebih dari satu nilai, nama dan keterangan kategori diketik berulang, dan tautan yang sama ditulis dengan cara berbeda sehingga tidak bisa dicocokkan.</p>
+  <h4>1NF: nilai atomik</h4>
+  <p>Setiap indikator dipecah menjadi satu baris, dengan jenis dan nilainya dipisah.</p>
+  <table class="kecil">
+    <thead><tr><th>Tiket</th><th>Pelapor</th><th>Email pelapor</th><th>Kategori</th><th>Ket. kategori</th><th>Kanal</th><th>Tanggal</th><th>Jenis</th><th>Nilai indikator</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td>LP-7F3K9QX2</td><td>Rina</td><td>rina@kampus.example</td><td>Pencurian akun</td><td>Halaman login palsu…</td><td>WhatsApp</td><td>2026-11-02</td><td>url</td><td>https://sso-kampus-verify.example/login</td><td>ditinjau</td></tr>
+      <tr><td>LP-7F3K9QX2</td><td>Rina</td><td>rina@kampus.example</td><td>Pencurian akun</td><td>Halaman login palsu…</td><td>WhatsApp</td><td>2026-11-02</td><td>phone</td><td>0812-0000-1111</td><td>ditinjau</td></tr>
+      <tr><td>LP-M4T8B2PA</td><td>–</td><td>–</td><td>Pencurian akun</td><td>Halaman login palsu…</td><td>Email</td><td>2026-11-03</td><td>url</td><td>www.sso-kampus-verify.example/login/</td><td>baru</td></tr>
+    </tbody>
+  </table>
+  <p>Kunci gabungannya adalah (Tiket, Jenis, Nilai indikator). Data laporan masih terulang di setiap baris indikator.</p>
+  <h4>2NF: menghilangkan ketergantungan parsial</h4>
+  <p>Kolom pelapor, email pelapor, kategori, keterangan kategori, kanal, tanggal, dan status hanya bergantung pada <strong>Tiket</strong>, bukan pada seluruh kunci. Karena itu tabel dipecah menjadi:</p>
+  <ul>
+    <li><code>reports</code> (tiket, pelapor, email pelapor, kategori, keterangan kategori, kanal, tanggal, status)</li>
+    <li><code>indicators</code> (jenis, nilai yang sudah dinormalisasi). Kedua tautan di atas menjadi satu baris: <code>sso-kampus-verify.example/login</code>.</li>
+    <li><code>report_indicators</code> (tiket, indikator, teks asli)</li>
+  </ul>
+  <h4>3NF: menghilangkan ketergantungan transitif</h4>
+  <p>Di <code>reports</code> hasil 2NF, beberapa kolom tidak bergantung langsung pada Tiket, tetapi lewat kolom bukan kunci:</p>
+  <ul>
+    <li><code>Tiket → Email pelapor → Nama pelapor</code>. Email menjadi penanda orangnya, dan nama ditentukan oleh email itu, bukan oleh laporannya. Nama dan email dipindah ke <code>reporters</code>, dan <code>reports</code> menyimpan <code>reporter_id</code>.</li>
+    <li><code>Tiket → Kategori → Keterangan kategori</code>. Keterangan ditentukan oleh kategorinya. Jika tetap di <code>reports</code>, mengubah keterangan satu kategori berarti mengubah banyak baris (anomali update). Kategori dan keterangannya dipindah ke <code>categories</code>, dan <code>reports</code> menyimpan <code>category_id</code>.</li>
+    <li>Kanal dipisah ke <code>channels</code> dengan pola yang sama, agar penulisan nama kanal seragam dan perubahan nama cukup dilakukan di satu baris. <code>reports</code> menyimpan <code>channel_id</code>.</li>
+  </ul>
+  <h4>Keputusan desain: pemisahan status</h4>
+  <p>Pemisahan status bukan bagian dari langkah normalisasi di atas, melainkan keputusan desain untuk mencatat riwayat. Setiap perubahan status punya waktu, catatan, dan admin sendiri, dan perubahan baru tidak boleh menimpa yang lama. Karena itu status disimpan sebagai baris-baris di <code>status_histories</code> dan tidak disimpan di <code>reports</code>, sehingga tidak ada data yang tersimpan di dua tempat. Hasil akhirnya adalah 8 tabel seperti di ERD, semuanya dalam 3NF.</p>
+
+  <h3>3.2.6 View <code>v_report_status</code></h3>
+  <p>Karena status hanya disimpan di <code>status_histories</code>, status terakhir setiap laporan dibaca lewat view berikut. View tidak menyimpan data; isinya hanya kueri yang tersimpan, jadi tidak menimbulkan redundansi.</p>
+<pre><code>CREATE VIEW v_report_status AS
+SELECT h.report_id, h.status, h.changed_at
+FROM status_histories h
+WHERE h.history_id = (
+    SELECT MAX(h2.history_id)
+    FROM status_histories h2
+    WHERE h2.report_id = h.report_id
+);</code></pre>
+  <p>View ini dipakai oleh daftar laporan admin (filter status, FR-08), dashboard rekap per status (FR-07), dan halaman lacak (FR-04).</p>
+
+  <h3>3.2.7 Aturan integritas di aplikasi</h3>
+  <table>
+    <thead><tr><th style="width:5%">No</th><th style="width:55%">Aturan</th><th>Alasan</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><strong>Kirim laporan memakai satu transaksi.</strong> Insert ke <code>reporters</code> (jika perlu), <code>reports</code>, <code>indicators</code> (jika belum ada), <code>report_indicators</code>, dan <code>status_histories</code> dijalankan dalam satu <code>beginTransaction()</code> … <code>commit()</code>. Jika satu langkah gagal, semuanya dibatalkan dengan <code>rollBack()</code>.</td><td>Mencegah laporan tersimpan tanpa indikator atau tanpa status awal.</td></tr>
+      <tr><td>2</td><td><strong>Indikator per laporan minimal 1, maksimal 5.</strong> Dibatasi di formulir dan dicek ulang di PHP. Indikator yang sama (setelah normalisasi) dalam satu laporan hanya disimpan sekali.</td><td>Menjaga formulir tetap sederhana dan mencegah penyalahgunaan.</td></tr>
+      <tr><td>3</td><td><strong>Pelapor dengan email yang sama memakai baris yang sudah ada.</strong> Nama yang tersimpan tidak ditimpa. Jika email kosong, dibuat baris baru.</td><td>Mencegah data pelapor ganda.</td></tr>
+      <tr><td>4</td><td><strong>Kode tiket acak</strong> dari <code>random_bytes()</code>. Jika kebetulan sudah dipakai, dibuat ulang.</td><td>Kode berurutan bisa ditebak sehingga orang lain dapat melihat status laporan milik orang lain (celah IDOR).</td></tr>
+      <tr><td>5</td><td><strong>Mengubah status = menambah baris riwayat.</strong> Tidak ada <code>UPDATE</code> atau <code>DELETE</code> pada <code>status_histories</code> dari antarmuka admin.</td><td>Riwayat penanganan tetap utuh dan bisa dipertanggungjawabkan.</td></tr>
+      <tr><td>6</td><td><strong>Edit laporan dibatasi</strong> pada kategori, kanal, tanggal kejadian, dan kronologi.</td><td>Menjaga logika edit tetap sederhana.</td></tr>
+      <tr><td>7</td><td><strong>Hapus data hanya lewat form POST dengan konfirmasi.</strong></td><td>Mencegah data terhapus karena satu klik link yang tidak disengaja.</td></tr>
+      <tr><td>8</td><td><strong>Edit indikator dibatasi</strong> pada status verifikasi dan catatan. Jenis dan nilai tidak bisa diubah.</td><td>Mengubah nilai bisa bentrok dengan UNIQUE <code>(type, value)</code> dan mengubah bukti laporan yang sudah masuk.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>3.2.8 Logika fitur Cek dan normalisasi nilai indikator</h3>
+  <table>
+    <thead><tr><th style="width:45%">Kondisi setelah nilai dinormalisasi</th><th>Hasil yang ditampilkan</th></tr></thead>
+    <tbody>
+      <tr><td>Ditemukan, <code>verification_status = 'phishing'</code></td><td><strong>Terverifikasi phishing.</strong> Jangan diklik atau dibalas.</td></tr>
+      <tr><td>Ditemukan, <code>verification_status = 'belum'</code></td><td><strong>Tercatat, masih ditinjau.</strong> Jumlah laporan terkait ditampilkan jika ada.</td></tr>
+      <tr><td>Ditemukan, <code>verification_status = 'bukan_phishing'</code></td><td><strong>Sudah diperiksa, tidak terbukti phishing.</strong> Tetap waspada.</td></tr>
+      <tr><td>Tidak ditemukan</td><td><strong>Belum ada data.</strong> Bukan jaminan aman. Disertai tombol menuju formulir lapor.</td></tr>
+    </tbody>
+  </table>
+  <p>Aturan normalisasi diterapkan di PHP sebelum data disimpan ke <code>indicators.value</code> dan sebelum pencarian di fitur Cek:</p>
+  <table>
+    <thead><tr><th style="width:9%">Jenis</th><th style="width:44%">Aturan</th><th>Contoh</th></tr></thead>
+    <tbody>
+      <tr><td>url</td><td>Hapus spasi di tepi, hapus <code>http://</code>/<code>https://</code> dan <code>www.</code>, ubah nama domain menjadi huruf kecil, hapus <code>/</code> di akhir</td><td><code>HTTPS://WWW.Sso-Kampus-Verify.example/login/</code> → <code>sso-kampus-verify.example/login</code></td></tr>
+      <tr><td>email</td><td>Hapus spasi di tepi, ubah menjadi huruf kecil</td><td><code>Admin.SSO@Kampus-Verify.example</code> → <code>admin.sso@kampus-verify.example</code></td></tr>
+      <tr><td>phone</td><td>Hapus semua karakter selain angka, awalan <code>0</code> diganti <code>62</code></td><td><code>0812-0000-1111</code> → <code>6281200001111</code></td></tr>
+    </tbody>
+  </table>
+  <p>Path URL tidak diubah menjadi huruf kecil, karena pada sebagian server path membedakan huruf besar dan kecil. Semua contoh domain memakai akhiran <code>.example</code> yang memang dicadangkan untuk contoh (RFC 2606), sehingga tidak mengarah ke situs sungguhan.</p>
+</section>
+
+<!-- ================= BAB 4 ================= -->
+<section class="halaman" id="bab4">
+  <h1 class="bab"><span class="no">Bab 4</span>Implementation (Development)</h1>
+  <h2>4.1 Teknologi</h2>
+  <table>
+    <thead><tr><th style="width:22%">Bagian</th><th>Pilihan</th></tr></thead>
+    <tbody>
+      <tr><td>Bahasa server</td><td>PHP 8.2 native (tanpa framework), ekstensi PDO</td></tr>
+      <tr><td>Database</td><td>MariaDB 10.4 (XAMPP), engine InnoDB, charset <code>utf8mb4</code>. 8 tabel dan 1 view</td></tr>
+      <tr><td>Web server</td><td>Apache dari XAMPP</td></tr>
+      <tr><td>Tampilan</td><td>Bootstrap 5.3, Bootstrap Icons, font Plus Jakarta Sans. Semuanya disimpan lokal di <code>assets/vendor/</code> agar demo berjalan tanpa internet</td></tr>
+      <tr><td>JavaScript</td><td>Hanya fungsi kecil: tambah/hapus baris indikator dan teks bantuan kategori (P2), serta dialog konfirmasi hapus (admin)</td></tr>
+    </tbody>
+  </table>
+
+  <h2>4.2 Struktur folder dan kode</h2>
+<pre><code>laporphish/
+├── index.php              P1 Beranda
+├── lapor.php              P2 Formulir lapor + proses kirim (POST)
+├── terkirim.php           P3 Kode tiket
+├── cek.php                P4 Cek indikator
+├── lacak.php              P5 Lacak status
+├── admin/
+│   ├── login.php          A1 (logout.php: akhiri session, tanpa tampilan)
+│   ├── index.php          A2 Dashboard
+│   ├── laporan.php        A3 Daftar laporan
+│   ├── laporan_detail.php A4 Detail + ubah status + verifikasi cepat + hapus
+│   ├── laporan_edit.php   A5 Edit laporan
+│   ├── indikator.php      A6 Daftar indikator (+ hapus)
+│   ├── indikator_form.php A7 Tambah dan edit indikator
+│   ├── kategori.php       A8 Daftar kategori (+ hapus)
+│   ├── kategori_form.php  A9 Tambah dan edit kategori
+│   ├── kanal.php          A10 Daftar kanal (+ hapus)
+│   └── kanal_form.php     A11 Tambah dan edit kanal
+├── includes/
+│   ├── config.example.php Contoh konfigurasi (di-commit)
+│   ├── config.php         Kredensial database asli (TIDAK di-commit)
+│   ├── init.php           Dimuat setiap halaman: session, zona waktu, file lain
+│   ├── db.php             Koneksi PDO + penanganan galat
+│   ├── helpers.php        Escape output, defang, normalisasi indikator, kode tiket, pesan flash
+│   ├── auth.php           Login, logout, pengecekan session admin
+│   └── layout_*.php       Kerangka tampilan publik dan admin
+├── assets/                css/app.css, js/app.js, vendor/ (Bootstrap, ikon, font)
+├── database/
+│   └── laporphish.sql     Struktur 8 tabel + view + data dummy
+├── docs/                  Dokumen SDLC, mockup, dan laporan ini
+└── README.md</code></pre>
+  <p>Setiap halaman yang punya form memproses POST-nya sendiri di bagian atas file, lalu mengalihkan (redirect) ke halaman tujuan dengan pesan flash (pola <em>Post/Redirect/Get</em>). Dengan pola ini, memuat ulang halaman tidak mengirim form dua kali. Semua tautan memakai path relatif, sehingga aplikasi tetap berjalan walaupun foldernya diberi nama lain di <code>htdocs</code>.</p>
+
+  <h2>4.3 Mekanisme koneksi aplikasi–database</h2>
+<pre><code>halaman.php
+  └─ require includes/init.php
+        ├─ includes/db.php       → app_config() membaca includes/config.php
+        │                        → db() membuat satu objek PDO (dipakai ulang)
+        ├─ includes/helpers.php  → e(), normalize_indicator(), defang(), generate_ticket(), flash()
+        └─ includes/auth.php     → require_admin(), attempt_login(), logout()</code></pre>
+  <h3>1. Konfigurasi terpisah</h3>
+  <p><code>includes/config.php</code> mengembalikan array berisi host, port, nama database, user, password, dan charset. File ini tidak di-commit; repo hanya berisi <code>includes/config.example.php</code> dengan struktur yang sama dan nilai bawaan XAMPP. Jika <code>config.php</code> belum ada, aplikasi menampilkan petunjuk untuk menyalinnya.</p>
+<pre><code>return [
+    'db' =&gt; [
+        'host'    =&gt; '127.0.0.1',
+        'port'    =&gt; 3306,
+        'name'    =&gt; 'laporphish',
+        'user'    =&gt; 'root',
+        'pass'    =&gt; '',
+        'charset' =&gt; 'utf8mb4',
+    ],
+    'app' =&gt; [ 'name' =&gt; 'LaporPhish', 'timezone' =&gt; 'Asia/Jakarta', 'debug' =&gt; false ],
+];</code></pre>
+  <h3>2. Membuat koneksi dan menangani galat</h3>
+  <p>Fungsi <code>db()</code> membentuk DSN dari konfigurasi lalu membuat objek PDO dengan tiga opsi: <code>ERRMODE_EXCEPTION</code> agar setiap galat SQL dilempar sebagai exception, <code>FETCH_ASSOC</code> agar hasil kueri berupa array dengan nama kolom, dan <code>EMULATE_PREPARES = false</code> agar prepared statement dikerjakan langsung oleh server database. Koneksi dibuat sekali per permintaan halaman (variabel <code>static</code>). Jika koneksi gagal, detail teknis hanya dicatat ke log server, sedangkan pengguna melihat pesan umum.</p>
+<pre><code>function db(): PDO
+{
+    static $pdo = null;
+    if ($pdo !== null) {
+        return $pdo;
+    }
+    $c = app_config()['db'];
+    $dsn = sprintf('mysql:host=%s;port=%d;dbname=%s;charset=%s', $c['host'], $c['port'], $c['name'], $c['charset']);
+    try {
+        $pdo = new PDO($dsn, $c['user'], $c['pass'], [
+            PDO::ATTR_ERRMODE            =&gt; PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE =&gt; PDO::FETCH_ASSOC,
+            PDO::ATTR_EMULATE_PREPARES   =&gt; false,
+        ]);
+        $pdo-&gt;exec("SET time_zone = '+07:00'");
+    } catch (PDOException $e) {
+        error_log('[LaporPhish] Koneksi database gagal: ' . $e-&gt;getMessage());
+        fatal_page('Database tidak dapat dihubungi', 'Pastikan MySQL di XAMPP sudah berjalan …');
+    }
+    return $pdo;
+}</code></pre>
+  <h3>3. Kueri aman dengan prepared statement</h3>
+  <p>Setiap kueri yang memakai input pengguna ditulis dengan placeholder <code>?</code> dan dijalankan lewat <code>prepare()</code> lalu <code>execute()</code>, sehingga input tidak pernah digabung langsung ke teks SQL. Contohnya pada proses login admin:</p>
+<pre><code>function attempt_login(string $username, string $password): bool
+{
+    $stmt = db()-&gt;prepare('SELECT admin_id, password_hash, full_name FROM admins WHERE username = ?');
+    $stmt-&gt;execute([$username]);
+    $admin = $stmt-&gt;fetch();
+    if (!$admin || !password_verify($password, $admin['password_hash'])) {
+        return false;
+    }
+    session_regenerate_id(true); // cegah session fixation
+    $_SESSION['admin_id'] = (int) $admin['admin_id'];
+    $_SESSION['admin_name'] = $admin['full_name'];
+    return true;
+}</code></pre>
+  <h3>4. Transaksi saat laporan dikirim</h3>
+  <p>Satu laporan menyentuh lima tabel. Semua insert dibungkus satu transaksi, sehingga jika satu langkah gagal, seluruhnya dibatalkan dan tidak ada laporan yang tersimpan setengah jadi.</p>
+<pre><code>$pdo = db();
+try {
+    $pdo-&gt;beginTransaction();
+    // 1. Pelapor (opsional): email yang sama memakai baris yang sudah ada
+    // 2. Laporan dengan kode tiket acak (dibuat ulang jika kebetulan sudah dipakai)
+    // 3. Indikator: pakai yang sudah ada jika (type, value) sama
+    // 4. Penghubung report_indicators beserta teks asli
+    // 5. Status awal "baru"
+    $pdo-&gt;prepare("INSERT INTO status_histories (report_id, status, note) VALUES (?, 'baru', NULL)")
+        -&gt;execute([$reportId]);
+    $pdo-&gt;commit();
+    $_SESSION['last_ticket'] = $ticket;
+    redirect('terkirim.php');
+} catch (Throwable $e) {
+    if ($pdo-&gt;inTransaction()) {
+        $pdo-&gt;rollBack();
+    }
+    error_log('[LaporPhish] Gagal menyimpan laporan: ' . $e-&gt;getMessage());
+    $errors[] = 'Laporan gagal disimpan karena gangguan sistem. Silakan coba lagi.';
+}</code></pre>
+  <p>Kode lengkap ada di <code>includes/db.php</code>, <code>includes/auth.php</code>, dan <code>lapor.php</code> pada repositori.</p>
+
+  <h2>4.4 Keamanan dasar</h2>
+  <table>
+    <thead><tr><th style="width:26%">Ancaman</th><th>Penanganan</th></tr></thead>
+    <tbody>
+      <tr><td>SQL injection</td><td>Semua kueri yang menerima input memakai prepared statement PDO (NFR-01).</td></tr>
+      <tr><td>XSS</td><td>Semua output ke HTML melewati fungsi <code>e()</code> yang memanggil <code>htmlspecialchars</code> (NFR-02).</td></tr>
+      <tr><td>Tautan berbahaya terklik</td><td>Indikator ditampilkan dalam bentuk <em>defanged</em> (<code>hxxp</code>, <code>[.]</code>) dan tidak pernah sebagai link (NFR-03).</td></tr>
+      <tr><td>Pencurian password dan session</td><td>Password disimpan dengan <code>password_hash</code>. ID session diperbarui saat login, dan cookie session memakai <code>HttpOnly</code> serta <code>SameSite=Lax</code> (NFR-04).</td></tr>
+      <tr><td>Kredensial bocor</td><td>Kredensial database ada di <code>includes/config.php</code> yang tidak di-commit (NFR-05).</td></tr>
+      <tr><td>Pesan galat membocorkan detail</td><td>Galat koneksi ditangkap dengan <code>try/catch</code>; pengguna hanya melihat pesan umum (NFR-06).</td></tr>
+      <tr><td>Data terhapus tidak sengaja</td><td>Hapus hanya lewat form POST dengan dialog konfirmasi (NFR-10), dan data induk yang masih dipakai ditolak oleh database (RESTRICT).</td></tr>
+      <tr><td>Kode tiket ditebak</td><td>Kode tiket dibuat acak dengan <code>random_bytes()</code>, bukan berurutan.</td></tr>
+      <tr><td>File sensitif dibuka langsung</td><td><code>.htaccess</code> menolak akses ke <code>includes/</code> dan <code>database/</code> (403), menyembunyikan daftar isi folder, dan menyembunyikan folder <code>.git</code>.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>4.5 Tampilan aplikasi</h2>
+  <p>Gambar berikut diambil dari aplikasi yang berjalan di <code>http://localhost/laporphish/</code> dengan data contoh dari <code>database/laporphish.sql</code>. Tampilannya mengikuti mockup di Bab 3.</p>
+  <figure><img class="layar" src="img/app_P1_beranda.png" alt="Beranda aplikasi"><figcaption>Gambar 4.1 Beranda (P1)</figcaption></figure>
+  <figure><img class="layar" src="img/app_P3_terkirim.png" alt="Laporan terkirim"><figcaption>Gambar 4.2 Laporan berhasil dikirim dan kode tiket ditampilkan (P3)</figcaption></figure>
+  <figure><img class="layar" src="img/app_P4_cek.png" alt="Hasil cek indikator"><figcaption>Gambar 4.3 Hasil Cek untuk URL yang ditulis dengan huruf besar dan <code>www.</code>: tetap cocok setelah dinormalisasi, dan ditampilkan dalam bentuk <em>defanged</em> (P4)</figcaption></figure>
+  <figure><img class="layar" src="img/app_P5_lacak.png" alt="Lacak status"><figcaption>Gambar 4.4 Lacak status laporan dengan kode tiket, tanpa menampilkan identitas pelapor (P5)</figcaption></figure>
+  <figure><img class="layar" src="img/app_A2_dashboard.png" alt="Dashboard admin"><figcaption>Gambar 4.5 Dashboard rekap per status, kategori, kanal, dan bulan (A2)</figcaption></figure>
+  <figure><img class="layar" src="img/app_A3_laporan.png" alt="Daftar laporan"><figcaption>Gambar 4.6 Daftar laporan dengan filter status "Ditinjau" (A3)</figcaption></figure>
+  <figure><img class="layar" src="img/app_A4_detail.png" alt="Detail laporan"><figcaption>Gambar 4.7 Detail laporan: verifikasi indikator, ubah status, dan riwayat penanganan (A4)</figcaption></figure>
+  <figure><img class="layar" src="img/app_A8_restrict.png" alt="Hapus kategori ditolak"><figcaption>Gambar 4.8 Penghapusan kategori yang masih dipakai ditolak oleh aturan RESTRICT dengan pesan yang jelas (A8, FR-13)</figcaption></figure>
+</section>
+
+<!-- ================= BAB 5 ================= -->
+<section class="halaman" id="bab5">
+  <h1 class="bab"><span class="no">Bab 5</span>Testing</h1>
+  <h2>5.1 Metode</h2>
+  <p>Pengujian memakai metode <strong>Black-Box</strong>: aplikasi diuji dari luar, lewat input dan output yang dilihat pengguna, tanpa melihat isi kode. Setiap kasus uji dipetakan ke kebutuhan fungsional (FR) atau non-fungsional (NFR) di Bab 2, lalu hasil aktualnya dibandingkan dengan hasil yang diharapkan. Status <strong>Lulus</strong> diberikan jika keduanya sama.</p>
+  <table>
+    <thead><tr><th style="width:26%">Bagian</th><th>Keterangan</th></tr></thead>
+    <tbody>
+      <tr><td>Lingkungan</td><td>Windows 11, XAMPP: Apache, PHP 8.2.12, MariaDB 10.4.32. Aplikasi di <code>http://localhost/laporphish/</code></td></tr>
+      <tr><td>Data awal</td><td>Hasil impor <code>database/laporphish.sql</code> (42 laporan, 31 indikator, 6 kategori, 6 kanal)</td></tr>
+      <tr><td>Cara uji form dan halaman</td><td>Permintaan HTTP otomatis (curl) ke Apache, sama seperti yang dikirim browser. Hasil dicek dari halaman yang tampil dan dari isi tabel di database</td></tr>
+      <tr><td>Cara uji interaksi JavaScript</td><td>Browser (Chromium): menambah baris indikator, teks bantuan kategori, dialog konfirmasi hapus, dan tampilan layar ponsel 375 px</td></tr>
+      <tr><td>Kode tiket dan ID</td><td>Kode tiket dibuat acak, jadi nilainya berbeda setiap kali diuji. Yang dicek adalah formatnya</td></tr>
+      <tr><td>Setelah uji</td><td>Database dikembalikan ke data awal dengan mengimpor ulang <code>database/laporphish.sql</code></td></tr>
+    </tbody>
+  </table>
+
+  <div class="lanskap">
+  <h2>5.2 Tabel Black-Box Testing</h2>
+  <h3>Halaman publik</h3>
+  <table class="kecil uji">
+    <thead><tr><th style="width:7%">ID</th><th style="width:9%">Kebutuhan</th><th style="width:16%">Skenario</th><th style="width:17%">Data uji</th><th style="width:20%">Hasil yang diharapkan</th><th>Hasil aktual</th><th style="width:6%">Status</th></tr></thead>
+    <tbody>
+      <tr><td>TC-01</td><td>FR-01</td><td>Membuka beranda</td><td><code>index.php</code></td><td>Halaman tampil dengan tiga fitur: Lapor, Cek, Lacak</td><td>HTTP 200, tiga kartu fitur tampil</td><td>Lulus</td></tr>
+      <tr><td>TC-02</td><td>FR-02</td><td>Mengirim laporan tanpa identitas</td><td>Kanal WhatsApp, kategori Pencurian akun, tanggal 2026-11-19, kronologi, 1 URL</td><td>Laporan tersimpan dengan pelapor kosong, satu indikator, dan status awal Baru. Diarahkan ke halaman sukses</td><td>Diarahkan ke <code>terkirim.php</code>. Laporan 42 → 43, pelapor anonim, 1 indikator, riwayat <code>baru</code></td><td>Lulus</td></tr>
+      <tr><td>TC-03</td><td>FR-02</td><td>Pelapor dengan email yang sudah pernah dipakai</td><td>Email pelapor lama ditulis huruf besar, nama berbeda</td><td>Data pelapor lama dipakai ulang. Tidak ada pelapor baru dan nama lama tidak berubah</td><td>Laporan terhubung ke pelapor yang sama (ID 1). Jumlah pelapor tetap 16, nama tetap "Putri"</td><td>Lulus</td></tr>
+      <tr><td>TC-04</td><td>FR-02, NFR-07</td><td>Mengirim formulir kosong</td><td>Semua isian kosong</td><td>Laporan ditolak dengan pesan untuk setiap isian wajib</td><td>5 pesan galat tampil, jumlah laporan tidak bertambah</td><td>Lulus</td></tr>
+      <tr><td>TC-05</td><td>NFR-07</td><td>Tanggal kejadian di masa depan</td><td>Tanggal besok (2026-11-21)</td><td>Ditolak</td><td>"Tanggal kejadian tidak boleh di masa depan."</td><td>Lulus</td></tr>
+      <tr><td>TC-06</td><td>NFR-07</td><td>Kronologi terlalu pendek</td><td>"pendek"</td><td>Ditolak</td><td>"Kronologi wajib diisi (minimal 10 karakter)."</td><td>Lulus</td></tr>
+      <tr><td>TC-07</td><td>NFR-07</td><td>Format URL salah</td><td>"bukan url"</td><td>Ditolak dengan contoh format</td><td>"Indikator 1: Format URL tidak dikenali. Contoh: https://contoh.example/login"</td><td>Lulus</td></tr>
+      <tr><td>TC-08</td><td>FR-02, NFR-07</td><td>Lebih dari 5 indikator dikirim langsung ke server (melewati batas di tampilan)</td><td>6 URL</td><td>Ditolak oleh server</td><td>"Maksimal 5 indikator per laporan."</td><td>Lulus</td></tr>
+      <tr><td>TC-09</td><td>FR-02, FR-10</td><td>Indikator ganda dalam satu laporan dan indikator yang sudah tercatat</td><td><code>HTTPS://WWW.BB-Uji-Tiga.example/x/</code>, <code>bb-uji-tiga.example/x</code>, dan nomor lama <code>0812-0000-1111</code></td><td>Dua URL dianggap sama setelah dinormalisasi. Nomor lama dipakai ulang, bukan dibuat baru</td><td>2 penghubung laporan–indikator. Indikator bertambah 1 (33 → 34)</td><td>Lulus</td></tr>
+      <tr><td>TC-10</td><td>NFR-07</td><td>Format email pelapor salah</td><td>"bukan-email"</td><td>Ditolak</td><td>"Format email pelapor tidak valid."</td><td>Lulus</td></tr>
+      <tr><td>TC-11</td><td>FR-02</td><td>Menambah baris indikator di formulir</td><td>Klik "Tambah indikator" 4 kali, lalu hapus satu baris</td><td>Berhenti di 5 baris dan tombol nonaktif. Setelah satu baris dihapus, tombol aktif lagi. Baris pertama tidak bisa dihapus</td><td>5 baris, tombol nonaktif, keterangan "5 dari 5". Setelah dihapus: 4 baris, tombol aktif. Tombol hapus baris pertama tersembunyi</td><td>Lulus</td></tr>
+      <tr><td>TC-12</td><td>FR-11</td><td>Teks bantuan kategori di formulir</td><td>Pilih "Pencurian akun", lalu "APK berbahaya"</td><td>Deskripsi kategori yang dipilih tampil di bawah pilihan</td><td>Teks bantuan berganti sesuai deskripsi tiap kategori</td><td>Lulus</td></tr>
+      <tr><td>TC-13</td><td>FR-03</td><td>Kode tiket setelah laporan terkirim</td><td>Laporan dari TC-02</td><td>Kode acak berformat <code>LP-XXXXXXXX</code> tampil</td><td>Kode tiket tampil dengan format yang sesuai</td><td>Lulus</td></tr>
+      <tr><td>TC-14</td><td>FR-03</td><td>Membuka halaman sukses tanpa mengirim laporan</td><td><code>terkirim.php</code> langsung</td><td>Dialihkan ke formulir lapor</td><td>Dialihkan ke <code>lapor.php</code></td><td>Lulus</td></tr>
+      <tr><td>TC-15</td><td>FR-04</td><td>Melacak laporan dengan kode tiket</td><td>Kode tiket dari TC-02</td><td>Status terakhir dan riwayat tampil</td><td>Status "Baru", 1 riwayat</td><td>Lulus</td></tr>
+      <tr><td>TC-16</td><td>FR-04</td><td>Kode tiket ditulis huruf kecil</td><td>Kode tiket TC-02 dalam huruf kecil</td><td>Tetap ditemukan</td><td>Status "Baru" tampil</td><td>Lulus</td></tr>
+      <tr><td>TC-17</td><td>FR-04, NFR-07</td><td>Format kode tiket salah</td><td>"ABC"</td><td>Ditolak dengan contoh format</td><td>"Format kode tiket tidak sesuai. Contoh: LP-7F3K9QX2"</td><td>Lulus</td></tr>
+      <tr><td>TC-18</td><td>FR-04</td><td>Kode tiket tidak terdaftar</td><td><code>LP-ZZZZZZZZ</code></td><td>Pesan tidak ditemukan</td><td>"Kode tiket tidak ditemukan. Periksa kembali penulisannya."</td><td>Lulus</td></tr>
+      <tr><td>TC-19</td><td>FR-04, NFR-09</td><td>Melacak laporan yang mencantumkan email pelapor</td><td>Kode tiket dari TC-03</td><td>Identitas pelapor tidak tampil</td><td>Email pelapor muncul 0 kali di halaman</td><td>Lulus</td></tr>
+      <tr><td>TC-20</td><td>FR-05</td><td>Cek URL yang terverifikasi phishing, ditulis berbeda</td><td><code>HTTPS://WWW.bantuan-kuota-mahasiswa.example/form/</code></td><td>Ditemukan setelah dinormalisasi: Terverifikasi phishing</td><td>"Terverifikasi phishing"</td><td>Lulus</td></tr>
+      <tr><td>TC-21</td><td>FR-05</td><td>Cek URL yang belum diverifikasi</td><td>URL dari TC-02 (status Belum)</td><td>Tercatat, masih ditinjau</td><td>"Tercatat, masih ditinjau"</td><td>Lulus</td></tr>
+      <tr><td>TC-22</td><td>FR-05</td><td>Cek URL yang sudah diperiksa dan aman</td><td><code>portal-akademik.example/info</code> (Bukan phishing)</td><td>Sudah diperiksa, tidak terbukti phishing</td><td>"Sudah diperiksa, tidak terbukti phishing"</td><td>Lulus</td></tr>
+      <tr><td>TC-23</td><td>FR-05</td><td>Cek URL yang belum pernah dilaporkan, lalu melaporkannya</td><td><code>https://bb-belum-pernah.example/z</code></td><td>Belum ada data, ada tombol untuk melaporkan, dan formulir lapor terisi nilai tersebut</td><td>"Belum ada data", tombol "Laporkan nilai ini" tampil, formulir lapor terisi</td><td>Lulus</td></tr>
+      <tr><td>TC-24</td><td>FR-05</td><td>Cek nomor dengan format penulisan berbeda</td><td><code>0812-0000-1111</code> (tersimpan <code>6281200001111</code>)</td><td>Ditemukan setelah dinormalisasi</td><td>"Terverifikasi phishing"</td><td>Lulus</td></tr>
+      <tr><td>TC-25</td><td>FR-05, NFR-07</td><td>Cek email dengan format salah</td><td>"bukan-email"</td><td>Ditolak</td><td>"Format email tidak valid."</td><td>Lulus</td></tr>
+      <tr><td>TC-26</td><td>NFR-02</td><td>Memasukkan skrip ke kolom Cek</td><td><code>&lt;script&gt;alert(1)&lt;/script&gt;</code></td><td>Skrip tampil sebagai teks biasa, tidak dijalankan</td><td>Muncul mentah 0 kali, tampil ter-escape (<code>&amp;lt;script&amp;gt;</code>)</td><td>Lulus</td></tr>
+      <tr><td>TC-27</td><td>NFR-03</td><td>Tampilan URL pada hasil Cek</td><td>URL phishing dari TC-20</td><td>Ditampilkan <em>defanged</em>, tidak bisa diklik</td><td>Tampil <code>bantuan-kuota-mahasiswa[.]example/form</code>, 0 tautan yang bisa diklik</td><td>Lulus</td></tr>
+    </tbody>
+  </table>
+  <h3>Halaman admin</h3>
+  <table class="kecil uji">
+    <thead><tr><th style="width:7%">ID</th><th style="width:9%">Kebutuhan</th><th style="width:16%">Skenario</th><th style="width:17%">Data uji</th><th style="width:20%">Hasil yang diharapkan</th><th>Hasil aktual</th><th style="width:6%">Status</th></tr></thead>
+    <tbody>
+      <tr><td>TC-28</td><td>NFR-04</td><td>Membuka halaman admin tanpa login</td><td><code>admin/index.php</code></td><td>Dialihkan ke halaman login</td><td>Dialihkan ke <code>admin/login.php</code></td><td>Lulus</td></tr>
+      <tr><td>TC-29</td><td>FR-06</td><td>Login dengan password salah</td><td>Username <code>admin</code>, password salah</td><td>Ditolak tanpa menyebut bagian mana yang salah</td><td>"Username atau password salah"</td><td>Lulus</td></tr>
+      <tr><td>TC-30</td><td>FR-06</td><td>Login dengan akun demo</td><td>Akun di README</td><td>Masuk ke dashboard</td><td>Dashboard tampil dengan pesan "Selamat datang, Petugas TI."</td><td>Lulus</td></tr>
+      <tr><td>TC-31</td><td>FR-06</td><td>Logout lalu membuka admin lagi</td><td>Tombol Keluar, lalu <code>admin/index.php</code></td><td>Keluar, dan halaman admin tidak bisa dibuka lagi</td><td>"Anda sudah keluar", lalu dialihkan ke login</td><td>Lulus</td></tr>
+      <tr><td>TC-32</td><td>FR-07</td><td>Angka di dashboard sesuai database</td><td>Data saat pengujian</td><td>Angka di kartu sama dengan hasil kueri langsung ke database</td><td>Kartu: total 45, Baru 6, Ditinjau 3, Valid 32, Tidak valid 4. Kueri database: angka yang sama</td><td>Lulus</td></tr>
+      <tr><td>TC-33</td><td>FR-08</td><td>Mencari laporan dengan kode tiket</td><td>Kode tiket TC-02</td><td>Satu laporan ditemukan</td><td>1 laporan</td><td>Lulus</td></tr>
+      <tr><td>TC-34</td><td>FR-08</td><td>Filter gabungan</td><td>Status Baru, kategori Pencurian akun, masuk 1–30 November 2026</td><td>Jumlah hasil sama dengan kueri database</td><td>3 laporan, kueri database juga 3</td><td>Lulus</td></tr>
+      <tr><td>TC-35</td><td>FR-08</td><td>Mengubah laporan</td><td>Kategori, kanal, tanggal, dan kronologi baru</td><td>Perubahan tersimpan, waktu ubah tercatat</td><td>"Perubahan laporan … berhasil disimpan." Kategori 3, kanal 4, <code>updated_at</code> terisi</td><td>Lulus</td></tr>
+      <tr><td>TC-36</td><td>NFR-07</td><td>Mengubah laporan dengan tanggal masa depan</td><td>Tanggal besok</td><td>Ditolak</td><td>"Tanggal kejadian tidak boleh di masa depan."</td><td>Lulus</td></tr>
+      <tr><td>TC-37</td><td>FR-08</td><td>Menghapus laporan</td><td>Laporan dari TC-02</td><td>Laporan, penghubung, dan riwayatnya terhapus. Indikator tetap ada</td><td>Pesan berhasil. Sisa penghubung 0, riwayat 0. Jumlah indikator tetap 34</td><td>Lulus</td></tr>
+      <tr><td>TC-38</td><td>FR-09</td><td>Mengubah status dengan catatan</td><td>Status Valid, catatan "Terkonfirmasi phishing (uji)."</td><td>Riwayat bertambah, status terbaru berubah, catatan tampil di halaman Lacak</td><td>Riwayat 1 → 2, status terbaru <code>valid</code>, catatan tampil di Lacak</td><td>Lulus</td></tr>
+      <tr><td>TC-39</td><td>FR-09, NFR-07</td><td>Status di luar daftar dikirim langsung ke server</td><td><code>selesai</code></td><td>Ditolak</td><td>"Pilih status yang tersedia."</td><td>Lulus</td></tr>
+      <tr><td>TC-40</td><td>FR-10</td><td>Verifikasi indikator dari detail laporan</td><td>Indikator laporan TC-02 → Phishing</td><td>Status verifikasi, verifikator, dan waktunya tersimpan</td><td>Status <code>phishing</code>, verifikator ID 1, waktu terisi</td><td>Lulus</td></tr>
+      <tr><td>TC-41</td><td>FR-10</td><td>Menambah indikator tanpa laporan</td><td><code>HTTPS://www.BB-Admin.example/masuk/</code>, status Phishing, catatan sumber</td><td>Tersimpan dalam bentuk normal</td><td>Tersimpan sebagai <code>bb-admin.example/masuk</code></td><td>Lulus</td></tr>
+      <tr><td>TC-42</td><td>FR-10</td><td>Menambah indikator yang sudah tercatat</td><td><code>bb-admin.example/masuk</code></td><td>Ditolak dengan tautan ke data yang sudah ada</td><td>"Indikator ini sudah tercatat" dan tautan "Lihat data yang sudah ada"</td><td>Lulus</td></tr>
+      <tr><td>TC-43</td><td>FR-10</td><td>Mengubah indikator kembali ke Belum diverifikasi</td><td>Indikator TC-41 → Belum</td><td>Verifikator dan waktu verifikasi dikosongkan, nilai indikator tidak berubah</td><td>Status <code>belum</code>, verifikator dan waktu <code>NULL</code>, nilai tetap</td><td>Lulus</td></tr>
+      <tr><td>TC-44</td><td>FR-10, FR-13</td><td>Menghapus indikator yang masih menjadi bukti laporan</td><td>Indikator laporan TC-02</td><td>Ditolak dengan pesan yang jelas, data tetap ada</td><td>"Indikator tidak bisa dihapus karena masih menjadi bukti di 1 laporan. Tandai sebagai "Bukan phishing" jika ternyata aman."</td><td>Lulus</td></tr>
+      <tr><td>TC-45</td><td>FR-10</td><td>Menghapus indikator yang tidak dipakai</td><td>Indikator TC-41</td><td>Terhapus</td><td>"Indikator berhasil dihapus."</td><td>Lulus</td></tr>
+      <tr><td>TC-46</td><td>FR-11</td><td>Menambah dan mengubah kategori</td><td>"BB Kategori" → "BB Kategori 2"</td><td>Tersimpan dan berubah</td><td>Pesan berhasil untuk tambah dan ubah</td><td>Lulus</td></tr>
+      <tr><td>TC-47</td><td>FR-11</td><td>Menambah kategori dengan nama yang sudah ada</td><td>"Pencurian akun"</td><td>Ditolak</td><td>"Nama kategori sudah ada"</td><td>Lulus</td></tr>
+      <tr><td>TC-48</td><td>FR-11, FR-13</td><td>Menghapus kategori yang masih dipakai</td><td>"Pencurian akun"</td><td>Ditolak dengan jumlah laporan yang memakainya</td><td>"Kategori "Pencurian akun" tidak bisa dihapus karena masih dipakai 15 laporan."</td><td>Lulus</td></tr>
+      <tr><td>TC-49</td><td>FR-11</td><td>Menghapus kategori yang tidak dipakai</td><td>"BB Kategori 2"</td><td>Terhapus</td><td>"Kategori "BB Kategori 2" berhasil dihapus."</td><td>Lulus</td></tr>
+      <tr><td>TC-50</td><td>FR-12</td><td>Menambah, mengubah, menambah nama ganda, dan menghapus kanal</td><td>"BB Kanal" → "BB Kanal 2", nama ganda "WhatsApp"</td><td>Tambah dan ubah berhasil, nama ganda ditolak, kanal yang tidak dipakai terhapus</td><td>Semua pesan sesuai, termasuk "Nama kanal sudah ada"</td><td>Lulus</td></tr>
+      <tr><td>TC-51</td><td>FR-12, FR-13</td><td>Menghapus kanal yang masih dipakai</td><td>"WhatsApp"</td><td>Ditolak dengan jumlah laporan yang memakainya</td><td>"Kanal "WhatsApp" tidak bisa dihapus karena masih dipakai 15 laporan."</td><td>Lulus</td></tr>
+    </tbody>
+  </table>
+  <h3>Keamanan, konfigurasi, dan tampilan</h3>
+  <table class="kecil uji">
+    <thead><tr><th style="width:7%">ID</th><th style="width:9%">Kebutuhan</th><th style="width:16%">Skenario</th><th style="width:17%">Data uji</th><th style="width:20%">Hasil yang diharapkan</th><th>Hasil aktual</th><th style="width:6%">Status</th></tr></thead>
+    <tbody>
+      <tr><td>TC-52</td><td>NFR-01</td><td>Mencoba SQL injection di kolom cari</td><td><code>' OR 1=1 -- </code></td><td>Dianggap teks biasa, tidak membocorkan semua data</td><td>HTTP 200, 0 laporan ditemukan</td><td>Lulus</td></tr>
+      <tr><td>TC-53</td><td>NFR-10</td><td>Menghapus lewat link GET</td><td><code>admin/indikator.php?action=delete&amp;id=…</code></td><td>Tidak ada data yang terhapus</td><td>Indikator masih ada</td><td>Lulus</td></tr>
+      <tr><td>TC-54</td><td>NFR-05, NFR-06</td><td>File konfigurasi belum dibuat</td><td><code>includes/config.php</code> dipindahkan sementara</td><td>Pesan petunjuk, bukan galat PHP</td><td>HTTP 500 dengan pesan "Konfigurasi belum dibuat"</td><td>Lulus</td></tr>
+      <tr><td>TC-55</td><td>NFR-06</td><td>Database tidak bisa dihubungi</td><td>Nama database di <code>config.php</code> diganti sementara</td><td>Pesan umum tanpa detail teknis</td><td>"Database tidak dapat dihubungi", 0 kata <code>SQLSTATE</code>/<code>PDOException</code></td><td>Lulus</td></tr>
+      <tr><td>TC-56</td><td>NFR-05</td><td>Membuka file sensitif langsung dari browser</td><td><code>includes/config.php</code>, <code>includes/db.php</code>, <code>database/laporphish.sql</code>, <code>.git/HEAD</code></td><td>Akses ditolak</td><td>403, 403, 403, dan 404</td><td>Lulus</td></tr>
+      <tr><td>TC-57</td><td>NFR-10</td><td>Dialog konfirmasi sebelum menghapus</td><td>Tombol hapus kanal "Email", lalu pilih Batal</td><td>Dialog konfirmasi muncul. Jika dibatalkan, data tidak terhapus</td><td>Dialog "Hapus kanal "Email"?" muncul. Setelah Batal, halaman tetap dan kanal masih ada</td><td>Lulus</td></tr>
+      <tr><td>TC-58</td><td>NFR-08</td><td>Tampilan di layar ponsel</td><td>Lebar 375 px: beranda, lapor, cek, lacak, dashboard, daftar laporan, daftar indikator</td><td>Tidak ada halaman yang melebar ke samping</td><td>Lebar konten semua halaman 375 px, sama dengan lebar layar</td><td>Lulus</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2>5.3 Ringkasan, temuan, dan batasan</h2>
+  <table>
+    <thead><tr><th>Bagian</th><th style="width:20%">Jumlah kasus</th><th style="width:16%">Lulus</th></tr></thead>
+    <tbody>
+      <tr><td>Halaman publik</td><td>27</td><td>27</td></tr>
+      <tr><td>Halaman admin</td><td>24</td><td>24</td></tr>
+      <tr><td>Keamanan, konfigurasi, dan tampilan</td><td>7</td><td>7</td></tr>
+      <tr><td><strong>Total</strong></td><td><strong>58</strong></td><td><strong>58</strong></td></tr>
+    </tbody>
+  </table>
+  <p>Semua kebutuhan FR-01 s.d. FR-13 dan NFR-01 s.d. NFR-10 punya minimal satu kasus uji.</p>
+  <h3>Temuan dan perbaikan</h3>
+  <table>
+    <thead><tr><th style="width:36%">Temuan</th><th style="width:30%">Perbaikan</th><th>Hasil uji ulang</th></tr></thead>
+    <tbody>
+      <tr><td>Saat TC-58, di layar ponsel kode tiket pada tabel daftar laporan admin terpotong menjadi dua baris (<code>LP-</code> dan sisanya). Fungsi tidak terganggu</td><td>Kelas <code>text-nowrap</code> ditambahkan pada sel kode tiket di <code>admin/laporan.php</code></td><td>Kode tiket tampil dalam satu baris. Halaman tetap selebar 375 px, dan tabel bisa digeser ke samping di dalam kotaknya</td></tr>
+    </tbody>
+  </table>
+  <h3>Batasan pengujian</h3>
+  <ul>
+    <li>Pengujian hanya di XAMPP (MariaDB 10.4) dan satu browser (Chromium). Kecocokan dengan MySQL 8 dan browser lain belum diuji.</li>
+    <li>Tidak mencakup uji beban (banyak pengguna sekaligus) dan uji keamanan menyeluruh (penetration test).</li>
+    <li>NFR-01 dan NFR-04 sebagian juga dibuktikan lewat pemeriksaan kode (semua kueri memakai prepared statement, password memakai <code>password_hash</code>), karena Black-Box hanya melihat perilaku dari luar.</li>
+  </ul>
+</section>
+
+<!-- ================= BAB 6 ================= -->
+<section class="halaman" id="bab6">
+  <h1 class="bab"><span class="no">Bab 6</span>Deployment &amp; Maintenance (Rencana)</h1>
+  <p>Sesuai ketentuan tugas, aplikasi pada fase ini berjalan di localhost. Bab ini berisi rencana skema jika aplikasi di-deploy online di masa mendatang, beserta rencana pemeliharaan dan pengembangannya. Kelayakan hosting gratis sudah diuji langsung (bagian 6.2), dan hasilnya menentukan skema yang dipilih.</p>
+
+  <h2>6.1 Skema deploy</h2>
+  <p>Deploy online yang direncanakan adalah <strong>demo publik dengan data dummy</strong>, untuk portofolio dan agar aplikasi bisa dicoba tanpa memasang XAMPP. Demo ini tidak dipakai untuk laporan phishing sungguhan; pemakaian nyata oleh unit TI kampus memerlukan server sendiri (bagian 6.5).</p>
+  <p>Skema yang dipilih adalah <strong>shared hosting berbayar</strong> yang menyediakan Apache, PHP 8.1 atau lebih baru, dan MySQL/MariaDB dengan hak membuat view. Rencana awal memakai hosting PHP gratis, tetapi uji langsung menunjukkan hosting gratis menolak pembuatan view (bagian 6.2), padahal LaporPhish membaca status terakhir setiap laporan lewat view <code>v_report_status</code>.</p>
+  <figure><img src="img/deploy.svg" alt="Skema deploy" style="max-width:100%;border:0"><figcaption>Gambar 6.1 Skema deploy LaporPhish di shared hosting</figcaption></figure>
+  <h3>Perbandingan opsi</h3>
+  <table>
+    <thead><tr><th style="width:19%">Kriteria</th><th>Hosting gratis (diuji, tidak lolos)</th><th>Shared hosting berbayar (dipilih)</th><th>Server unit TI (pemakaian nyata)</th></tr></thead>
+    <tbody>
+      <tr><td>Biaya</td><td>Gratis</td><td>Biaya bulanan atau tahunan</td><td>Ditanggung kampus</td></tr>
+      <tr><td>Foreign key dan view</td><td>Foreign key berjalan, <strong>view ditolak</strong></td><td>Umumnya didukung, tetap diuji dengan U1–U6 sebelum aplikasi diunggah</td><td>Didukung penuh, sama seperti XAMPP</td></tr>
+      <tr><td>Kendali konfigurasi</td><td>Terbatas, tanpa SSH</td><td>Terbatas (cPanel)</td><td>Penuh</td></tr>
+      <tr><td>Data laporan sungguhan</td><td>Tidak layak</td><td>Kurang ideal (data di pihak ketiga)</td><td>Layak, data tetap di kampus</td></tr>
+      <tr><td>Cocok untuk</td><td>Tidak dipakai</td><td>Demo publik dengan data dummy</td><td>Operasional unit TI</td></tr>
+    </tbody>
+  </table>
+  <p>Platform yang biasa dipakai untuk aplikasi Python (Streamlit Cloud, Hugging Face Spaces) tidak menjalankan PHP + MySQL. Vercel menjalankan PHP hanya lewat runtime komunitas dalam bentuk <em>serverless function</em>, tanpa MySQL bawaan dan tanpa dukungan <code>.htaccess</code>. Render memerlukan Docker untuk PHP. Karena itu ketiganya tidak dipilih.</p>
+  <h3>Hosting PHP gratis yang dibandingkan</h3>
+  <p>Data dicek pada 21 November 2026. Baris yang ditandai "hasil uji" berasal dari uji langsung di bagian 6.2; baris lainnya berasal dari halaman resmi penyedia atau ulasan pihak ketiga.</p>
+  <table class="kecil">
+    <thead><tr><th style="width:14%">Kriteria</th><th>InfinityFree</th><th>Byet.host</th><th>TinkerHost</th><th>AwardSpace</th></tr></thead>
+    <tbody>
+      <tr><td>Pengelola platform</td><td>iFastNet</td><td>iFastNet</td><td>Paket gratisnya berjalan di platform iFastNet (server database <code>byetcluster.com</code>, panel vPanel)</td><td>AwardSpace</td></tr>
+      <tr><td>PHP</td><td>8.3</td><td>8.3</td><td>8.3 (terlihat di panel)</td><td><strong>Hanya PHP 5 dan 7</strong> di paket gratis, sehingga tidak memenuhi syarat PHP 8.1</td></tr>
+      <tr><td>InnoDB</td><td>Ditambahkan 2022 (forum)</td><td>Mengikuti iFastNet</td><td>Tersedia (hasil uji)</td><td>Tersedia, termasuk paket gratis (halaman resmi)</td></tr>
+      <tr><td>View</td><td>Tidak termasuk hak akun (forum, 2019)</td><td>Mengikuti iFastNet</td><td><strong>Ditolak</strong> (hasil uji)</td><td>Tidak ada data</td></tr>
+      <tr><td>Keputusan</td><td>Tidak dipilih: platform sama dengan TinkerHost</td><td>Tidak dipilih: platform sama dengan TinkerHost</td><td>Diuji, tidak lolos U4</td><td>Gugur karena versi PHP</td></tr>
+    </tbody>
+  </table>
+  <p>Tiga layanan pertama berjalan di platform yang sama, sehingga hasil uji di TinkerHost mewakili ketiganya.</p>
+
+  <h2>6.2 Uji kelayakan hosting</h2>
+  <p>Forum resmi InfinityFree pernah menyatakan (2019) bahwa paket gratis hanya mendukung MyISAM, foreign key diabaikan, dan hak <code>CREATE VIEW</code> tidak termasuk yang diberikan. Pada 2022 InnoDB sudah ditambahkan, tetapi masih ada laporan galat saat membuat foreign key. Karena bukti ini tercampur dan sebagian sudah lama, kelayakan diuji langsung pada 21 November 2026 di paket gratis TinkerHost (MariaDB 11.4.13, phpMyAdmin 4.9). Uji memakai tabel sementara di database kosong, lalu semuanya dihapus; kode dan data LaporPhish tidak diunggah.</p>
+  <table class="kecil">
+    <thead><tr><th style="width:5%">No</th><th style="width:13%">Yang diuji</th><th style="width:25%">Cara</th><th style="width:15%">Lolos jika</th><th>Hasil</th><th style="width:8%">Status</th></tr></thead>
+    <tbody>
+      <tr><td>—</td><td>Hak akun database</td><td>Membaca <code>information_schema.SCHEMA_PRIVILEGES</code></td><td>—</td><td>SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER, LOCK TABLES. Tidak ada <code>CREATE VIEW</code> dan <code>REFERENCES</code>. Engine bawaan server adalah MyISAM</td><td>Info</td></tr>
+      <tr><td>U1</td><td>Engine InnoDB</td><td><code>CREATE TABLE … ENGINE=InnoDB</code>, lalu baca engine di <code>information_schema.TABLES</code></td><td>Tercatat <code>InnoDB</code></td><td>Kedua tabel tercatat <code>InnoDB</code></td><td>Lolos</td></tr>
+      <tr><td>U2</td><td>Foreign key</td><td><code>CREATE TABLE t_anak (… FOREIGN KEY … REFERENCES t_induk(id) ON DELETE RESTRICT)</code></td><td>Tidak ada galat, constraint tercatat</td><td>Tanpa galat. Constraint tercatat dengan <code>ON DELETE RESTRICT</code></td><td>Lolos</td></tr>
+      <tr><td>U3</td><td>ON DELETE RESTRICT</td><td>Hapus baris induk yang masih dipakai</td><td>Ditolak dengan galat 1451</td><td><code>#1451 - Cannot delete or update a parent row: a foreign key constraint fails</code></td><td>Lolos</td></tr>
+      <tr><td>U3b</td><td>ON DELETE CASCADE</td><td>Tabel anak dengan <code>ON DELETE CASCADE</code>, isi 2 baris, lalu hapus induknya</td><td>Baris anak ikut terhapus</td><td>Sisa baris anak: 0</td><td>Lolos</td></tr>
+      <tr><td>U4</td><td>View</td><td><code>CREATE VIEW v_uji AS SELECT …</code></td><td>View berhasil dibuat</td><td><code>#1142 - CREATE VIEW command denied to user</code></td><td><strong>Gagal</strong></td></tr>
+      <tr><td>U5</td><td>Versi PHP</td><td>Halaman pengaturan akun di panel</td><td>8.1 atau lebih baru</td><td>PHP 8.3</td><td>Lolos</td></tr>
+      <tr><td>U6</td><td>Perlindungan folder</td><td>Unggah <code>.htaccess</code> berisi <code>Require all denied</code>, lalu buka dari browser</td><td>Muncul 403</td><td>Tidak dijalankan, karena U4 sudah gagal. Panel menyatakan <code>.htaccess</code> aktif</td><td>Tidak diuji</td></tr>
+    </tbody>
+  </table>
+  <p><strong>Kesimpulan uji:</strong> hosting gratis tidak lolos karena U4. Klaim lama bahwa foreign key diabaikan sudah tidak berlaku: foreign key, RESTRICT, dan CASCADE berjalan sama seperti di XAMPP. Penghalangnya tinggal hak <code>CREATE VIEW</code>.</p>
+  <p><strong>Aturan keputusan:</strong> semua uji lolos berarti lanjut ke langkah deploy. Satu saja gagal berarti pindah ke shared hosting berbayar dan menjalankan uji U1–U6 yang sama di sana sebelum aplikasi diunggah.</p>
+  <p>Desain database tidak diubah agar muat di hosting gratis. Foreign key dengan aturan RESTRICT/CASCADE adalah inti integritas data (FR-13), dan view <code>v_report_status</code> menjadi satu-satunya tempat aturan "status terakhir" ditulis. Mengganti view dengan subquery di kode PHP (dipakai di 4 file) secara teknis bisa membuat hosting gratis lolos, tetapi tidak diperlukan untuk tugas yang berjalan di localhost dan berarti pengujian harus diulang. Perubahan ini dicatat sebagai rencana pengembangan (bagian 6.5).</p>
+
+  <h2>6.3 Langkah deploy</h2>
+  <p>Langkah berikut berlaku untuk shared hosting berbayar dengan panel seperti cPanel.</p>
+  <ol>
+    <li><strong>Jalankan uji U1–U6</strong> di hosting yang dipilih, dengan tabel uji sementara, sebelum mengunggah apa pun. Lanjut hanya jika semuanya lolos.</li>
+    <li><strong>Buat database lewat panel.</strong> Hosting memberi nama database berawalan (misalnya <code>xxxx_laporphish</code>), username, password, dan alamat host MySQL. Alamat host belum tentu <code>localhost</code>.</li>
+    <li><strong>Siapkan file SQL versi hosting.</strong> Salin <code>database/laporphish.sql</code>, lalu hapus dua baris awal <code>CREATE DATABASE …</code> dan <code>USE laporphish;</code>, karena database sudah dibuat oleh panel. Impor salinan ini lewat phpMyAdmin hosting.</li>
+    <li><strong>Unggah kode</strong> lewat FTP atau File Manager ke folder web (<code>htdocs</code> atau <code>public_html</code>), tanpa folder <code>.git/</code>, <code>database/</code>, dan dokumen tugas dari dosen.</li>
+    <li><strong>Buat <code>includes/config.php</code> di server</strong> dari <code>config.example.php</code>, isi dengan data dari langkah 2, dan pastikan <code>'debug' =&gt; false</code>. File ini hanya ada di server, tidak di repo.</li>
+    <li><strong>Ganti password admin demo.</strong> Password demo tercantum di README publik, jadi harus diganti sebelum situs bisa diakses. Hash baru dibuat dengan <code>password_hash()</code> lalu disimpan lewat phpMyAdmin.</li>
+    <li><strong>Aktifkan HTTPS</strong> di panel dan arahkan semua akses <code>http://</code> ke <code>https://</code> lewat <code>.htaccess</code>.</li>
+    <li><strong>Uji asap (smoke test)</strong> di alamat online, memakai kasus dari Bab 5: TC-01, TC-02, TC-15, TC-20, TC-30, TC-37, TC-44, TC-48, TC-55, dan TC-56.</li>
+  </ol>
+  <h3>Penyesuaian kode sebelum online</h3>
+  <p>Penyesuaian berikut belum diperlukan di localhost, tetapi dikerjakan sebelum aplikasi bisa diakses publik:</p>
+  <table>
+    <thead><tr><th style="width:6%">No</th><th style="width:40%">Penyesuaian</th><th>Alasan</th></tr></thead>
+    <tbody>
+      <tr><td>P1</td><td>Cookie session diberi atribut <code>secure</code> saat diakses lewat HTTPS</td><td>Cookie login tidak terkirim lewat koneksi tanpa enkripsi</td></tr>
+      <tr><td>P2</td><td>Token CSRF pada semua form admin</td><td>Saat ini perlindungan bergantung pada cookie <code>SameSite=Lax</code>. Token CSRF menambah lapisan pengaman yang tidak bergantung pada browser</td></tr>
+      <tr><td>P3</td><td>Batas percobaan login (misalnya jeda setelah 5 kali gagal)</td><td>Mencegah tebak password berulang</td></tr>
+      <tr><td>P4</td><td>Pembatasan kiriman di formulir Lapor (misalnya <em>honeypot</em> dan batas kiriman per sesi)</td><td>Formulir publik tanpa login rawan dikirimi laporan sampah</td></tr>
+      <tr><td>P5</td><td>User database khusus dengan hak terbatas (<code>SELECT</code>, <code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code>)</td><td>Di XAMPP aplikasi memakai <code>root</code>. Di server unit TI dibuat user khusus; di hosting, user diberikan oleh panel</td></tr>
+    </tbody>
+  </table>
+
+  <h2>6.4 Rencana pemeliharaan</h2>
+  <table>
+    <thead><tr><th style="width:20%">Kegiatan</th><th style="width:20%">Frekuensi</th><th>Cara</th></tr></thead>
+    <tbody>
+      <tr><td>Cadangan database</td><td>Mingguan, dan sebelum setiap perubahan</td><td><strong>Export</strong> di phpMyAdmin, atau <code>mysqldump</code> terjadwal lewat cron jika paket menyediakannya. Simpan 4 cadangan terakhir di luar hosting, tidak di repo</td></tr>
+      <tr><td>Reset data demo</td><td>Bila data demo berantakan oleh kiriman pengunjung</td><td>Impor ulang file SQL versi hosting (bagian 6.3 langkah 3)</td></tr>
+      <tr><td>Cek ketersediaan situs</td><td>Mingguan</td><td>Buka beranda dan halaman Cek. Jika situs bermasalah, pulihkan dari cadangan terakhir</td></tr>
+      <tr><td>Pantau galat</td><td>Mingguan</td><td>Baca log galat PHP di panel hosting. Galat koneksi database dicatat lewat <code>error_log()</code> tanpa ditampilkan ke pengunjung</td></tr>
+      <tr><td>Pembaruan perangkat lunak</td><td>Per semester</td><td>Cek versi PHP di panel serta rilis keamanan Bootstrap dan Bootstrap Icons, lalu perbarui file di <code>assets/vendor/</code></td></tr>
+      <tr><td>Alur perubahan kode</td><td>Setiap perubahan</td><td>Ubah dan uji di localhost (ulang kasus uji yang terdampak), commit ke GitHub, lalu unggah file yang berubah</td></tr>
+      <tr><td>Ganti password admin</td><td>Per semester, atau segera jika diduga bocor</td><td>Seperti bagian 6.3 langkah 6</td></tr>
+    </tbody>
+  </table>
+
+  <h2>6.5 Rencana pengembangan</h2>
+  <h3>Jangka pendek (setelah tugas dinilai)</h3>
+  <ul>
+    <li>Penyesuaian P1–P4 di bagian 6.3.</li>
+    <li>Jika demo ingin tetap gratis: mengganti view <code>v_report_status</code> dengan subquery di kode PHP, lalu mengulang uji Black-Box yang terdampak dan uji U1–U6 di hosting gratis.</li>
+    <li>Fitur yang ditunda dari fase ini: halaman kelola akun admin (termasuk ganti password lewat aplikasi), grafik di dashboard, dan status "Selesai".</li>
+  </ul>
+  <h3>Fase 2: klasifikasi URL phishing</h3>
+  <ul>
+    <li>Melatih model klasifikasi URL dari dataset publik, lalu mengujinya dengan indikator LaporPhish yang sudah diverifikasi admin (status Phishing atau Bukan phishing).</li>
+    <li>Hasil model ditampilkan di halaman Cek sebagai <strong>skor pendamping</strong>, bukan pengganti verifikasi admin.</li>
+  </ul>
+  <h3>Pemakaian nyata oleh unit TI</h3>
+  <ul>
+    <li>Pindah ke server unit TI kampus dengan HTTPS dan user database khusus (P5).</li>
+    <li>Kebijakan privasi: identitas pelapor (nama, email) dihapus setelah jangka waktu tertentu yang disepakati unit TI. Indikator tetap disimpan sebagai data keamanan.</li>
+    <li>Akun pelapor dan notifikasi status ke email pelapor, jika memang dibutuhkan.</li>
+  </ul>
+</section>
+
+<!-- ================= BAB 7 ================= -->
+<section class="halaman" id="bab7">
+  <h1 class="bab"><span class="no">Bab 7</span>Penutup</h1>
+  <h2>7.1 Kesimpulan</h2>
+  <ol>
+    <li><strong>LaporPhish berhasil dibangun</strong> sebagai aplikasi web dinamis dengan PHP native dan MariaDB yang berjalan di localhost (XAMPP). Aplikasi terdiri dari 16 halaman: 5 halaman publik (beranda, lapor, laporan terkirim, cek, lacak) dan 11 halaman admin.</li>
+    <li><strong>Keempat tujuan di Bab 1 terpenuhi oleh fitur aplikasi:</strong> formulir lapor dengan kode tiket acak menjadi satu tempat pelaporan; halaman Cek mencocokkan tautan, email, atau nomor dengan data yang sudah diverifikasi; panel admin mengelola, memverifikasi, dan mencatat riwayat penanganan; dashboard menyajikan rekap per status, kategori, kanal, dan bulan.</li>
+    <li><strong>Fungsi CRUD lengkap dan terhubung ke database relasional.</strong> Laporan dibuat pengunjung lalu dibaca, diubah, dan dihapus admin, sedangkan indikator, kategori, dan kanal punya CRUD penuh di panel admin.</li>
+    <li><strong>Database terdiri dari 8 tabel dalam bentuk normal ketiga (3NF) dan 1 view.</strong> Relasinya dijaga oleh 8 foreign key dengan aturan RESTRICT, CASCADE, dan SET NULL sesuai makna datanya, sehingga data induk yang masih dipakai tidak bisa terhapus.</li>
+    <li><strong>Koneksi database dipisah ke file konfigurasi tersendiri</strong> yang tidak ikut di-commit, dengan penanganan galat lewat <code>try/catch</code> dan semua kueri berinput memakai prepared statement.</li>
+    <li><strong>Pengujian Black-Box terhadap 58 kasus uji menunjukkan 58 kasus lulus</strong>, mencakup seluruh 13 kebutuhan fungsional dan 10 kebutuhan non-fungsional. Satu temuan tampilan di layar ponsel ditemukan dan sudah diperbaiki. Hasil ini berlaku untuk lingkungan uji lokal yang dijelaskan di Bab 5.</li>
+    <li><strong>Rencana deploy disusun berdasarkan uji langsung.</strong> Hosting gratis yang diuji menolak pembuatan view, sehingga skema deploy ditetapkan ke shared hosting berbayar dengan uji kelayakan U1–U6 sebelum aplikasi diunggah.</li>
+  </ol>
+
+  <h2>7.2 Saran</h2>
+  <ol>
+    <li><strong>Uji coba dengan pengguna nyata.</strong> Nilai manfaat di Bab 1 masih berupa perbandingan rancangan dengan cara manual. Uji coba dengan sivitas akademika dan unit TI diperlukan untuk mengukur apakah aplikasi benar-benar mempercepat pelaporan dan pengecekan.</li>
+    <li><strong>Perluas pengujian</strong> ke MySQL 8 dan browser selain Chromium, serta tambahkan uji beban dan uji keamanan yang lebih menyeluruh sebelum aplikasi dipakai luas.</li>
+    <li><strong>Kerjakan penyesuaian P1–P5</strong> (bagian 6.3) sebelum aplikasi bisa diakses publik, terutama token CSRF dan batas percobaan login.</li>
+    <li><strong>Kembangkan klasifikasi URL phishing</strong> sebagai skor pendamping di halaman Cek (fase 2), dengan tetap menjadikan verifikasi admin sebagai acuan utama.</li>
+    <li><strong>Lengkapi fitur yang ditunda</strong>, yaitu kelola akun admin, grafik dashboard, dan status lanjutan, sesuai kebutuhan unit TI.</li>
+  </ol>
+</section>
+
+<!-- ================= PUSTAKA DAN LAMPIRAN ================= -->
+<section class="halaman" id="pustaka">
+  <h1 class="bab">Daftar Pustaka</h1>
+  <ol class="pustaka">
+    <li>Anti-Phishing Working Group. (2026). <em>Phishing activity trends report: 4th quarter 2025</em> (hlm. 3–4). https://docs.apwg.org/reports/apwg_trends_report_q4_2025.pdf</li>
+    <li>AwardSpace. (t.t.). <em>Free web hosting</em>. Diakses 21 November 2026, dari https://www.awardspace.com/free-hosting/</li>
+    <li>AwardSpace. (t.t.). <em>How do I create a MySQL table that uses the InnoDB storage engine?</em> Diakses 21 November 2026, dari https://awardspace.com/kb/create-innodb-database</li>
+    <li>Badan Siber dan Sandi Negara. (2024). <em>Lanskap keamanan siber Indonesia 2023</em> (hlm. 15–16, 58, 104). Id-SIRTII/CC – BSSN. https://www.bssn.go.id/monitoring-keamanan-siber/</li>
+    <li>DeployHQ. (2026). <em>9 actually-free PHP hosting options in 2026</em>. Diakses 21 November 2026, dari https://deployhq.com/blog/how-to-deploy-a-php-website-for-free</li>
+    <li>Eastlake, D., &amp; Panitz, A. (1999). <em>Reserved top level DNS names</em> (RFC 2606). Internet Engineering Task Force. https://www.rfc-editor.org/rfc/rfc2606</li>
+    <li>InfinityFree. (2019). <em>Complete list of all MySQL limitations?</em> [Forum]. Diakses 21 November 2026, dari https://forum.infinityfree.com/t/complete-list-of-all-mysql-limitations/17174</li>
+    <li>InfinityFree. (2022). <em>How to create foreign keys</em> [Forum]. Diakses 21 November 2026, dari https://forum.infinityfree.net/t/how-to-create-foreign-keys/62006/5</li>
+    <li>InfinityFree. (t.t.). <em>1142 REFERENCES command not allowed for user</em> [Forum]. Diakses 21 November 2026, dari https://forum.infinityfree.com/t/1142-references-command-not-allowed-for-user/52728</li>
+    <li>TechRadar. (t.t.). <em>InfinityFree web hosting review</em>. Diakses 21 November 2026, dari https://www.techradar.com/reviews/infinity-free</li>
+  </ol>
+</section>
+
+<section class="halaman" id="lampiran">
+  <h1 class="bab">Lampiran</h1>
+  <h2>A. Cara menjalankan aplikasi</h2>
+  <ol>
+    <li><strong>Salin proyek</strong> ke folder <code>htdocs</code> XAMPP, misalnya <code>htdocs/laporphish</code>. Nama folder bebas.</li>
+    <li><strong>Nyalakan</strong> Apache dan MySQL lewat XAMPP Control Panel.</li>
+    <li><strong>Impor database</strong>: buka phpMyAdmin (<code>http://localhost/phpmyadmin</code>), pilih tab <strong>Import</strong>, lalu pilih file <code>database/laporphish.sql</code>. File ini otomatis membuat database <code>laporphish</code> beserta data contohnya.</li>
+    <li><strong>Buat file konfigurasi</strong>: salin <code>includes/config.example.php</code> menjadi <code>includes/config.php</code>. Nilai bawaannya sudah sesuai XAMPP (user <code>root</code> tanpa password).</li>
+    <li><strong>Buka aplikasi</strong> di <code>http://localhost/laporphish/</code>. Halaman admin ada di <code>http://localhost/laporphish/admin/</code> dengan username <code>admin</code>; password akun demo tercantum di <code>README.md</code>.</li>
+  </ol>
+  <p>Untuk mengembalikan database ke data awal, cukup impor ulang <code>database/laporphish.sql</code>. Semua data contoh bersifat fiktif: domain memakai akhiran <code>.example</code> dan nomor telepon memakai pola <code>08xx-0000-xxxx</code>.</p>
+
+  <h2>B. Tautan luaran</h2>
+  <table>
+    <thead><tr><th style="width:28%">Luaran</th><th>Tautan</th></tr></thead>
+    <tbody>
+      <tr><td>Repositori kode sumber (publik)</td><td>https://github.com/Kingarthuria/laporphish</td></tr>
+      <tr><td>File database (<code>.sql</code>)</td><td>https://github.com/Kingarthuria/laporphish/blob/main/database/laporphish.sql</td></tr>
+      <tr><td>Laporan ini (PDF)</td><td>https://github.com/Kingarthuria/laporphish/blob/main/docs/laporan/laporan.pdf</td></tr>
+      <tr><td>Dokumen SDLC per tahap</td><td>https://github.com/Kingarthuria/laporphish/tree/main/docs</td></tr>
+    </tbody>
+  </table>
+</section>
+
+</body>
+</html>

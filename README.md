@@ -80,6 +80,7 @@ Semua data di `database/laporphish.sql` **fiktif**: 42 laporan (Juni–November 
 | [docs/03_implementasi.md](docs/03_implementasi.md) | Struktur kode, mekanisme koneksi database, progres implementasi |
 | [docs/04_pengujian.md](docs/04_pengujian.md) | Tabel pengujian Black-Box (58 kasus uji) |
 | [docs/05_deploy_pemeliharaan.md](docs/05_deploy_pemeliharaan.md) | Rencana deploy online, pemeliharaan, dan pengembangan |
+| [docs/laporan/laporan.pdf](docs/laporan/laporan.pdf) | Laporan proyek akhir lengkap (PDF). Sumbernya `docs/laporan/laporan.html` |
 
 ## Pembuat
 

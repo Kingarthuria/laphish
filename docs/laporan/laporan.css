@@ -1,0 +1,124 @@
+/* Gaya cetak laporan LaporPhish (A4). Mengikuti panduan visual di docs/02b_mockup.md bagian 0. */
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  src: url("../../assets/vendor/plus-jakarta-sans/plus-jakarta-sans-latin-wght-normal.woff2") format("woff2");
+  font-weight: 200 800;
+  font-style: normal;
+}
+
+:root {
+  --primary: #653F99;
+  --primary-tint: #EFE9F7;
+  --dark: #231F40;
+  --accent: #E5BD36;
+  --muted: #6F6B80;
+  --border: #E5E1EE;
+}
+
+@page {
+  size: A4;
+  margin: 2.5cm 2.5cm 2.5cm 2.5cm;
+  @bottom-center {
+    content: counter(page);
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 9pt;
+    color: #6F6B80;
+  }
+}
+@page sampul {
+  @bottom-center { content: none; }
+}
+
+* { box-sizing: border-box; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 10.5pt;
+  line-height: 1.55;
+  color: var(--dark);
+  margin: 0;
+}
+
+/* Tampilan di layar: lembar A4 di tengah */
+@media screen {
+  body { background: #E9E6F0; padding: 24px 0; }
+  .halaman { background: #fff; width: 21cm; min-height: 29.7cm; margin: 0 auto 24px; padding: 2.5cm; box-shadow: 0 2px 8px rgba(0,0,0,.15); }
+}
+@media print {
+  .halaman { break-after: page; }
+  .halaman:last-child { break-after: auto; }
+}
+
+/* Sampul */
+.sampul { page: sampul; display: flex; flex-direction: column; justify-content: space-between; height: 24.4cm; overflow: hidden; text-align: center; }
+.sampul p { text-align: center; }
+.sampul .garis { height: 6px; background: var(--primary); border-radius: 3px; }
+.sampul .garis.aksen { background: var(--accent); width: 30%; margin: 0 auto; height: 4px; }
+.sampul .jenis { text-transform: uppercase; letter-spacing: .12em; font-size: 10pt; color: var(--muted); margin-top: 2.2cm; }
+.sampul h1 { font-size: 30pt; line-height: 1.15; margin: .4cm 0 .2cm; color: var(--dark); }
+.sampul h1 .merek { color: var(--primary); }
+.sampul .sub { font-size: 14pt; color: var(--dark); margin: 0 0 1.2cm; }
+.sampul .ikon { display: block; font-size: 64pt; line-height: 1; color: var(--primary); margin: 0 auto .8cm; }
+.sampul .penyusun { font-size: 11pt; line-height: 1.7; }
+.sampul .penyusun strong { font-size: 13pt; }
+.sampul .kaki { font-size: 10pt; color: var(--muted); line-height: 1.6; }
+
+/* Judul */
+h1, h2, h3, h4 { color: var(--dark); line-height: 1.25; break-after: avoid; }
+h1.bab { font-size: 18pt; margin: 0 0 .6cm; padding-bottom: .25cm; border-bottom: 3px solid var(--primary); }
+h1.bab .no { display: block; font-size: 10pt; letter-spacing: .14em; text-transform: uppercase; color: var(--primary); margin-bottom: 2px; }
+h2 { font-size: 13pt; margin: .7cm 0 .25cm; color: var(--primary); }
+h3 { font-size: 11pt; margin: .5cm 0 .2cm; }
+p { margin: 0 0 .25cm; text-align: justify; }
+ul, ol { margin: 0 0 .3cm; padding-left: .6cm; }
+li { margin-bottom: 2px; }
+code { font-family: Consolas, "Courier New", monospace; font-size: 9pt; background: var(--primary-tint); padding: 0 3px; border-radius: 3px; }
+pre { font-family: Consolas, "Courier New", monospace; font-size: 8.5pt; line-height: 1.4; background: #F7F5FB; border: 1px solid var(--border); border-radius: 6px; padding: 8px 10px; white-space: pre-wrap; break-inside: avoid; }
+pre code { background: none; padding: 0; }
+
+/* Tabel */
+table { width: 100%; border-collapse: collapse; margin: .2cm 0 .4cm; font-size: 9pt; line-height: 1.4; }
+th { background: var(--primary); color: #fff; text-align: left; font-weight: 600; }
+th, td { border: 1px solid var(--border); padding: 4px 6px; vertical-align: top; }
+tr { break-inside: avoid; }
+thead { display: table-header-group; }
+tbody tr:nth-child(even) td { background: #FAF9FC; }
+table.kecil { font-size: 8pt; }
+.cap { font-size: 9pt; color: var(--muted); text-align: center; margin: -.2cm 0 .4cm; }
+
+/* Gambar */
+figure { margin: .3cm 0 .5cm; text-align: center; break-inside: avoid; }
+figure img { max-width: 100%; border: 1px solid var(--border); border-radius: 6px; }
+figcaption { font-size: 9pt; color: var(--muted); margin-top: 4px; }
+
+/* Daftar isi */
+.daftar-isi { line-height: 1.35; }
+.daftar-isi ol { list-style: none; padding-left: 0; margin: 0; }
+.daftar-isi > ol > li { margin: .2cm 0 0; font-weight: 600; }
+.daftar-isi ol ol { padding-left: .8cm; font-weight: 400; }
+.daftar-isi ol ol li { margin: 0; }
+
+/* Penanda isi yang belum ditulis (dihapus saat bab selesai) */
+.belum { border: 1px dashed var(--muted); color: var(--muted); padding: 6px 10px; border-radius: 6px; font-size: 9.5pt; }
+
+/* Daftar pustaka */
+ol.pustaka { padding-left: .6cm; }
+ol.pustaka li { margin-bottom: .2cm; overflow-wrap: anywhere; text-align: left; }
+
+/* Halaman mendatar untuk ERD */
+@page lanskap { size: A4 landscape; margin: 1.5cm 2cm; }
+.lanskap { page: lanskap; }
+.lanskap figure { margin: 0; }
+.lanskap figure img { width: 100%; max-height: 15.6cm; object-fit: contain; border: 0; }
+@media screen { .lanskap { width: 29.7cm; min-height: 21cm; padding: 1.5cm 2cm; } }
+
+/* Gambar layar mockup dan aplikasi */
+figure img.layar { max-height: 10.6cm; width: auto; max-width: 100%; }
+figure img.layar.tinggi { max-height: 13cm; }
+table.kamus { font-size: 8.5pt; margin-bottom: .25cm; }
+table.kamus td:first-child { font-family: Consolas, "Courier New", monospace; }
+h4 { font-size: 10pt; margin: .35cm 0 .1cm; }
+.alur { margin: 0 0 .2cm; }
+.alur strong { display: block; }
+.lanskap table.uji { font-size: 8.5pt; }
+.lanskap h2:first-child { margin-top: 0; }

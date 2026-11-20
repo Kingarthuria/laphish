@@ -62,7 +62,7 @@ Peringatan phishing di kampus biasanya hanya beredar di grup chat, cepat tenggel
 - [x] Tahap 3: implementasi, di `docs/03_implementasi.md` (selesai 2026-11-20; 6 commit lokal, belum di-push)
 - [x] Tahap 4: pengujian Black-Box, di `docs/04_pengujian.md` (58 kasus, 58 lulus, 2026-11-20)
 - [x] Tahap 5: rencana deploy dan pemeliharaan, di `docs/05_deploy_pemeliharaan.md` (disetujui 2026-11-21; skema deploy: shared hosting berbayar. Hosting gratis diuji langsung dan tidak lolos karena hak CREATE VIEW ditolak)
-- [ ] Laporan PDF: gabungan dokumen SDLC (01–05), nilai manfaat, screenshot mockup dan aplikasi, tabel Black-Box (luaran nomor 1)
+- [x] Laporan PDF: `docs/laporan/laporan.pdf` (45 halaman, selesai 2026-11-21). Sumbernya `docs/laporan/laporan.html` + `laporan.css` + `img/`, dicetak ulang dengan Microsoft Edge (cetak ke PDF)
 - [ ] Pengumpulan: tautan laporan PDF, tautan `.sql` (folder `/database` di repo), tautan repo GitHub publik
 
 ## Belum diputuskan

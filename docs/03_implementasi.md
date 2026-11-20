@@ -96,7 +96,7 @@ Setiap langkah ditunjukkan hasilnya dulu sebelum lanjut ke langkah berikutnya.
 | Hal | Ketentuan |
 |---|---|
 | File konfigurasi | `includes/config.example.php` di-commit dengan isi dan struktur yang **sama persis** dengan `config.php`, hanya nilainya bawaan XAMPP. Jika `config.php` belum ada, `db.php` menampilkan pesan jelas: "Salin includes/config.example.php menjadi includes/config.php". README menjelaskan langkah ini |
-| Kompatibilitas database | `laporphish.sql` berjalan di MariaDB (XAMPP) maupun MySQL 8 (Laragon): collation `utf8mb4_unicode_ci`, tanpa sintaks khusus MariaDB. File diawali `CREATE DATABASE IF NOT EXISTS laporphish` dan `USE laporphish`, sehingga cukup diimpor sekali lewat phpMyAdmin |
+| Kompatibilitas database | `laporphish.sql` ditulis agar bisa dipakai di MariaDB (XAMPP) maupun MySQL 8 (Laragon): collation `utf8mb4_unicode_ci`, tanpa sintaks khusus MariaDB. File diawali `CREATE DATABASE IF NOT EXISTS laporphish` dan `USE laporphish`, sehingga cukup diimpor sekali lewat phpMyAdmin. Sudah diuji di MariaDB 10.4; MySQL 8 belum diuji langsung |
 | Nama folder bebas | Semua tautan halaman dan aset memakai path relatif, sehingga aplikasi tetap berjalan walaupun foldernya diberi nama lain di htdocs |
 
 ## 6. Mekanisme koneksi aplikasi–database (untuk presentasi SDLC 3)
@@ -123,5 +123,4 @@ halaman.php
 ## 7. Catatan
 
 - K5 (`Listen 127.0.0.1:80`) juga berlaku untuk proyek lain di folder `htdocs` XAMPP: tetap bisa dibuka di komputer sendiri, tetapi tidak lagi dari perangkat lain.
-- Apache dan MySQL di XAMPP saat ini **belum berjalan**. Keduanya perlu dinyalakan lewat XAMPP Control Panel sebelum langkah 3.2.
-- MariaDB bawaan XAMPP saat ini menerima koneksi dari semua alamat (tidak ada `bind-address`). Bisa dibatasi ke `127.0.0.1` dengan cara yang sama seperti K5 jika diinginkan.
+- MariaDB bawaan XAMPP menerima koneksi dari semua alamat (tidak ada `bind-address`). Bisa dibatasi ke `127.0.0.1` dengan cara yang sama seperti K5 jika diinginkan.
