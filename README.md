@@ -78,6 +78,7 @@ Semua data di `database/laporphish.sql` **fiktif**: 42 laporan (Juni–November 
 | [docs/02a_desain_database.md](docs/02a_desain_database.md) | ERD, kamus data, normalisasi, aturan relasi |
 | [docs/02b_mockup.md](docs/02b_mockup.md) | Panduan visual, peta halaman, wireframe dan mockup (`docs/mockup/`) |
 | [docs/03_implementasi.md](docs/03_implementasi.md) | Struktur kode, mekanisme koneksi database, progres implementasi |
+| [docs/04_pengujian.md](docs/04_pengujian.md) | Tabel pengujian Black-Box (58 kasus uji) |
 
 ## Pembuat
 

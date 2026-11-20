@@ -59,8 +59,8 @@ Peringatan phishing di kampus biasanya hanya beredar di grup chat, cepat tenggel
 - [x] Tahap 1: analisis kebutuhan, di `docs/01_analisis_kebutuhan.md` (disetujui 2026-11-20)
 - [x] Tahap 2a: desain database, di `docs/02a_desain_database.md` (disetujui 2026-11-20)
 - [x] Tahap 2b: mockup antarmuka, di `docs/02b_mockup.md` dan `docs/mockup/` (disetujui 2026-11-20). Versi Figma yang bisa diedit: sebagian, lihat `docs/02b_mockup.md` bagian 5
-- [x] Tahap 3: implementasi, di `docs/03_implementasi.md` (selesai 2026-11-20; belum di-commit)
-- [ ] Tahap 4: pengujian Black-Box
+- [x] Tahap 3: implementasi, di `docs/03_implementasi.md` (selesai 2026-11-20; 6 commit lokal, belum di-push)
+- [x] Tahap 4: pengujian Black-Box, di `docs/04_pengujian.md` (58 kasus, 58 lulus, 2026-11-20)
 - [ ] Tahap 5: rencana deploy dan pemeliharaan
 - [ ] Laporan PDF: gabungan dokumen SDLC (01–05), nilai manfaat, screenshot mockup dan aplikasi, tabel Black-Box (luaran nomor 1)
 - [ ] Pengumpulan: tautan laporan PDF, tautan `.sql` (folder `/database` di repo), tautan repo GitHub publik

@@ -107,7 +107,7 @@ require __DIR__ . '/../includes/layout_admin_atas.php';
             <?php endif; ?>
             <?php foreach ($reports as $r): ?>
                 <tr>
-                    <td class="ps-3 font-monospace fw-semibold"><?= e($r['ticket_code']) ?></td>
+                    <td class="ps-3 font-monospace fw-semibold text-nowrap"><?= e($r['ticket_code']) ?></td>
                     <td><?= e(format_date($r['created_at'])) ?></td>
                     <td><?= e($r['category']) ?></td>
                     <td><?= e($r['channel']) ?></td>
