@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="utf-8">
-<title>Laporan Proyek Akhir — LaporPhish</title>
+<title>Laporan Proyek Akhir — LaPhish</title>
 <link rel="stylesheet" href="../../assets/vendor/bootstrap-icons/bootstrap-icons.min.css">
 <link rel="stylesheet" href="laporan.css">
 </head>
@@ -13,7 +13,7 @@
   <div>
     <div class="garis"></div>
     <p class="jenis">Laporan Proyek Akhir · Pemrograman Berbasis Web</p>
-    <h1><span class="merek">LaporPhish</span><br>Lapor dan Cek Phishing di Kampus</h1>
+    <h1><span class="merek">LaPhish</span><br>Lapor dan Cek Phishing di Kampus</h1>
     <p class="sub">Aplikasi web dinamis berbasis PHP dan MySQL<br>dengan pendekatan SDLC</p>
     <i class="bi bi-shield-check ikon" aria-hidden="true"></i>
     <p class="penyusun">Disusun oleh<br><strong>Arthur Pendragon</strong><br>GitHub: Kingarthuria</p>
@@ -61,7 +61,7 @@
     <li>Pelapor tidak tahu apakah laporannya ditindaklanjuti.</li>
   </ul>
   <p>Masalah ini sejalan dengan data yang lebih luas. Sepanjang 2025, Anti-Phishing Working Group (APWG) mencatat 3,8 juta serangan phishing di seluruh dunia, dan phishing melalui SMS terus meningkat karena dapat menghindari filter email (APWG, 2026). Di Indonesia, BSSN mencatat 47,2 juta anomali trafik terkait situs phishing sepanjang 2023, terbanyak kedua setelah Trojan RAT, dan memasukkan phishing ke dalam 10 besar insiden yang ditangani (BSSN, 2024). Angka BSSN ini adalah jumlah deteksi anomali trafik, bukan jumlah korban atau serangan. Salah satu modus yang menonjol adalah file APK berkedok undangan pernikahan yang disebarkan lewat WhatsApp (BSSN, 2024).</p>
-  <p>Dari masalah tersebut dibangun <strong>LaporPhish</strong>, aplikasi web tempat sivitas akademika <strong>melaporkan</strong> tautan, email, atau nomor mencurigakan, <strong>mengecek</strong> apakah suatu tautan pernah dilaporkan sebelum diklik, dan tempat unit TI <strong>memantau</strong> penanganan serta tren kasusnya.</p>
+  <p>Dari masalah tersebut dibangun <strong>LaPhish</strong>, aplikasi web tempat sivitas akademika <strong>melaporkan</strong> tautan, email, atau nomor mencurigakan, <strong>mengecek</strong> apakah suatu tautan pernah dilaporkan sebelum diklik, dan tempat unit TI <strong>memantau</strong> penanganan serta tren kasusnya.</p>
 
   <h2>1.2 Tujuan</h2>
   <ol>
@@ -81,9 +81,9 @@
   </table>
 
   <h2>1.4 Nilai manfaat</h2>
-  <p>Tabel berikut membandingkan cara manual saat ini (peringatan lewat grup chat) dengan LaporPhish.</p>
+  <p>Tabel berikut membandingkan cara manual saat ini (peringatan lewat grup chat) dengan LaPhish.</p>
   <table>
-    <thead><tr><th style="width:20%">Aspek</th><th style="width:38%">Cara manual (grup chat)</th><th>Dengan LaporPhish</th></tr></thead>
+    <thead><tr><th style="width:20%">Aspek</th><th style="width:38%">Cara manual (grup chat)</th><th>Dengan LaPhish</th></tr></thead>
     <tbody>
       <tr><td>Pencatatan</td><td>Peringatan tersebar di banyak grup dan cepat tenggelam</td><td>Semua laporan tersimpan di satu database</td></tr>
       <tr><td>Mengecek tautan mencurigakan</td><td>Harus menggulir riwayat chat atau bertanya ke grup</td><td>Tempel tautan di halaman Cek, hasil langsung muncul</td></tr>
@@ -233,7 +233,7 @@
     <tbody>
       <tr><td>Font</td><td>Plus Jakarta Sans untuk semua teks, disimpan lokal di proyek agar demo tetap berjalan tanpa internet</td></tr>
       <tr><td>Ikon</td><td>Bootstrap Icons, juga disimpan lokal</td></tr>
-      <tr><td>Identitas header</td><td>Ikon perisai (<code>bi-shield-check</code>) dan tulisan LaporPhish</td></tr>
+      <tr><td>Identitas header</td><td>Ikon perisai (<code>bi-shield-check</code>) dan tulisan LaPhish</td></tr>
       <tr><td>Bentuk komponen</td><td>Sudut membulat sedang (sekitar 8 px) dan bayangan tipis pada kartu</td></tr>
       <tr><td>Tata letak publik</td><td>Navbar atas (Beranda, Lapor, Cek, Lacak), tautan "Masuk admin" di footer</td></tr>
       <tr><td>Tata letak admin</td><td>Sidebar kiri: Dashboard, Laporan, Indikator, Kategori, Kanal, lalu Keluar</td></tr>
@@ -347,7 +347,7 @@
   </ul>
 
   <div class="lanskap">
-    <figure><img src="img/erd.svg" alt="ERD LaporPhish"><figcaption>Gambar 3.17 ERD LaporPhish (8 tabel). PK = primary key, FK = foreign key, UK = unique key</figcaption></figure>
+    <figure><img src="img/erd.svg" alt="ERD LaPhish"><figcaption>Gambar 3.17 ERD LaPhish (8 tabel). PK = primary key, FK = foreign key, UK = unique key</figcaption></figure>
   </div>
 
   <h3>3.2.3 Relasi primary key dan foreign key</h3>
@@ -567,7 +567,7 @@ WHERE h.history_id = (
   </table>
 
   <h2>4.2 Struktur folder dan kode</h2>
-<pre><code>laporphish/
+<pre><code>laphish/
 ├── index.php              P1 Beranda
 ├── lapor.php              P2 Formulir lapor + proses kirim (POST)
 ├── terkirim.php           P3 Kode tiket
@@ -595,7 +595,7 @@ WHERE h.history_id = (
 │   └── layout_*.php       Kerangka tampilan publik dan admin
 ├── assets/                css/app.css, js/app.js, vendor/ (Bootstrap, ikon, font)
 ├── database/
-│   └── laporphish.sql     Struktur 8 tabel + view + data dummy
+│   └── laphish.sql     Struktur 8 tabel + view + data dummy
 ├── docs/                  Dokumen SDLC, mockup, dan laporan ini
 └── README.md</code></pre>
   <p>Setiap halaman yang punya form memproses POST-nya sendiri di bagian atas file, lalu mengalihkan (redirect) ke halaman tujuan dengan pesan flash (pola <em>Post/Redirect/Get</em>). Dengan pola ini, memuat ulang halaman tidak mengirim form dua kali. Semua tautan memakai path relatif, sehingga aplikasi tetap berjalan walaupun foldernya diberi nama lain di <code>htdocs</code>.</p>
@@ -613,12 +613,12 @@ WHERE h.history_id = (
     'db' =&gt; [
         'host'    =&gt; '127.0.0.1',
         'port'    =&gt; 3306,
-        'name'    =&gt; 'laporphish',
+        'name'    =&gt; 'laphish',
         'user'    =&gt; 'root',
         'pass'    =&gt; '',
         'charset' =&gt; 'utf8mb4',
     ],
-    'app' =&gt; [ 'name' =&gt; 'LaporPhish', 'timezone' =&gt; 'Asia/Jakarta', 'debug' =&gt; false ],
+    'app' =&gt; [ 'name' =&gt; 'LaPhish', 'timezone' =&gt; 'Asia/Jakarta', 'debug' =&gt; false ],
 ];</code></pre>
   <h3>2. Membuat koneksi dan menangani galat</h3>
   <p>Fungsi <code>db()</code> membentuk DSN dari konfigurasi lalu membuat objek PDO dengan tiga opsi: <code>ERRMODE_EXCEPTION</code> agar setiap galat SQL dilempar sebagai exception, <code>FETCH_ASSOC</code> agar hasil kueri berupa array dengan nama kolom, dan <code>EMULATE_PREPARES = false</code> agar prepared statement dikerjakan langsung oleh server database. Koneksi dibuat sekali per permintaan halaman (variabel <code>static</code>). Jika koneksi gagal, detail teknis hanya dicatat ke log server, sedangkan pengguna melihat pesan umum.</p>
@@ -638,7 +638,7 @@ WHERE h.history_id = (
         ]);
         $pdo-&gt;exec("SET time_zone = '+07:00'");
     } catch (PDOException $e) {
-        error_log('[LaporPhish] Koneksi database gagal: ' . $e-&gt;getMessage());
+        error_log('[LaPhish] Koneksi database gagal: ' . $e-&gt;getMessage());
         fatal_page('Database tidak dapat dihubungi', 'Pastikan MySQL di XAMPP sudah berjalan …');
     }
     return $pdo;
@@ -677,7 +677,7 @@ try {
     if ($pdo-&gt;inTransaction()) {
         $pdo-&gt;rollBack();
     }
-    error_log('[LaporPhish] Gagal menyimpan laporan: ' . $e-&gt;getMessage());
+    error_log('[LaPhish] Gagal menyimpan laporan: ' . $e-&gt;getMessage());
     $errors[] = 'Laporan gagal disimpan karena gangguan sistem. Silakan coba lagi.';
 }</code></pre>
   <p>Kode lengkap ada di <code>includes/db.php</code>, <code>includes/auth.php</code>, dan <code>lapor.php</code> pada repositori.</p>
@@ -699,7 +699,7 @@ try {
   </table>
 
   <h2>4.5 Tampilan aplikasi</h2>
-  <p>Gambar berikut diambil dari aplikasi yang berjalan di <code>http://localhost/laporphish/</code> dengan data contoh dari <code>database/laporphish.sql</code>. Tampilannya mengikuti mockup di Bab 3.</p>
+  <p>Gambar berikut diambil dari aplikasi yang berjalan di <code>http://localhost/laphish/</code> dengan data contoh dari <code>database/laphish.sql</code>. Tampilannya mengikuti mockup di Bab 3.</p>
   <figure><img class="layar" src="img/app_P1_beranda.png" alt="Beranda aplikasi"><figcaption>Gambar 4.1 Beranda (P1)</figcaption></figure>
   <figure><img class="layar" src="img/app_P3_terkirim.png" alt="Laporan terkirim"><figcaption>Gambar 4.2 Laporan berhasil dikirim dan kode tiket ditampilkan (P3)</figcaption></figure>
   <figure><img class="layar" src="img/app_P4_cek.png" alt="Hasil cek indikator"><figcaption>Gambar 4.3 Hasil Cek untuk URL yang ditulis dengan huruf besar dan <code>www.</code>: tetap cocok setelah dinormalisasi, dan ditampilkan dalam bentuk <em>defanged</em> (P4)</figcaption></figure>
@@ -718,12 +718,12 @@ try {
   <table>
     <thead><tr><th style="width:26%">Bagian</th><th>Keterangan</th></tr></thead>
     <tbody>
-      <tr><td>Lingkungan</td><td>Windows 11, XAMPP: Apache, PHP 8.2.12, MariaDB 10.4.32. Aplikasi di <code>http://localhost/laporphish/</code></td></tr>
-      <tr><td>Data awal</td><td>Hasil impor <code>database/laporphish.sql</code> (42 laporan, 31 indikator, 6 kategori, 6 kanal)</td></tr>
+      <tr><td>Lingkungan</td><td>Windows 11, XAMPP: Apache, PHP 8.2.12, MariaDB 10.4.32. Aplikasi di <code>http://localhost/laphish/</code></td></tr>
+      <tr><td>Data awal</td><td>Hasil impor <code>database/laphish.sql</code> (42 laporan, 31 indikator, 6 kategori, 6 kanal)</td></tr>
       <tr><td>Cara uji form dan halaman</td><td>Permintaan HTTP otomatis (curl) ke Apache, sama seperti yang dikirim browser. Hasil dicek dari halaman yang tampil dan dari isi tabel di database</td></tr>
       <tr><td>Cara uji interaksi JavaScript</td><td>Browser (Chromium): menambah baris indikator, teks bantuan kategori, dialog konfirmasi hapus, dan tampilan layar ponsel 375 px</td></tr>
       <tr><td>Kode tiket dan ID</td><td>Kode tiket dibuat acak, jadi nilainya berbeda setiap kali diuji. Yang dicek adalah formatnya</td></tr>
-      <tr><td>Setelah uji</td><td>Database dikembalikan ke data awal dengan mengimpor ulang <code>database/laporphish.sql</code></td></tr>
+      <tr><td>Setelah uji</td><td>Database dikembalikan ke data awal dengan mengimpor ulang <code>database/laphish.sql</code></td></tr>
     </tbody>
   </table>
 
@@ -800,7 +800,7 @@ try {
       <tr><td>TC-53</td><td>NFR-10</td><td>Menghapus lewat link GET</td><td><code>admin/indikator.php?action=delete&amp;id=…</code></td><td>Tidak ada data yang terhapus</td><td>Indikator masih ada</td><td>Lulus</td></tr>
       <tr><td>TC-54</td><td>NFR-05, NFR-06</td><td>File konfigurasi belum dibuat</td><td><code>includes/config.php</code> dipindahkan sementara</td><td>Pesan petunjuk, bukan galat PHP</td><td>HTTP 500 dengan pesan "Konfigurasi belum dibuat"</td><td>Lulus</td></tr>
       <tr><td>TC-55</td><td>NFR-06</td><td>Database tidak bisa dihubungi</td><td>Nama database di <code>config.php</code> diganti sementara</td><td>Pesan umum tanpa detail teknis</td><td>"Database tidak dapat dihubungi", 0 kata <code>SQLSTATE</code>/<code>PDOException</code></td><td>Lulus</td></tr>
-      <tr><td>TC-56</td><td>NFR-05</td><td>Membuka file sensitif langsung dari browser</td><td><code>includes/config.php</code>, <code>includes/db.php</code>, <code>database/laporphish.sql</code>, <code>.git/HEAD</code></td><td>Akses ditolak</td><td>403, 403, 403, dan 404</td><td>Lulus</td></tr>
+      <tr><td>TC-56</td><td>NFR-05</td><td>Membuka file sensitif langsung dari browser</td><td><code>includes/config.php</code>, <code>includes/db.php</code>, <code>database/laphish.sql</code>, <code>.git/HEAD</code></td><td>Akses ditolak</td><td>403, 403, 403, dan 404</td><td>Lulus</td></tr>
       <tr><td>TC-57</td><td>NFR-10</td><td>Dialog konfirmasi sebelum menghapus</td><td>Tombol hapus kanal "Email", lalu pilih Batal</td><td>Dialog konfirmasi muncul. Jika dibatalkan, data tidak terhapus</td><td>Dialog "Hapus kanal "Email"?" muncul. Setelah Batal, halaman tetap dan kanal masih ada</td><td>Lulus</td></tr>
       <tr><td>TC-58</td><td>NFR-08</td><td>Tampilan di layar ponsel</td><td>Lebar 375 px: beranda, lapor, cek, lacak, dashboard, daftar laporan, daftar indikator</td><td>Tidak ada halaman yang melebar ke samping</td><td>Lebar konten semua halaman 375 px, sama dengan lebar layar</td><td>Lulus</td></tr>
     </tbody>
@@ -840,8 +840,8 @@ try {
 
   <h2>6.1 Skema deploy</h2>
   <p>Deploy online yang direncanakan adalah <strong>demo publik dengan data dummy</strong>, untuk portofolio dan agar aplikasi bisa dicoba tanpa memasang XAMPP. Demo ini tidak dipakai untuk laporan phishing sungguhan; pemakaian nyata oleh unit TI kampus memerlukan server sendiri (bagian 6.5).</p>
-  <p>Skema yang dipilih adalah <strong>shared hosting berbayar</strong> yang menyediakan Apache, PHP 8.1 atau lebih baru, dan MySQL/MariaDB dengan hak membuat view. Rencana awal memakai hosting PHP gratis, tetapi uji langsung menunjukkan hosting gratis menolak pembuatan view (bagian 6.2), padahal LaporPhish membaca status terakhir setiap laporan lewat view <code>v_report_status</code>.</p>
-  <figure><img src="img/deploy.svg" alt="Skema deploy" style="max-width:100%;border:0"><figcaption>Gambar 6.1 Skema deploy LaporPhish di shared hosting</figcaption></figure>
+  <p>Skema yang dipilih adalah <strong>shared hosting berbayar</strong> yang menyediakan Apache, PHP 8.1 atau lebih baru, dan MySQL/MariaDB dengan hak membuat view. Rencana awal memakai hosting PHP gratis, tetapi uji langsung menunjukkan hosting gratis menolak pembuatan view (bagian 6.2), padahal LaPhish membaca status terakhir setiap laporan lewat view <code>v_report_status</code>.</p>
+  <figure><img src="img/deploy.svg" alt="Skema deploy" style="max-width:100%;border:0"><figcaption>Gambar 6.1 Skema deploy LaPhish di shared hosting</figcaption></figure>
   <h3>Perbandingan opsi</h3>
   <table>
     <thead><tr><th style="width:19%">Kriteria</th><th>Hosting gratis (diuji, tidak lolos)</th><th>Shared hosting berbayar (dipilih)</th><th>Server unit TI (pemakaian nyata)</th></tr></thead>
@@ -869,7 +869,7 @@ try {
   <p>Tiga layanan pertama berjalan di platform yang sama, sehingga hasil uji di TinkerHost mewakili ketiganya.</p>
 
   <h2>6.2 Uji kelayakan hosting</h2>
-  <p>Forum resmi InfinityFree pernah menyatakan (2019) bahwa paket gratis hanya mendukung MyISAM, foreign key diabaikan, dan hak <code>CREATE VIEW</code> tidak termasuk yang diberikan. Pada 2022 InnoDB sudah ditambahkan, tetapi masih ada laporan galat saat membuat foreign key. Karena bukti ini tercampur dan sebagian sudah lama, kelayakan diuji langsung pada 21 November 2026 di paket gratis TinkerHost (MariaDB 11.4.13, phpMyAdmin 4.9). Uji memakai tabel sementara di database kosong, lalu semuanya dihapus; kode dan data LaporPhish tidak diunggah.</p>
+  <p>Forum resmi InfinityFree pernah menyatakan (2019) bahwa paket gratis hanya mendukung MyISAM, foreign key diabaikan, dan hak <code>CREATE VIEW</code> tidak termasuk yang diberikan. Pada 2022 InnoDB sudah ditambahkan, tetapi masih ada laporan galat saat membuat foreign key. Karena bukti ini tercampur dan sebagian sudah lama, kelayakan diuji langsung pada 21 November 2026 di paket gratis TinkerHost (MariaDB 11.4.13, phpMyAdmin 4.9). Uji memakai tabel sementara di database kosong, lalu semuanya dihapus; kode dan data LaPhish tidak diunggah.</p>
   <table class="kecil">
     <thead><tr><th style="width:5%">No</th><th style="width:13%">Yang diuji</th><th style="width:25%">Cara</th><th style="width:15%">Lolos jika</th><th>Hasil</th><th style="width:8%">Status</th></tr></thead>
     <tbody>
@@ -891,8 +891,8 @@ try {
   <p>Langkah berikut berlaku untuk shared hosting berbayar dengan panel seperti cPanel.</p>
   <ol>
     <li><strong>Jalankan uji U1–U6</strong> di hosting yang dipilih, dengan tabel uji sementara, sebelum mengunggah apa pun. Lanjut hanya jika semuanya lolos.</li>
-    <li><strong>Buat database lewat panel.</strong> Hosting memberi nama database berawalan (misalnya <code>xxxx_laporphish</code>), username, password, dan alamat host MySQL. Alamat host belum tentu <code>localhost</code>.</li>
-    <li><strong>Siapkan file SQL versi hosting.</strong> Salin <code>database/laporphish.sql</code>, lalu hapus dua baris awal <code>CREATE DATABASE …</code> dan <code>USE laporphish;</code>, karena database sudah dibuat oleh panel. Impor salinan ini lewat phpMyAdmin hosting.</li>
+    <li><strong>Buat database lewat panel.</strong> Hosting memberi nama database berawalan (misalnya <code>xxxx_laphish</code>), username, password, dan alamat host MySQL. Alamat host belum tentu <code>localhost</code>.</li>
+    <li><strong>Siapkan file SQL versi hosting.</strong> Salin <code>database/laphish.sql</code>, lalu hapus dua baris awal <code>CREATE DATABASE …</code> dan <code>USE laphish;</code>, karena database sudah dibuat oleh panel. Impor salinan ini lewat phpMyAdmin hosting.</li>
     <li><strong>Unggah kode</strong> lewat FTP atau File Manager ke folder web (<code>htdocs</code> atau <code>public_html</code>), tanpa folder <code>.git/</code>, <code>database/</code>, dan dokumen tugas dari dosen.</li>
     <li><strong>Buat <code>includes/config.php</code> di server</strong> dari <code>config.example.php</code>, isi dengan data dari langkah 2, dan pastikan <code>'debug' =&gt; false</code>. File ini hanya ada di server, tidak di repo.</li>
     <li><strong>Ganti password admin demo.</strong> Password demo tercantum di README publik, jadi harus diganti sebelum situs bisa diakses. Hash baru dibuat dengan <code>password_hash()</code> lalu disimpan lewat phpMyAdmin.</li>
@@ -935,7 +935,7 @@ try {
   </ul>
   <h3>Fase 2: klasifikasi URL phishing</h3>
   <ul>
-    <li>Melatih model klasifikasi URL dari dataset publik, lalu mengujinya dengan indikator LaporPhish yang sudah diverifikasi admin (status Phishing atau Bukan phishing).</li>
+    <li>Melatih model klasifikasi URL dari dataset publik, lalu mengujinya dengan indikator LaPhish yang sudah diverifikasi admin (status Phishing atau Bukan phishing).</li>
     <li>Hasil model ditampilkan di halaman Cek sebagai <strong>skor pendamping</strong>, bukan pengganti verifikasi admin.</li>
   </ul>
   <h3>Pemakaian nyata oleh unit TI</h3>
@@ -951,7 +951,7 @@ try {
   <h1 class="bab"><span class="no">Bab 7</span>Penutup</h1>
   <h2>7.1 Kesimpulan</h2>
   <ol>
-    <li><strong>LaporPhish berhasil dibangun</strong> sebagai aplikasi web dinamis dengan PHP native dan MariaDB yang berjalan di localhost (XAMPP). Aplikasi terdiri dari 16 halaman: 5 halaman publik (beranda, lapor, laporan terkirim, cek, lacak) dan 11 halaman admin.</li>
+    <li><strong>LaPhish berhasil dibangun</strong> sebagai aplikasi web dinamis dengan PHP native dan MariaDB yang berjalan di localhost (XAMPP). Aplikasi terdiri dari 16 halaman: 5 halaman publik (beranda, lapor, laporan terkirim, cek, lacak) dan 11 halaman admin.</li>
     <li><strong>Keempat tujuan di Bab 1 terpenuhi oleh fitur aplikasi:</strong> formulir lapor dengan kode tiket acak menjadi satu tempat pelaporan; halaman Cek mencocokkan tautan, email, atau nomor dengan data yang sudah diverifikasi; panel admin mengelola, memverifikasi, dan mencatat riwayat penanganan; dashboard menyajikan rekap per status, kategori, kanal, dan bulan.</li>
     <li><strong>Fungsi CRUD lengkap dan terhubung ke database relasional.</strong> Laporan dibuat pengunjung lalu dibaca, diubah, dan dihapus admin, sedangkan indikator, kategori, dan kanal punya CRUD penuh di panel admin.</li>
     <li><strong>Database terdiri dari 8 tabel dalam bentuk normal ketiga (3NF) dan 1 view.</strong> Relasinya dijaga oleh 8 foreign key dengan aturan RESTRICT, CASCADE, dan SET NULL sesuai makna datanya, sehingga data induk yang masih dipakai tidak bisa terhapus.</li>
@@ -991,22 +991,22 @@ try {
   <h1 class="bab">Lampiran</h1>
   <h2>A. Cara menjalankan aplikasi</h2>
   <ol>
-    <li><strong>Salin proyek</strong> ke folder <code>htdocs</code> XAMPP, misalnya <code>htdocs/laporphish</code>. Nama folder bebas.</li>
+    <li><strong>Salin proyek</strong> ke folder <code>htdocs</code> XAMPP, misalnya <code>htdocs/laphish</code>. Nama folder bebas.</li>
     <li><strong>Nyalakan</strong> Apache dan MySQL lewat XAMPP Control Panel.</li>
-    <li><strong>Impor database</strong>: buka phpMyAdmin (<code>http://localhost/phpmyadmin</code>), pilih tab <strong>Import</strong>, lalu pilih file <code>database/laporphish.sql</code>. File ini otomatis membuat database <code>laporphish</code> beserta data contohnya.</li>
+    <li><strong>Impor database</strong>: buka phpMyAdmin (<code>http://localhost/phpmyadmin</code>), pilih tab <strong>Import</strong>, lalu pilih file <code>database/laphish.sql</code>. File ini otomatis membuat database <code>laphish</code> beserta data contohnya.</li>
     <li><strong>Buat file konfigurasi</strong>: salin <code>includes/config.example.php</code> menjadi <code>includes/config.php</code>. Nilai bawaannya sudah sesuai XAMPP (user <code>root</code> tanpa password).</li>
-    <li><strong>Buka aplikasi</strong> di <code>http://localhost/laporphish/</code>. Halaman admin ada di <code>http://localhost/laporphish/admin/</code> dengan username <code>admin</code>; password akun demo tercantum di <code>README.md</code>.</li>
+    <li><strong>Buka aplikasi</strong> di <code>http://localhost/laphish/</code>. Halaman admin ada di <code>http://localhost/laphish/admin/</code> dengan username <code>admin</code>; password akun demo tercantum di <code>README.md</code>.</li>
   </ol>
-  <p>Untuk mengembalikan database ke data awal, cukup impor ulang <code>database/laporphish.sql</code>. Semua data contoh bersifat fiktif: domain memakai akhiran <code>.example</code> dan nomor telepon memakai pola <code>08xx-0000-xxxx</code>.</p>
+  <p>Untuk mengembalikan database ke data awal, cukup impor ulang <code>database/laphish.sql</code>. Semua data contoh bersifat fiktif: domain memakai akhiran <code>.example</code> dan nomor telepon memakai pola <code>08xx-0000-xxxx</code>.</p>
 
   <h2>B. Tautan luaran</h2>
   <table>
     <thead><tr><th style="width:28%">Luaran</th><th>Tautan</th></tr></thead>
     <tbody>
-      <tr><td>Repositori kode sumber (publik)</td><td>https://github.com/Kingarthuria/laporphish</td></tr>
-      <tr><td>File database (<code>.sql</code>)</td><td>https://github.com/Kingarthuria/laporphish/blob/main/database/laporphish.sql</td></tr>
-      <tr><td>Laporan ini (PDF)</td><td>https://github.com/Kingarthuria/laporphish/blob/main/docs/laporan/laporan.pdf</td></tr>
-      <tr><td>Dokumen SDLC per tahap</td><td>https://github.com/Kingarthuria/laporphish/tree/main/docs</td></tr>
+      <tr><td>Repositori kode sumber (publik)</td><td>https://github.com/Kingarthuria/laphish</td></tr>
+      <tr><td>File database (<code>.sql</code>)</td><td>https://github.com/Kingarthuria/laphish/blob/main/database/laphish.sql</td></tr>
+      <tr><td>Laporan ini (PDF)</td><td>https://github.com/Kingarthuria/laphish/blob/main/docs/laporan/laporan.pdf</td></tr>
+      <tr><td>Dokumen SDLC per tahap</td><td>https://github.com/Kingarthuria/laphish/tree/main/docs</td></tr>
     </tbody>
   </table>
 </section>
