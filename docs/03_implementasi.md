@@ -3,7 +3,7 @@
 Proyek: **LaPhish: Lapor dan Cek Phishing di Kampus**
 Dasar: `01_analisis_kebutuhan.md`, `02a_desain_database.md`, `02b_mockup.md`.
 
-Status: **selesai** (langkah 3.1–3.6, 2026-11-20). Di-commit lokal dalam 6 commit (belum di-push).
+Status: **selesai** (langkah 3.1–3.6, 2026-11-20). Sudah di-commit dan di-push ke GitHub (2026-11-21).
 
 ## 1. Teknologi
 

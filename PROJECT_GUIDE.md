@@ -73,12 +73,13 @@ Peringatan phishing di kampus biasanya hanya beredar di grup chat, cepat tenggel
 - [x] Tahap 1: analisis kebutuhan, di `docs/01_analisis_kebutuhan.md` (disetujui 2026-11-20)
 - [x] Tahap 2a: desain database, di `docs/02a_desain_database.md` (disetujui 2026-11-20)
 - [x] Tahap 2b: mockup antarmuka, di `docs/02b_mockup.md` dan `docs/mockup/` (disetujui 2026-11-20; bagian 0 diperbarui 2026-11-21 ke tampilan akhir, dan mockup hi-fi di `docs/mockup/` dibangun ulang ke tampilan akhir pada 2026-11-21). Versi Figma yang bisa diedit: sebagian, lihat `docs/02b_mockup.md` bagian 5
-- [x] Tahap 3: implementasi, di `docs/03_implementasi.md` (selesai 2026-11-20; 6 commit lokal, belum di-push)
+- [x] Tahap 3: implementasi, di `docs/03_implementasi.md` (selesai 2026-11-20; sudah di-push ke GitHub 2026-11-21)
 - [x] Tahap 4: pengujian Black-Box, di `docs/04_pengujian.md` (58 kasus, 58 lulus, 2026-11-20). Diuji ulang 2026-11-21 setelah perubahan tampilan: 58 kasus awal lulus, ditambah 9 kasus baru (TC-59 sampai TC-67) untuk pembagian halaman dan perilaku formulir, total 67 kasus, 67 lulus (bagian 8 dokumen itu)
 - [x] Tahap 5: rencana deploy dan pemeliharaan, di `docs/05_deploy_pemeliharaan.md` (disetujui 2026-11-21; skema deploy: shared hosting berbayar. Hosting gratis diuji langsung dan tidak lolos karena hak CREATE VIEW ditolak)
 - [x] Laporan PDF: `docs/laporan/laporan.pdf` (51 halaman, dicetak ulang 2026-11-21 dan sudah mengikuti tampilan akhir). Sumbernya `docs/laporan/laporan.html` + `laporan.css` + `img/`, dicetak ulang dengan Microsoft Edge (cetak ke PDF)
-- [x] Perubahan tampilan arah A (2026-11-21): diterapkan di aplikasi dan diuji ulang (67 kasus lulus), beserta penyesuaian lanjutan dan pembagian halaman. 02b dan 04_pengujian sudah diperbarui. Sudah di-commit lokal (commit berawalan `tampilan:` dan `docs:`), belum di-push. Belum diperbarui: mockup hi-fi di `docs/mockup/`, tangkapan layar dan PDF laporan, file Figma
-- [ ] Pengumpulan: tautan laporan PDF, tautan `.sql` (folder `/database` di repo), tautan repo GitHub publik
+- [x] Perubahan tampilan arah A (2026-11-21): diterapkan di aplikasi dan diuji ulang (67 kasus lulus), beserta penyesuaian lanjutan dan pembagian halaman. 02b dan 04_pengujian sudah diperbarui. Sudah di-commit dan sudah di-push (commit berawalan `tampilan:`, `docs:`, `fitur:`, dan `tes:`). Belum diperbarui: file Figma
+- [x] Repo GitHub publik dibuat dan di-push (2026-11-21): https://github.com/Kingarthuria/laphish
+- [ ] Pengumpulan: kirim tiga tautan ke platform tugas. Repo: https://github.com/Kingarthuria/laphish. PDF: https://github.com/Kingarthuria/laphish/blob/main/docs/laporan/laporan.pdf. SQL: https://github.com/Kingarthuria/laphish/blob/main/database/laphish.sql
 
 ## Belum diputuskan
 - [ ] Tenggat pengumpulan dan jadwal presentasi.
