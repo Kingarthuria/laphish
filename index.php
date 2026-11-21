@@ -15,13 +15,11 @@ require __DIR__ . '/includes/layout_publik_atas.php';
         <div class="col-lg-5">
             <h1 class="lp-display mb-3">Baca alamatnya sebelum Anda klik.</h1>
             <p class="lead text-muted-lp">Tautan phishing sering meniru nama kampus. Periksa dulu, dan laporkan agar sivitas akademika lain tidak ikut tertipu.</p>
-            <a class="btn btn-primary btn-lg me-2 mb-2" href="<?= url('cek.php') ?>"><i class="bi bi-search me-1"></i>Cek tautan</a>
-            <a class="btn btn-outline-primary btn-lg mb-2" href="<?= url('lapor.php') ?>"><i class="bi bi-flag me-1"></i>Buat laporan</a>
+            <a class="btn btn-primary btn-lg me-2 mb-2" href="<?= url('cek.php') ?>">Cek tautan</a>
+            <a class="btn btn-outline-primary btn-lg mb-2" href="<?= url('lapor.php') ?>">Buat laporan</a>
         </div>
         <div class="col-lg-7">
-            <section class="lp-lens" aria-labelledby="bedahJudul">
-                <h2 class="h6 fw-bold mb-1" id="bedahJudul">Bedah sebuah tautan</h2>
-                <p class="small text-muted-lp mb-3">Tempel tautan, atau pilih contoh. Hanya dibaca di peramban Anda, tidak dikirim ke mana pun.</p>
+            <section class="lp-lens" aria-label="Bedah alamat tautan">
                 <form id="bedahForm" class="d-flex flex-column flex-sm-row gap-2" autocomplete="off">
                     <label class="visually-hidden" for="bedahInput">Tautan yang ingin dibedah</label>
                     <input class="form-control lp-mono" id="bedahInput" type="text" spellcheck="false" value="https://login.kampus-sso.verifikasi-akun.top/masuk">
@@ -36,7 +34,6 @@ require __DIR__ . '/includes/layout_publik_atas.php';
                     <div class="lp-url" id="bedahUrl"></div>
                     <p class="lp-vonis" id="bedahVonis"></p>
                     <noscript><p class="small text-muted-lp mb-0">Alat ini butuh JavaScript. Contoh: pada <span class="lp-mono">hxxps://login[.]kampus-sso[.]verifikasi-akun[.]top/masuk</span>, pemilik situsnya adalah <span class="lp-mono">verifikasi-akun[.]top</span>, bukan kampus.</p></noscript>
-                    <p class="small text-muted-lp mt-2 mb-0">Alat ini hanya membantu membaca. Untuk tahu apakah tautan sudah pernah dilaporkan, <a href="<?= url('cek.php') ?>">buka halaman Cek</a>.</p>
                 </div>
             </section>
         </div>
@@ -46,25 +43,25 @@ require __DIR__ . '/includes/layout_publik_atas.php';
         <a class="lp-path" href="<?= url('cek.php') ?>">
             <span class="word">Cek</span>
             <span class="text-muted-lp">Periksa apakah tautan, email, atau nomor sudah pernah dilaporkan atau terverifikasi phishing.</span>
-            <span class="go">Cek indikator <i class="bi bi-arrow-right"></i></span>
+            <span class="go">Cek indikator</span>
         </a>
         <a class="lp-path" href="<?= url('lapor.php') ?>">
             <span class="word">Lapor</span>
             <span class="text-muted-lp">Laporkan tautan, email, atau nomor phishing yang Anda terima. Identitas boleh dikosongkan.</span>
-            <span class="go">Buat laporan <i class="bi bi-arrow-right"></i></span>
+            <span class="go">Buat laporan</span>
         </a>
         <a class="lp-path" href="<?= url('lacak.php') ?>">
             <span class="word">Lacak</span>
             <span class="text-muted-lp">Pantau tindak lanjut laporan Anda memakai kode tiket.</span>
-            <span class="go">Lacak laporan <i class="bi bi-arrow-right"></i></span>
+            <span class="go">Lacak laporan</span>
         </a>
     </nav>
 
     <h2 class="h4 fw-bold mb-4">Cara kerja</h2>
     <ol class="lp-steps">
-        <li><p class="mb-0">Kirim laporan beserta tautan, nomor, atau email yang mencurigakan.</p></li>
-        <li><p class="mb-0">Unit TI memeriksa dan memverifikasi laporan.</p></li>
-        <li><p class="mb-0">Hasil verifikasi bisa dicek siapa saja lewat halaman Cek.</p></li>
+        <li>Kirim laporan beserta tautan, nomor, atau email yang mencurigakan.</li>
+        <li>Unit TI memeriksa dan memverifikasi laporan.</li>
+        <li>Hasil verifikasi bisa dicek siapa saja lewat halaman Cek.</li>
     </ol>
 </div>
 <script src="<?= url('assets/js/bedah_alamat.js') ?>"></script>

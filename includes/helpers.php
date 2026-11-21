@@ -89,6 +89,97 @@ function defang(string $value): string
     return str_replace('.', '[.]', $v);
 }
 
+/**
+ * Memecah URL yang sudah dinormalisasi (tanpa skema) menjadi subdomain, domain pemilik, port, dan jalur.
+ * Hanya untuk tampilan "bedah alamat" di halaman Cek; tidak dipakai untuk keputusan apa pun.
+ * Domain = dua label terakhir, atau tiga untuk akhiran Indonesia bertingkat (kampus.ac.id).
+ */
+function url_segments(string $normalized): array
+{
+    $slash = strpos($normalized, '/');
+    $host = $slash === false ? $normalized : substr($normalized, 0, $slash);
+    $rest = $slash === false ? '' : substr($normalized, $slash);
+    $port = '';
+    if (preg_match('/:\d+$/', $host, $m)) {
+        $port = $m[0];
+        $host = substr($host, 0, -strlen($port));
+    }
+    $labels = explode('.', $host);
+    $twoLevel = ['ac.id', 'co.id', 'go.id', 'or.id', 'sch.id', 'web.id', 'my.id', 'net.id', 'mil.id'];
+    if (preg_match('/^\d+(\.\d+){3}$/', $host)) {
+        $n = count($labels); // alamat berupa angka (IP): seluruhnya dianggap satu kesatuan
+    } else {
+        $n = count($labels) >= 3 && in_array(implode('.', array_slice($labels, -2)), $twoLevel, true) ? 3 : 2;
+    }
+    $n = min($n, count($labels));
+    return [
+        'sub'    => count($labels) > $n ? implode('.', array_slice($labels, 0, -$n)) . '.' : '',
+        'domain' => implode('.', array_slice($labels, -$n)),
+        'port'   => $port,
+        'rest'   => $rest,
+    ];
+}
+
+/* ---------------- Pembagian halaman (daftar admin) ---------------- */
+
+const PER_HALAMAN = 10;
+
+/**
+ * Halaman yang diminta lewat ?halaman=, dibatasi ke rentang yang ada.
+ * @return array{0:int,1:int,2:int} [halaman sekarang, jumlah halaman, offset baris]
+ */
+function halaman_sekarang(int $totalBaris): array
+{
+    $jumlah = max(1, (int) ceil($totalBaris / PER_HALAMAN));
+    $halaman = min(max((int) ($_GET['halaman'] ?? 1), 1), $jumlah);
+    return [$halaman, $jumlah, ($halaman - 1) * PER_HALAMAN];
+}
+
+/** Rentang baris yang tampil: "11 sampai 20", atau "31" jika hanya satu baris. */
+function rentang_baris(int $offset, int $jumlahBaris): string
+{
+    return $jumlahBaris === 1 ? (string) ($offset + 1) : ($offset + 1) . ' sampai ' . ($offset + $jumlahBaris);
+}
+
+/**
+ * Navigasi halaman: Sebelumnya, nomor halaman, Berikutnya. Filter yang aktif ikut terbawa di tautan.
+ * Tidak menampilkan apa pun jika hanya ada satu halaman.
+ */
+function navigasi_halaman(string $path, array $filter, int $halaman, int $jumlah): string
+{
+    if ($jumlah <= 1) {
+        return '';
+    }
+    $filter = array_filter($filter, fn($v) => $v !== '' && $v !== 0 && $v !== null);
+    $tautan = function (int $n) use ($path, $filter): string {
+        $q = $filter + ($n > 1 ? ['halaman' => $n] : []);
+        return url($path . ($q ? '?' . http_build_query($q) : ''));
+    };
+
+    // Nomor yang ditampilkan: pertama, terakhir, dan satu di kiri-kanan halaman sekarang
+    $nomor = array_unique(array_filter([1, $halaman - 1, $halaman, $halaman + 1, $jumlah], fn($n) => $n >= 1 && $n <= $jumlah));
+    sort($nomor);
+
+    $html = '<nav class="lp-pager" aria-label="Halaman daftar"><span class="info">Halaman ' . $halaman . ' dari ' . $jumlah . '</span><ul>';
+    $html .= $halaman > 1
+        ? '<li><a href="' . e($tautan($halaman - 1)) . '" rel="prev">Sebelumnya</a></li>'
+        : '<li><span class="mati" aria-disabled="true">Sebelumnya</span></li>';
+    $sebelum = 0;
+    foreach ($nomor as $n) {
+        if ($sebelum && $n > $sebelum + 1) {
+            $html .= '<li><span class="mati" aria-hidden="true">...</span></li>';
+        }
+        $html .= $n === $halaman
+            ? '<li><span class="sekarang" aria-current="page">' . $n . '</span></li>'
+            : '<li><a href="' . e($tautan($n)) . '" aria-label="Halaman ' . $n . '">' . $n . '</a></li>';
+        $sebelum = $n;
+    }
+    $html .= $halaman < $jumlah
+        ? '<li><a href="' . e($tautan($halaman + 1)) . '" rel="next">Berikutnya</a></li>'
+        : '<li><span class="mati" aria-disabled="true">Berikutnya</span></li>';
+    return $html . '</ul></nav>';
+}
+
 /* ---------------- Kode tiket ---------------- */
 
 /** Kode tiket acak LP-XXXXXXXX (tanpa huruf/angka yang mirip: 0, O, 1, I). */
@@ -105,10 +196,10 @@ function generate_ticket(): string
 /* ---------------- Label dan warna status ---------------- */
 
 const REPORT_STATUSES = [
-    'baru'        => ['label' => 'Baru',        'class' => 'st-purple', 'icon' => 'bi-inbox'],
-    'ditinjau'    => ['label' => 'Ditinjau',    'class' => 'st-orange', 'icon' => 'bi-hourglass-split'],
-    'valid'       => ['label' => 'Valid',       'class' => 'st-red',    'icon' => 'bi-exclamation-octagon-fill'],
-    'tidak_valid' => ['label' => 'Tidak valid', 'class' => 'st-grey',   'icon' => 'bi-dash-circle'],
+    'baru'        => ['label' => 'Baru',        'class' => 'st-purple'],
+    'ditinjau'    => ['label' => 'Ditinjau',    'class' => 'st-orange'],
+    'valid'       => ['label' => 'Valid',       'class' => 'st-red'],
+    'tidak_valid' => ['label' => 'Tidak valid', 'class' => 'st-grey'],
 ];
 
 const VERIFICATION_STATUSES = [
@@ -119,8 +210,8 @@ const VERIFICATION_STATUSES = [
 
 function status_badge(string $status): string
 {
-    $s = REPORT_STATUSES[$status] ?? ['label' => $status, 'class' => 'st-grey', 'icon' => 'bi-circle'];
-    return '<span class="st ' . $s['class'] . '"><i class="bi ' . $s['icon'] . '"></i>' . e($s['label']) . '</span>';
+    $s = REPORT_STATUSES[$status] ?? ['label' => $status, 'class' => 'st-grey'];
+    return '<span class="st ' . $s['class'] . '">' . e($s['label']) . '</span>';
 }
 
 function verification_badge(string $status): string
@@ -133,10 +224,10 @@ function verification_badge(string $status): string
 
 function format_date(?string $value): string
 {
-    return $value ? date('d/m/Y', strtotime($value)) : '–';
+    return $value ? date('d/m/Y', strtotime($value)) : '';
 }
 
 function format_datetime(?string $value): string
 {
-    return $value ? date('d/m/Y H.i', strtotime($value)) : '–';
+    return $value ? date('d/m/Y H.i', strtotime($value)) : '';
 }

@@ -1,4 +1,4 @@
-// LaPhish — bedah alamat di beranda.
+// LaPhish, bedah alamat di beranda.
 // Hanya MEMBACA struktur sebuah alamat di peramban: bagian mana yang menentukan pemilik situs.
 // Tidak mengirim apa pun ke server dan tidak menilai aman atau tidaknya sebuah situs.
 // Untuk mengetahui apakah sebuah tautan pernah dilaporkan, gunakan halaman Cek.
@@ -13,9 +13,6 @@
 
   // Akhiran domain Indonesia bertingkat: domain = tiga label terakhir (contoh: kampus.ac.id).
   var TLD2 = ['ac.id', 'co.id', 'go.id', 'or.id', 'sch.id', 'web.id', 'my.id', 'net.id', 'mil.id'];
-  // Akhiran yang tampak resmi tetapi diletakkan di tengah alamat (di bagian subdomain).
-  var AKHIRAN_DI_TENGAH = /(^|\.)(ac\.id|co\.id|go\.id|or\.id|sch\.id|web\.id|my\.id|net\.id|mil\.id|com|net|org|edu)(\.|$)/i;
-  var MIRIP_KAMPUS = /kampus|sso|akademik|siakad|nilai|beasiswa/i;
 
   // Tampilan "defanged" seperti di halaman Cek: titik menjadi [.] dan http menjadi hxxp.
   function defang(text) {
@@ -63,53 +60,12 @@
     return d;
   }
 
-  function boldDomain(p) {
-    var b = document.createElement('b');
-    b.textContent = defang(p.domain);
-    return b;
-  }
-
-  function setVerdict(p) {
-    var kampus = /\.ac\.id$/i.test(p.domain);
-    var warn = null;
-    verdict.className = 'lp-vonis';
-    verdict.textContent = '';
-
-    if (p.userinfo) {
-      warn = ['Bagian sebelum tanda @ bukan alamat situs dan diabaikan peramban. Pemilik situs ini ', boldDomain(p), '.'];
-    } else if (p.isIp) {
-      warn = ['Alamat ini berupa angka, bukan nama situs, jadi sulit dipastikan siapa pemiliknya: ', boldDomain(p), '.'];
-    } else if (AKHIRAN_DI_TENGAH.test(p.sub)) {
-      warn = ['Ada akhiran seperti .ac.id atau .com di tengah alamat, padahal itu hanya subdomain. Pemilik situs ini ', boldDomain(p), '.'];
-    } else if (!kampus && MIRIP_KAMPUS.test(p.sub + p.domain)) {
-      warn = ['Alamat ini memuat nama yang mirip kampus, tetapi domainnya ', boldDomain(p), '. Pastikan itu alamat resmi kampus sebelum Anda klik.'];
-    }
-
-    if (warn) {
-      verdict.className = 'lp-vonis lp-vonis-warn';
-      var icon = document.createElement('i');
-      icon.className = 'bi bi-exclamation-triangle-fill me-1';
-      icon.setAttribute('aria-hidden', 'true');
-      verdict.appendChild(icon);
-      warn.forEach(function (part) {
-        verdict.appendChild(typeof part === 'string' ? document.createTextNode(part) : part);
-      });
-    } else if (kampus) {
-      verdict.appendChild(document.createTextNode('Situs ini milik '));
-      verdict.appendChild(boldDomain(p));
-      verdict.appendChild(document.createTextNode('. Akhiran .ac.id dipakai institusi pendidikan, tetapi tetap periksa pengirimnya.'));
-    } else {
-      verdict.appendChild(document.createTextNode('Situs ini milik '));
-      verdict.appendChild(boldDomain(p));
-      verdict.appendChild(document.createTextNode('. Pastikan itu memang situs yang Anda maksud.'));
-    }
-  }
-
   function render(raw) {
     out.textContent = '';
     var p = parse(raw);
+    // Satu-satunya teks di bawah alamat: pesan bila masukan belum berupa alamat. Selain itu cukup bagian-bagian alamatnya.
+    verdict.textContent = '';
     if (!p) {
-      verdict.className = 'lp-vonis';
       verdict.textContent = 'Tautan belum lengkap. Contoh: https://nama-situs.com/halaman';
       return;
     }
@@ -119,7 +75,6 @@
     out.appendChild(segment(p.domain, 'domain: pemilik situs', 'key'));
     if (p.port) out.appendChild(segment(p.port, 'port', 'dim'));
     if (p.rest) out.appendChild(segment(p.rest, 'jalur', 'dim'));
-    setVerdict(p);
     // Layar sempit: alamat bisa digeser, jadi geser otomatis agar bagian domain langsung terlihat.
     var key = out.querySelector('.lp-seg.key');
     out.scrollLeft = 0;

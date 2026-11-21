@@ -19,22 +19,24 @@ $flashIcon = ['sukses' => 'bi-check-circle-fill', 'galat' => 'bi-x-circle-fill',
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?= e($pageTitle) ?> — LaPhish</title>
+    <title><?= e($pageTitle) ?> | LaPhish</title>
     <link rel="stylesheet" href="<?= url('assets/vendor/bootstrap/bootstrap.min.css') ?>">
     <link rel="stylesheet" href="<?= url('assets/vendor/bootstrap-icons/bootstrap-icons.min.css') ?>">
     <link rel="stylesheet" href="<?= url('assets/css/app.css') ?>">
 </head>
 <body class="lp-public">
-<nav class="navbar navbar-expand-md navbar-dark lp-nav px-3 px-md-4">
-    <a class="navbar-brand" href="<?= url('index.php') ?>"><i class="bi bi-shield-check me-1"></i>LaPhish</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navPublik" aria-controls="navPublik" aria-expanded="false" aria-label="Buka menu">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navPublik">
-        <div class="navbar-nav ms-auto gap-md-2">
-            <?php foreach ($navItems as $key => [$label, $href]): ?>
-                <a class="nav-link<?= $key === $activeNav ? ' active' : '' ?>" href="<?= url($href) ?>"<?= $key === $activeNav ? ' aria-current="page"' : '' ?>><?= e($label) ?></a>
-            <?php endforeach; ?>
+<nav class="navbar navbar-expand-md lp-nav">
+    <div class="container">
+        <a class="navbar-brand" href="<?= url('index.php') ?>"><i class="bi bi-shield-check me-1"></i>LaPhish</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navPublik" aria-controls="navPublik" aria-expanded="false" aria-label="Buka menu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navPublik">
+            <div class="navbar-nav ms-auto gap-md-3">
+                <?php foreach ($navItems as $key => [$label, $href]): ?>
+                    <a class="nav-link<?= $key === $activeNav ? ' active' : '' ?>" href="<?= url($href) ?>"<?= $key === $activeNav ? ' aria-current="page"' : '' ?>><?= e($label) ?></a>
+                <?php endforeach; ?>
+            </div>
         </div>
     </div>
 </nav>

@@ -38,7 +38,9 @@
 }
 
 .text-muted-lp { color: var(--lp-muted) !important; }
-.lp-defang { font-family: "Courier New", ui-monospace, monospace; word-break: break-all; }
+.lp-defang { font-family: Consolas, "Cascadia Mono", ui-monospace, monospace; word-break: break-all; }
+/* Kolom nilai di tabel: lebar minimum agar tidak menyusut jadi beberapa huruf per baris (break-all membuat lebar minimumnya sangat kecil). Di layar sempit tabel bisa digeser. */
+.lp-nilai { min-width: 13rem; }
 
 /* ---------- Tombol dan form ---------- */
 .btn-primary {
@@ -54,15 +56,18 @@
 }
 /* Batas kolom isian lebih gelap: bawaan Bootstrap (#DEE2E6) hanya 1,3:1 terhadap putih, bentuk kolom hampir tak terlihat. #8A839C = 3,6:1.
    Status is-invalid (merah) dan :focus (ungu) tetap menimpa warna ini karena selektornya lebih spesifik. */
-.form-control, .form-select, .input-group-text { border-color: #8A839C; }
+.form-control, .form-select, .input-group-text, .input-group > .btn-outline-secondary { border-color: #8A839C; }
+.input-group > .btn-outline-secondary { color: var(--lp-dark); }
+.input-group > .btn-outline-secondary:hover { background: #EFE9F7; color: var(--lp-dark); border-color: #8A839C; }
 .form-control:focus, .form-select:focus { border-color: var(--lp-primary); box-shadow: 0 0 0 .2rem rgba(101, 63, 153, .2); }
 .form-label { font-weight: 600; }
 .req { color: var(--lp-red); }
 
 /* ---------- Kartu dan tabel ---------- */
-.card { border: 0; box-shadow: 0 1px 3px rgba(35, 31, 64, .08), 0 1px 2px rgba(35, 31, 64, .06); }
+/* Kartu (arah desain A): bertepi tinta tipis tanpa bayangan; berlaku di halaman publik dan admin. */
+.card { border: 1.5px solid var(--lp-dark); border-radius: 1rem; box-shadow: none; overflow: hidden; }
 .table { --bs-table-color: var(--lp-dark); margin-bottom: 0; }
-.table thead th { font-size: .78rem; text-transform: uppercase; letter-spacing: .03em; color: var(--lp-muted); font-weight: 600; background: #FAF9FD; }
+.table thead th { font-size: .85rem; color: var(--lp-muted); font-weight: 600; background: #F3F0F9; border-top: 1px solid var(--lp-border); }
 
 /* ---------- Badge status (pemetaan warna: 02b bagian 0) ---------- */
 .st { display: inline-flex; align-items: center; gap: .3rem; font-size: .75rem; font-weight: 600; padding: .22rem .6rem; border-radius: 999px; color: #fff; white-space: nowrap; }
@@ -73,14 +78,14 @@
 .st-purple { background: var(--lp-primary); }
 
 /* ---------- Pesan (alert) ---------- */
-.alert-ok, .alert-err, .alert-info-lp, .alert-warn { border: 0; border-left: 5px solid; }
+.alert-ok, .alert-err, .alert-info-lp, .alert-warn { border: 1.5px solid; }
 .alert-ok { background: var(--lp-green-bg); border-color: var(--lp-green); color: var(--lp-green-text); }
 .alert-err { background: var(--lp-red-bg); border-color: var(--lp-red); color: var(--lp-red-text); }
 .alert-info-lp { background: var(--lp-primary-tint); border-color: var(--lp-primary); color: var(--lp-dark); }
 .alert-warn { background: var(--lp-orange-bg); border-color: var(--lp-orange); color: var(--lp-orange-text); }
 
 /* ---------- Kotak hasil Cek ---------- */
-.res { border-left: 6px solid; border-radius: .5rem; padding: 1rem 1.25rem; }
+.res { border: 1.5px solid; border-radius: .6rem; padding: 1rem 1.25rem; }
 .res-red { background: var(--lp-red-bg); border-color: var(--lp-red); }       .res-red .t { color: var(--lp-red-text); }
 .res-orange { background: var(--lp-orange-bg); border-color: var(--lp-orange); } .res-orange .t { color: var(--lp-orange-text); }
 .res-green { background: var(--lp-green-bg); border-color: var(--lp-green); }   .res-green .t { color: var(--lp-green-text); }
@@ -90,20 +95,30 @@
 .timeline { border-left: 3px solid #DDD6EA; margin-left: .5rem; padding-left: 1.25rem; }
 .timeline .item { position: relative; margin-bottom: 1rem; }
 .timeline .item:last-child { margin-bottom: 0; }
-.timeline .item::before { content: ""; position: absolute; left: -1.62rem; top: .35rem; width: .8rem; height: .8rem; border-radius: 50%; background: var(--lp-primary); border: 2px solid #fff; }
+.timeline .item::before { content: ""; position: absolute; left: -1.62rem; top: .35rem; width: .8rem; height: .8rem; border-radius: 50%; background: var(--c, var(--lp-primary)); border: 2px solid #fff; }
+/* Titik riwayat mengikuti warna status (selalu disertai lencana bertulisan) */
+.timeline .item-baru { --c: var(--lp-primary); }
+.timeline .item-ditinjau { --c: var(--lp-orange); }
+.timeline .item-valid { --c: var(--lp-red); }
+.timeline .item-tidak_valid { --c: var(--lp-grey); }
+.lp-tag { font-size: .75rem; font-weight: 700; padding: .1rem .55rem; border: 1.5px solid var(--lp-dark); border-radius: 999px; color: var(--lp-dark); white-space: nowrap; }
 
 /* =====================================================================
    HALAMAN PUBLIK
    ===================================================================== */
 body.lp-public { min-height: 100vh; display: flex; flex-direction: column; }
-.lp-nav { background: var(--lp-dark); border-bottom: 4px solid var(--lp-accent); }
-.lp-nav .navbar-brand { font-weight: 800; color: #fff; }
-.lp-nav .navbar-brand i { color: var(--lp-accent); }
-.lp-nav .nav-link { color: rgba(255, 255, 255, .75); font-weight: 500; }
-.lp-nav .nav-link:hover { color: #fff; }
-.lp-nav .nav-link.active { color: #fff; border-bottom: 2px solid var(--lp-accent); }
-.lp-footer { background: var(--lp-dark); color: rgba(255, 255, 255, .7); font-size: .85rem; }
-.lp-footer a { color: rgba(255, 255, 255, .85); }
+/* Header dan footer terang (arah desain A): garis tipis, bukan blok gelap. Kuning hanya garis bawah menu aktif. */
+.lp-nav { background: var(--lp-bg); border-bottom: 1px solid var(--lp-border); padding-block: .6rem; }
+.lp-nav .navbar-brand { font-weight: 800; font-size: 1.2rem; letter-spacing: -.02em; color: var(--lp-dark); }
+.lp-nav .navbar-brand i { color: var(--lp-dark); font-size: 1.4rem; }
+.lp-nav .nav-link { color: var(--lp-muted); font-weight: 500; padding-block: .25rem; }
+.lp-nav .nav-link:hover { color: var(--lp-dark); }
+.lp-nav .nav-link.active { color: var(--lp-dark); font-weight: 700; box-shadow: inset 0 -3px 0 var(--lp-accent); }
+.lp-nav .nav-link:focus-visible, .lp-nav .navbar-brand:focus-visible { outline: 3px solid var(--lp-primary); outline-offset: 3px; border-radius: 4px; }
+.lp-nav .navbar-toggler { border-color: #8A839C; }
+@media (max-width: 767.98px) { .lp-nav .nav-link { padding-inline: .25rem; width: fit-content; } }
+.lp-footer { background: var(--lp-bg); border-top: 1px solid var(--lp-border); color: var(--lp-muted); font-size: .9rem; }
+.lp-footer a { color: var(--lp-dark); text-underline-offset: 3px; }
 .lp-page { background: var(--lp-bg); }
 
 /* ---------- Beranda (arah desain A "Lensa") ---------- */
@@ -124,7 +139,7 @@ body.lp-public { min-height: 100vh; display: flex; flex-direction: column; }
 .lp-seg.key code { background: linear-gradient(var(--lp-accent), var(--lp-accent)) no-repeat left center / 100% 100%; color: var(--lp-dark); }
 .lp-seg.key small { border-top-color: var(--lp-dark); color: var(--lp-dark); font-weight: 800; }
 .lp-vonis { margin: 1.2rem 0 0; font-weight: 600; }
-.lp-vonis-warn { color: var(--lp-red-text); }
+.lp-vonis:empty { display: none; }
 @media (prefers-reduced-motion: no-preference) {
   .lp-seg.key code { animation: lp-sorot .9s .35s cubic-bezier(.3, .7, .2, 1) both; }
   @keyframes lp-sorot { from { background-size: 0% 100%; } to { background-size: 100% 100%; } }
@@ -135,6 +150,23 @@ body.lp-public { min-height: 100vh; display: flex; flex-direction: column; }
   .lp-seg code { word-break: normal; white-space: nowrap; }
 }
 
+/* Judul halaman publik (Lapor, Cek, Lacak, tiket) */
+.lp-page h1.h3 { letter-spacing: -.035em; font-size: clamp(2rem, 4.2vw, 2.8rem); line-height: 1.08; }
+
+/* Judul bagian di formulir Lapor: nomor berbulatan ungu (memang urutan) */
+.lp-sec { display: flex; align-items: center; gap: .6rem; font-size: 1.1rem; font-weight: 800; letter-spacing: -.015em; }
+.lp-no { width: 1.7rem; height: 1.7rem; border-radius: 50%; background: var(--lp-primary); color: #fff; display: grid; place-items: center; font-size: .95rem; font-weight: 700; flex-shrink: 0; }
+
+/* Hasil Cek: nilai yang diperiksa berada di panel putih di dalam kotak berwarna, agar sorotan kuning tidak berdempetan dengan oranye */
+.res .lp-defang, .res .lp-url { background: #fff; border: 1px solid rgba(35, 31, 64, .15); border-radius: .4rem; padding: .7rem .9rem; }
+.res .lp-url { font-size: clamp(.95rem, 2vw, 1.2rem); }
+
+/* Legenda arti hasil Cek */
+.lp-keys { list-style: none; margin: 0; padding: 0; border-top: 1.5px solid var(--lp-dark); }
+.lp-keys li { display: grid; grid-template-columns: minmax(15rem, 21rem) 1fr; gap: 1.2rem; align-items: center; padding-block: .9rem; border-bottom: 1px solid var(--lp-border); }
+.lp-keys .st { justify-self: start; font-size: .85rem; }
+@media (max-width: 767.98px) { .lp-keys li { grid-template-columns: 1fr; gap: .3rem; } }
+
 /* Tiga jalur masuk sebagai baris besar */
 .lp-paths { border-top: 1.5px solid var(--lp-dark); }
 .lp-path { display: grid; grid-template-columns: 11rem 1fr auto; gap: 1.5rem; align-items: center; padding: 1.5rem .5rem; border-bottom: 1px solid var(--lp-border); text-decoration: none; color: inherit; }
@@ -144,35 +176,49 @@ body.lp-public { min-height: 100vh; display: flex; flex-direction: column; }
 .lp-path .go { font-weight: 700; color: var(--lp-primary); white-space: nowrap; padding-right: .5rem; }
 @media (max-width: 767.98px) { .lp-path { grid-template-columns: 1fr; gap: .4rem; } }
 
-/* Cara kerja: memang urutan, jadi bernomor */
+/* Cara kerja: memang urutan. Nomor sedang dan berwarna gelap (bukan angka besar berwarna), dengan garis tipis gelap di atas
+   yang sama dengan garis daftar Cek, Lapor, Lacak di atasnya, supaya urutannya terbaca sekilas. */
 .lp-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; counter-reset: lp-langkah; }
-.lp-steps li { counter-increment: lp-langkah; border-top: 3px solid var(--lp-primary); padding-top: 1rem; }
-.lp-steps li::before { content: counter(lp-langkah); display: block; font-weight: 800; font-size: 2.4rem; line-height: 1; color: var(--lp-primary); margin-bottom: .6rem; letter-spacing: -.04em; }
-@media (max-width: 767.98px) { .lp-steps { grid-template-columns: 1fr; gap: 1.5rem; } }
-.lp-ticket { font-family: "Courier New", ui-monospace, monospace; font-size: 2rem; font-weight: 700; letter-spacing: .2em; color: var(--lp-primary); border: 2px dashed var(--lp-primary); border-radius: .5rem; padding: .75rem 1.5rem; display: inline-block; background: #fff; }
+.lp-steps li { counter-increment: lp-langkah; border-top: 1.5px solid var(--lp-dark); padding-top: .9rem; }
+.lp-steps li::before { content: counter(lp-langkah); display: block; font-weight: 700; font-size: 1.5rem; line-height: 1; color: var(--lp-dark); margin-bottom: .5rem; }
+@media (max-width: 767.98px) { .lp-steps { grid-template-columns: 1fr; gap: 1.25rem; } }
+.lp-ticket { font-family: Consolas, "Cascadia Mono", ui-monospace, monospace; font-size: 2rem; font-weight: 700; letter-spacing: .2em; color: var(--lp-primary); border: 2px dashed var(--lp-primary); border-radius: .5rem; padding: .75rem 1.5rem; display: inline-block; background: #fff; }
+.lp-ticket-sm { font-size: 1.35rem; letter-spacing: .14em; padding: .3rem .9rem; }
 
 /* =====================================================================
    HALAMAN ADMIN (sidebar kiri)
    ===================================================================== */
 .lp-shell { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; }
 .lp-side { background: var(--lp-dark); display: flex; flex-direction: column; padding: 1rem .75rem; position: sticky; top: 0; height: 100vh; }
-.lp-side .brand { color: #fff; font-weight: 800; font-size: 1.15rem; padding: .25rem .75rem 1rem; border-bottom: 1px solid rgba(255, 255, 255, .12); margin-bottom: .75rem; text-decoration: none; }
-.lp-side .brand i { color: var(--lp-accent); }
+.lp-side .brand { color: #fff; font-weight: 800; font-size: 1.2rem; letter-spacing: -.02em; padding: .25rem .75rem 1rem; border-bottom: 1px solid rgba(255, 255, 255, .12); margin-bottom: .75rem; text-decoration: none; }
+/* Ikon merek sama di header publik, sidebar admin, dan login: satu glyph, satu warna (gelap di latar terang, putih di latar gelap) */
+.lp-side .brand i { color: #fff; font-size: 1.4rem; }
 .lp-side a:not(.brand) { display: flex; align-items: center; gap: .6rem; color: rgba(255, 255, 255, .75); text-decoration: none; padding: .55rem .75rem; border-radius: .5rem; margin-bottom: .15rem; font-weight: 500; }
 .lp-side a:not(.brand):hover { background: rgba(255, 255, 255, .06); color: #fff; }
-.lp-side a.active { background: var(--lp-primary); color: #fff; }
+.lp-side a.active { background: rgba(255, 255, 255, .12); color: #fff; font-weight: 700; }
 .lp-side .bottom { margin-top: auto; border-top: 1px solid rgba(255, 255, 255, .12); padding-top: .75rem; }
 .lp-side .who { font-size: .8rem; color: rgba(255, 255, 255, .6); padding: 0 .75rem .5rem; }
 .lp-main { background: var(--lp-bg); padding: 1.75rem 2rem; min-width: 0; }
 .page-head { display: flex; flex-wrap: wrap; gap: .75rem; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; }
 
-.stat { border-left: 5px solid; }
-.stat .num { font-size: 1.9rem; font-weight: 800; line-height: 1; color: var(--lp-dark); }
-.stat.c-dark { border-color: var(--lp-dark); }
-.stat.c-purple { border-color: var(--lp-primary); }
-.stat.c-orange { border-color: var(--lp-orange); }
-.stat.c-red { border-color: var(--lp-red); }
-.stat.c-grey { border-color: var(--lp-grey); }
+.page-head h1 { font-weight: 800; letter-spacing: -.035em; font-size: clamp(1.7rem, 3vw, 2.3rem); line-height: 1.1; }
+
+/* Kartu status dashboard: lencana status (atau teks "Total laporan") di atas, angka besar di bawah */
+.stat .lab { display: flex; align-items: center; font-weight: 600; font-size: .92rem; color: var(--lp-dark); min-height: 1.6rem; }
+.stat .num { font-size: 2.6rem; font-weight: 800; line-height: 1.1; letter-spacing: -.04em; font-variant-numeric: tabular-nums; color: var(--lp-dark); margin-top: .3rem; }
+a:hover > .stat { background: #F7F3FC; }
+/* Pembagian halaman di daftar admin */
+.lp-pager { display: flex; flex-wrap: wrap; gap: .6rem 1rem; align-items: center; justify-content: space-between; margin-top: 1rem; }
+.lp-pager .info { color: var(--lp-muted); font-size: .9rem; }
+.lp-pager ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .35rem; }
+.lp-pager a, .lp-pager .sekarang, .lp-pager .mati { display: inline-flex; align-items: center; justify-content: center; min-width: 2.3rem; height: 2.3rem; padding: 0 .75rem; border-radius: .5rem; font-weight: 600; font-size: .92rem; text-decoration: none; }
+.lp-pager a { border: 1.5px solid #8A839C; color: var(--lp-dark); background: #fff; }
+.lp-pager a:hover { background: #EFE9F7; color: var(--lp-dark); }
+.lp-pager a:focus-visible { outline: 3px solid var(--lp-primary); outline-offset: 2px; }
+.lp-pager .sekarang { background: var(--lp-dark); color: #fff; border: 1.5px solid var(--lp-dark); }
+.lp-pager .mati { color: var(--lp-muted); border: 1.5px solid transparent; }
+/* Penanda jumlah terbanyak di tabel rekap (selalu disertai teks "terbanyak" untuk pembaca layar) */
+.lp-top { background: var(--lp-accent); padding: .05rem .5rem; border-radius: .25rem; }
 
 /* Layar kecil: sidebar berubah menjadi bar di atas */
 @media (max-width: 767.98px) {
@@ -185,4 +231,4 @@ body.lp-public { min-height: 100vh; display: flex; flex-direction: column; }
 }
 
 /* Halaman login admin */
-.lp-login { min-height: 100vh; background: var(--lp-dark); border-bottom: 4px solid var(--lp-accent); display: flex; align-items: center; justify-content: center; padding: 1.5rem; }
+.lp-login { min-height: 100vh; background: var(--lp-dark); display: flex; align-items: center; justify-content: center; padding: 1.5rem; }

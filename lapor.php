@@ -9,6 +9,8 @@
 require __DIR__ . '/includes/init.php';
 
 const MAX_INDICATORS = 5;
+// Contoh isian per jenis indikator (placeholder). assets/js/app.js menggantinya saat jenis pada satu baris diubah.
+const CONTOH_INDIKATOR = ['url' => 'https://contoh.example/login', 'email' => 'penipu@contoh.example', 'phone' => '0812-3456-7890'];
 
 $categories = db()->query('SELECT category_id, name, description FROM categories ORDER BY category_id')->fetchAll();
 $channels = db()->query('SELECT channel_id, name FROM channels ORDER BY channel_id')->fetchAll();
@@ -189,7 +191,7 @@ require __DIR__ . '/includes/layout_publik_atas.php';
         <input type="hidden" name="action" value="kirim">
 
         <div class="card p-4 mb-4">
-            <h2 class="h6 fw-bold mb-3"><i class="bi bi-1-circle-fill me-1" style="color: var(--lp-primary)"></i>Detail kejadian</h2>
+            <h2 class="lp-sec mb-3"><span class="lp-no">1</span>Detail kejadian</h2>
             <div class="row g-3">
                 <div class="col-md-6">
                     <label class="form-label" for="channel_id">Kanal <span class="req">*</span></label>
@@ -223,7 +225,7 @@ require __DIR__ . '/includes/layout_publik_atas.php';
         </div>
 
         <div class="card p-4 mb-4">
-            <h2 class="h6 fw-bold mb-1"><i class="bi bi-2-circle-fill me-1" style="color: var(--lp-primary)"></i>Indikator <span class="req">*</span></h2>
+            <h2 class="lp-sec mb-1"><span class="lp-no">2</span>Indikator <span class="req">*</span></h2>
             <p class="small text-muted-lp">Tempel tautan, email, atau nomor dari pesan tersebut. Minimal 1, maksimal <?= MAX_INDICATORS ?>.</p>
             <div id="indicatorRows" data-max="<?= MAX_INDICATORS ?>">
                 <?php foreach (array_slice($old['indicators'], 0, MAX_INDICATORS) as $i => $row): ?>
@@ -231,11 +233,11 @@ require __DIR__ . '/includes/layout_publik_atas.php';
                         <div class="col-4 col-md-3">
                             <select class="form-select" name="ind_type[]" aria-label="Jenis indikator">
                                 <?php foreach (INDICATOR_TYPES as $val => $label): ?>
-                                    <option value="<?= $val ?>"<?= $row['type'] === $val ? ' selected' : '' ?>><?= $label ?></option>
+                                    <option value="<?= $val ?>" data-placeholder="<?= e(CONTOH_INDIKATOR[$val]) ?>"<?= $row['type'] === $val ? ' selected' : '' ?>><?= $label ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
-                        <div class="col"><input class="form-control" name="ind_value[]" maxlength="500" value="<?= e($row['value']) ?>" placeholder="https://contoh.example/login" aria-label="Nilai indikator"></div>
+                        <div class="col"><input class="form-control" name="ind_value[]" maxlength="500" value="<?= e($row['value']) ?>" placeholder="<?= e(CONTOH_INDIKATOR[$row['type']] ?? CONTOH_INDIKATOR['url']) ?>" aria-label="Nilai indikator"></div>
                         <div class="col-auto" style="width: 52px">
                             <button type="button" class="btn btn-outline-secondary remove-indicator<?= $i === 0 ? ' invisible' : '' ?>" title="Hapus baris" aria-label="Hapus baris"><i class="bi bi-trash"></i></button>
                         </div>
@@ -249,7 +251,7 @@ require __DIR__ . '/includes/layout_publik_atas.php';
         </div>
 
         <div class="card p-4 mb-4">
-            <h2 class="h6 fw-bold mb-1"><i class="bi bi-3-circle-fill me-1" style="color: var(--lp-primary)"></i>Identitas pelapor <span class="fw-normal text-muted-lp">(opsional)</span></h2>
+            <h2 class="lp-sec mb-1"><span class="lp-no">3</span>Identitas pelapor <span class="fw-normal text-muted-lp fs-6">(opsional)</span></h2>
             <p class="small text-muted-lp">Hanya dipakai unit TI untuk menghubungi Anda. Tidak ditampilkan di halaman publik.</p>
             <div class="row g-3">
                 <div class="col-md-6"><label class="form-label" for="name">Nama</label><input class="form-control" id="name" name="name" maxlength="100" value="<?= e($old['name']) ?>" placeholder="Boleh dikosongkan"></div>

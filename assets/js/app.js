@@ -21,6 +21,46 @@ document.querySelectorAll('select[data-help-target]').forEach(function (select) 
   update();
 });
 
+// Tombol mata di kolom kata sandi: tampilkan atau sembunyikan isinya.
+// Pemakaian: <button type="button" data-lihat-sandi="id-kolom">
+document.querySelectorAll('[data-lihat-sandi]').forEach(function (button) {
+  var field = document.getElementById(button.getAttribute('data-lihat-sandi'));
+  var icon = button.querySelector('i');
+  if (!field) return;
+  button.addEventListener('click', function () {
+    var show = field.type === 'password';
+    field.type = show ? 'text' : 'password';
+    button.setAttribute('aria-pressed', String(show));
+    button.setAttribute('aria-label', show ? 'Sembunyikan kata sandi' : 'Tampilkan kata sandi');
+    if (icon) icon.className = 'bi ' + (show ? 'bi-eye-slash' : 'bi-eye');
+    field.focus();
+  });
+});
+
+// Halaman Cek: petunjuk di atas formulir dan contoh isian mengikuti jenis yang dipilih (URL, email, atau nomor).
+(function () {
+  var select = document.querySelector('select[data-cek-petunjuk]');
+  var hint = document.getElementById('cekHint');
+  var field = document.getElementById('value');
+  if (!select || !hint || !field) return;
+  function update() {
+    var option = select.options[select.selectedIndex];
+    if (!option) return;
+    hint.textContent = option.getAttribute('data-hint') || '';
+    field.placeholder = option.getAttribute('data-placeholder') || '';
+  }
+  select.addEventListener('change', update);
+  update();
+})();
+
+// Alamat yang dibedah (hasil Cek) di layar sempit bisa digeser; geser otomatis agar bagian domain langsung terlihat.
+document.querySelectorAll('.lp-url').forEach(function (box) {
+  var key = box.querySelector('.lp-seg.key');
+  if (key && box.scrollWidth > box.clientWidth) {
+    box.scrollLeft = Math.max(0, key.offsetLeft - (box.clientWidth - key.offsetWidth) / 2);
+  }
+});
+
 // Baris indikator di formulir lapor: tambah dan hapus, maksimal sesuai data-max.
 (function () {
   var rows = document.getElementById('indicatorRows');
@@ -39,12 +79,25 @@ document.querySelectorAll('select[data-help-target]').forEach(function (select) 
     });
   }
 
+  // Contoh isian (placeholder) mengikuti jenis yang dipilih pada baris itu.
+  function updatePlaceholder(row) {
+    var select = row.querySelector('select');
+    var option = select && select.options[select.selectedIndex];
+    var input = row.querySelector('input');
+    if (option && input && option.getAttribute('data-placeholder')) input.placeholder = option.getAttribute('data-placeholder');
+  }
+  rows.addEventListener('change', function (event) {
+    var row = event.target.closest('.indicator-row');
+    if (row && event.target.tagName === 'SELECT') updatePlaceholder(row);
+  });
+
   addBtn.addEventListener('click', function () {
     var all = rows.querySelectorAll('.indicator-row');
     if (all.length >= max) return;
     var clone = all[0].cloneNode(true);
     clone.querySelector('input').value = '';
     clone.querySelector('select').selectedIndex = 0;
+    updatePlaceholder(clone);
     rows.appendChild(clone);
     refresh();
     clone.querySelector('input').focus();
