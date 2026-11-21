@@ -1,6 +1,6 @@
 # Tahap 3 — Implementation (Development)
 
-Proyek: **LaporPhish: Lapor dan Cek Phishing di Kampus**
+Proyek: **LaPhish: Lapor dan Cek Phishing di Kampus**
 Dasar: `01_analisis_kebutuhan.md`, `02a_desain_database.md`, `02b_mockup.md`.
 
 Status: **selesai** (langkah 3.1–3.6, 2026-11-20). Di-commit lokal dalam 6 commit (belum di-push).
@@ -49,7 +49,7 @@ Proyek_Akhir/
 │   ├── js/app.js
 │   └── vendor/            Bootstrap, Bootstrap Icons, Plus Jakarta Sans
 ├── database/
-│   └── laporphish.sql     Struktur 8 tabel + view + data dummy
+│   └── laphish.sql     Struktur 8 tabel + view + data dummy
 ├── docs/                  Dokumen SDLC dan mockup
 ├── README.md
 └── .gitignore
@@ -61,8 +61,8 @@ Setiap halaman yang punya form memproses POST-nya sendiri di bagian atas file, l
 
 | Langkah | Isi | Hasil yang bisa dicek |
 |---|---|---|
-| 3.1 | Persiapan: repo git lokal, `.gitignore`, aset lokal, akses Apache ke folder proyek | Halaman uji tampil di `http://localhost/laporphish/` |
-| 3.2 | `database/laporphish.sql`: 8 tabel, view, akun admin demo, kategori/kanal awal, 30–50 laporan dummy (Juni–November 2026) | Diimpor ke MariaDB; jumlah baris tiap tabel dicek |
+| 3.1 | Persiapan: repo git lokal, `.gitignore`, aset lokal, akses Apache ke folder proyek | Halaman uji tampil di `http://localhost/laphish/` |
+| 3.2 | `database/laphish.sql`: 8 tabel, view, akun admin demo, kategori/kanal awal, 30–50 laporan dummy (Juni–November 2026) | Diimpor ke MariaDB; jumlah baris tiap tabel dicek |
 | 3.3 | `includes/` (config, db, helpers, auth, layout) + `assets/css/app.css` | Halaman kosong dengan navbar/sidebar sesuai mockup |
 | 3.4 | Halaman publik P1–P5 | Alur lapor → tiket → lacak, dan cek indikator berjalan |
 | 3.5 | Halaman admin A1–A11 | Semua CRUD berjalan, perubahan terlihat di phpMyAdmin |
@@ -72,11 +72,11 @@ Setiap langkah ditunjukkan hasilnya dulu sebelum lanjut ke langkah berikutnya.
 
 ### Progres
 
-- [x] **3.1 Persiapan** (2026-11-20): repo git (branch `main`, belum ada commit), `.gitignore`, aset lokal di `assets/vendor/`, junction `htdocs/laporphish`, Apache hanya mendengarkan di `127.0.0.1` (port 80 dan 443).
-- [x] **3.2 Database** (2026-11-20): `database/laporphish.sql` diimpor ke MariaDB 10.4. Isi (dihitung dari kueri setelah impor): 1 admin, 6 kategori, 6 kanal, 16 pelapor, 42 laporan (Juni–November 2026; status Baru 3, Ditinjau 3, Valid 32, Tidak valid 4), 31 indikator (Phishing 24, Belum 5, Bukan phishing 2; 3 di antaranya ditambahkan admin tanpa laporan), 74 baris penghubung, 117 riwayat status. Semua tabel InnoDB dengan collation `utf8mb4_unicode_ci`. Uji aturan relasi lulus: RESTRICT pada kategori dan indikator, CASCADE saat laporan dihapus, SET NULL saat pelapor dihapus, view mengikuti riwayat terbaru, dan UNIQUE `(type, value)` menolak indikator ganda. Kompatibilitas dengan MySQL 8 belum diuji langsung karena MySQL 8 tidak terpasang.
+- [x] **3.1 Persiapan** (2026-11-20): repo git (branch `main`, belum ada commit), `.gitignore`, aset lokal di `assets/vendor/`, junction `htdocs/laphish`, Apache hanya mendengarkan di `127.0.0.1` (port 80 dan 443).
+- [x] **3.2 Database** (2026-11-20): `database/laphish.sql` diimpor ke MariaDB 10.4. Isi (dihitung dari kueri setelah impor): 1 admin, 6 kategori, 6 kanal, 16 pelapor, 42 laporan (Juni–November 2026; status Baru 3, Ditinjau 3, Valid 32, Tidak valid 4), 31 indikator (Phishing 24, Belum 5, Bukan phishing 2; 3 di antaranya ditambahkan admin tanpa laporan), 74 baris penghubung, 117 riwayat status. Semua tabel InnoDB dengan collation `utf8mb4_unicode_ci`. Uji aturan relasi lulus: RESTRICT pada kategori dan indikator, CASCADE saat laporan dihapus, SET NULL saat pelapor dihapus, view mengikuti riwayat terbaru, dan UNIQUE `(type, value)` menolak indikator ganda. Kompatibilitas dengan MySQL 8 belum diuji langsung karena MySQL 8 tidak terpasang.
 - [x] **3.3 Fondasi kode** (2026-11-20): `includes/` (config, db, init, helpers, auth, layout publik dan admin), `assets/css/app.css`, `assets/js/app.js`, dan `.htaccess`. Semua file lolos `php -l`. Uji lewat Apache: halaman uji tampil dengan navbar dan sidebar sesuai mockup, semua aset lokal termuat (200), koneksi database membaca 42 laporan, `includes/` dan `database/` menolak akses langsung (403), `.git` tidak bisa diakses (404). `index.php` saat ini masih halaman uji sementara dan diganti Beranda di langkah 3.4.
-- [x] **3.4 Halaman publik** (2026-11-20): `index.php` (P1), `lapor.php` (P2), `terkirim.php` (P3), `cek.php` (P4), `lacak.php` (P5). Cek dan Lacak memakai POST agar nilai yang dicek dan kode tiket tidak tersimpan di URL. Hasil uji fungsi lewat Apache: keempat hasil Cek muncul sesuai status verifikasi (termasuk input dengan variasi `HTTPS://WWW…/`), validasi Cek dan Lacak menolak input salah, input `<script>` ter-escape, formulir kosong menampilkan 5 pesan galat, tanggal masa depan ditolak, laporan valid tersimpan dalam satu transaksi (indikator lama dipakai ulang, duplikat dalam satu laporan disimpan sekali, pelapor dengan email yang sama dipakai ulang), lalu kode tiket tampil dan bisa dilacak dengan status Baru. Tambah baris indikator berhenti di 5. Database lokal sekarang berisi 1 laporan uji tambahan; impor ulang `database/laporphish.sql` untuk kembali ke data awal.
-- [x] **3.5 Halaman admin** (2026-11-20): `admin/login.php`, `logout.php`, `index.php` (A2), `laporan.php` (A3), `laporan_detail.php` (A4), `laporan_edit.php` (A5), `indikator.php` (A6), `indikator_form.php` (A7), `kategori.php` (A8), `kategori_form.php` (A9), `kanal.php` (A10), `kanal_form.php` (A11). Semua file lolos `php -l`. Hasil uji lewat Apache: halaman admin tanpa login dialihkan ke login; login salah ditolak dengan pesan umum; filter status, kata kunci, kategori, dan rentang tanggal berjalan; ubah status menambah baris riwayat dan catatannya tampil di halaman Lacak; status di luar daftar ditolak; verifikasi cepat mengisi verifikator dan waktu, dan menolak indikator yang bukan milik laporan; edit laporan mengisi `updated_at`; tambah indikator tersimpan ternormalisasi, duplikat ditolak dengan tautan ke data lama, kembali ke "Belum" mengosongkan verifikator; hapus indikator/kategori/kanal yang masih dipakai ditolak dengan pesan jumlah laporan (RESTRICT), sedangkan yang tidak dipakai berhasil dihapus; nama kategori/kanal ganda ditolak; hapus laporan ikut menghapus penghubung dan riwayat (CASCADE) tanpa menghapus indikator; logout mengakhiri session. Perbaikan selama uji: pesan "Anda sudah keluar" sebelumnya hilang karena cookie session terhapus, kini memakai ID session baru. Data uji sudah dibersihkan dengan impor ulang `database/laporphish.sql`.
+- [x] **3.4 Halaman publik** (2026-11-20): `index.php` (P1), `lapor.php` (P2), `terkirim.php` (P3), `cek.php` (P4), `lacak.php` (P5). Cek dan Lacak memakai POST agar nilai yang dicek dan kode tiket tidak tersimpan di URL. Hasil uji fungsi lewat Apache: keempat hasil Cek muncul sesuai status verifikasi (termasuk input dengan variasi `HTTPS://WWW…/`), validasi Cek dan Lacak menolak input salah, input `<script>` ter-escape, formulir kosong menampilkan 5 pesan galat, tanggal masa depan ditolak, laporan valid tersimpan dalam satu transaksi (indikator lama dipakai ulang, duplikat dalam satu laporan disimpan sekali, pelapor dengan email yang sama dipakai ulang), lalu kode tiket tampil dan bisa dilacak dengan status Baru. Tambah baris indikator berhenti di 5. Database lokal sekarang berisi 1 laporan uji tambahan; impor ulang `database/laphish.sql` untuk kembali ke data awal.
+- [x] **3.5 Halaman admin** (2026-11-20): `admin/login.php`, `logout.php`, `index.php` (A2), `laporan.php` (A3), `laporan_detail.php` (A4), `laporan_edit.php` (A5), `indikator.php` (A6), `indikator_form.php` (A7), `kategori.php` (A8), `kategori_form.php` (A9), `kanal.php` (A10), `kanal_form.php` (A11). Semua file lolos `php -l`. Hasil uji lewat Apache: halaman admin tanpa login dialihkan ke login; login salah ditolak dengan pesan umum; filter status, kata kunci, kategori, dan rentang tanggal berjalan; ubah status menambah baris riwayat dan catatannya tampil di halaman Lacak; status di luar daftar ditolak; verifikasi cepat mengisi verifikator dan waktu, dan menolak indikator yang bukan milik laporan; edit laporan mengisi `updated_at`; tambah indikator tersimpan ternormalisasi, duplikat ditolak dengan tautan ke data lama, kembali ke "Belum" mengosongkan verifikator; hapus indikator/kategori/kanal yang masih dipakai ditolak dengan pesan jumlah laporan (RESTRICT), sedangkan yang tidak dipakai berhasil dihapus; nama kategori/kanal ganda ditolak; hapus laporan ikut menghapus penghubung dan riwayat (CASCADE) tanpa menghapus indikator; logout mengakhiri session. Perbaikan selama uji: pesan "Anda sudah keluar" sebelumnya hilang karena cookie session terhapus, kini memakai ID session baru. Data uji sudah dibersihkan dengan impor ulang `database/laphish.sql`.
 - [x] **3.6 README** (2026-11-20): `README.md` berisi deskripsi, fitur, teknologi, cara menjalankan di XAMPP, akun admin demo, keterangan data fiktif, struktur folder, ringkasan keamanan, tautan dokumentasi, pembuat (alias), keterangan bantuan AI, dan atribusi library. Semua tautan dan angka di README sudah dicocokkan dengan file dan isi database.
 
 ## 4. Keputusan persiapan (disetujui 2026-11-20)
@@ -86,7 +86,7 @@ Setiap langkah ditunjukkan hasilnya dulu sebelum lanjut ke langkah berikutnya.
 | K1 | Repo git | `git init` di folder proyek, branch `main`. Commit dibuat per tahap setelah disetujui | Commit dan push hanya setelah disetujui per langkah |
 | K2 | `.gitignore` | `includes/config.php`, `.claude/`, dokumen tugas dari dosen (PDF deskripsi dan `Penjelasan Tambahan.txt`), file sistem (`Thumbs.db`, `.DS_Store`) | Kredensial dan path lokal tidak boleh masuk repo; dokumen tugas milik dosen tidak perlu dipublikasikan |
 | K3 | Aset lokal | Mengunduh Bootstrap 5.3.3 (`bootstrap.min.css`, `bootstrap.bundle.min.js`), Bootstrap Icons 1.11.3 (CSS + font), dan Plus Jakarta Sans (satu file `woff2` variabel dari paket Fontsource) dari jsDelivr, beserta file LICENSE masing-masing. **Selesai 2026-11-20**, total sekitar 736 KB di `assets/vendor/` | Demo tetap berjalan tanpa internet |
-| K4 | Akses proyek dari Apache | Membuat *junction* `htdocs/laporphish` (di folder instalasi XAMPP) → folder proyek ini | Kode tetap di satu tempat, tanpa menyalin file |
+| K4 | Akses proyek dari Apache | Membuat *junction* `htdocs/laphish` (di folder instalasi XAMPP) → folder proyek ini | Kode tetap di satu tempat, tanpa menyalin file |
 | K5 | Apache hanya untuk komputer sendiri | Ubah `Listen 80` menjadi `Listen 127.0.0.1:80` di `httpd.conf` (dicadangkan dulu) | Sesuai aturan server lokal; berlaku juga untuk proyek lain di htdocs |
 | K6 | Akun database | **Dibatalkan.** `config.example.php` memakai bawaan XAMPP (`root` tanpa password, host `127.0.0.1`), sehingga aplikasi langsung jalan setelah file itu disalin menjadi `config.php`. User database khusus dibahas di rencana deploy online (tahap 5) | Dosen bisa menjalankan aplikasi tanpa langkah tambahan yang rawan gagal |
 | K7 | Akun admin demo | Username dan password demo dicatat di README dan file `.sql` (password tersimpan sebagai hash) | Dosen bisa login saat memeriksa; jelas ditandai sebagai akun demo |
@@ -96,7 +96,7 @@ Setiap langkah ditunjukkan hasilnya dulu sebelum lanjut ke langkah berikutnya.
 | Hal | Ketentuan |
 |---|---|
 | File konfigurasi | `includes/config.example.php` di-commit dengan isi dan struktur yang **sama persis** dengan `config.php`, hanya nilainya bawaan XAMPP. Jika `config.php` belum ada, `db.php` menampilkan pesan jelas: "Salin includes/config.example.php menjadi includes/config.php". README menjelaskan langkah ini |
-| Kompatibilitas database | `laporphish.sql` ditulis agar bisa dipakai di MariaDB (XAMPP) maupun MySQL 8 (Laragon): collation `utf8mb4_unicode_ci`, tanpa sintaks khusus MariaDB. File diawali `CREATE DATABASE IF NOT EXISTS laporphish` dan `USE laporphish`, sehingga cukup diimpor sekali lewat phpMyAdmin. Sudah diuji di MariaDB 10.4; MySQL 8 belum diuji langsung |
+| Kompatibilitas database | `laphish.sql` ditulis agar bisa dipakai di MariaDB (XAMPP) maupun MySQL 8 (Laragon): collation `utf8mb4_unicode_ci`, tanpa sintaks khusus MariaDB. File diawali `CREATE DATABASE IF NOT EXISTS laphish` dan `USE laphish`, sehingga cukup diimpor sekali lewat phpMyAdmin. Sudah diuji di MariaDB 10.4; MySQL 8 belum diuji langsung |
 | Nama folder bebas | Semua tautan halaman dan aset memakai path relatif, sehingga aplikasi tetap berjalan walaupun foldernya diberi nama lain di htdocs |
 
 ## 6. Mekanisme koneksi aplikasi–database (untuk presentasi SDLC 3)
@@ -111,7 +111,7 @@ halaman.php
 ```
 
 1. **Konfigurasi terpisah.** `includes/config.php` mengembalikan array berisi host, port, nama database, user, password, dan charset. File ini tidak di-commit; repo hanya berisi `includes/config.example.php` dengan struktur yang sama. Jika `config.php` belum ada, aplikasi menampilkan petunjuk untuk menyalinnya.
-2. **Membuat koneksi.** `db()` membentuk DSN `mysql:host=127.0.0.1;port=3306;dbname=laporphish;charset=utf8mb4` lalu membuat objek PDO dengan tiga opsi:
+2. **Membuat koneksi.** `db()` membentuk DSN `mysql:host=127.0.0.1;port=3306;dbname=laphish;charset=utf8mb4` lalu membuat objek PDO dengan tiga opsi:
    - `PDO::ERRMODE_EXCEPTION`: setiap galat SQL dilempar sebagai exception, sehingga tidak ada galat yang terlewat diam-diam.
    - `PDO::FETCH_ASSOC`: hasil kueri berupa array dengan nama kolom.
    - `PDO::ATTR_EMULATE_PREPARES = false`: prepared statement dikerjakan langsung oleh server database, bukan disimulasikan PHP.

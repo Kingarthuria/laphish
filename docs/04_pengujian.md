@@ -1,9 +1,9 @@
 # Tahap 4 — Testing (Black-Box)
 
-Proyek: **LaporPhish: Lapor dan Cek Phishing di Kampus**
+Proyek: **LaPhish: Lapor dan Cek Phishing di Kampus**
 Dasar: kebutuhan FR-01 s.d. FR-13 dan NFR-01 s.d. NFR-10 di `01_analisis_kebutuhan.md`.
 
-Status: **selesai** (2026-11-20). **58 kasus uji, 58 lulus.**
+Status: **selesai** (2026-11-20). **58 kasus uji, 58 lulus.** Diuji ulang pada 2026-11-21 setelah nama aplikasi diganti menjadi LaPhish (URL, database, dan file SQL baru): 54 kasus HTTP serta TC-11 dan TC-12 tetap lulus.
 
 ## 1. Metode
 
@@ -11,12 +11,12 @@ Pengujian Black-Box: aplikasi diuji dari luar, lewat input dan output yang dilih
 
 | Bagian | Keterangan |
 |---|---|
-| Lingkungan | Windows 11, XAMPP: Apache, PHP 8.2.12, MariaDB 10.4.32. Aplikasi di `http://localhost/laporphish/` |
-| Data awal | Hasil impor `database/laporphish.sql` (42 laporan, 31 indikator, 6 kategori, 6 kanal) |
+| Lingkungan | Windows 11, XAMPP: Apache, PHP 8.2.12, MariaDB 10.4.32. Aplikasi di `http://localhost/laphish/` |
+| Data awal | Hasil impor `database/laphish.sql` (42 laporan, 31 indikator, 6 kategori, 6 kanal) |
 | Cara uji form dan halaman | Permintaan HTTP otomatis (curl) ke Apache, sama seperti yang dikirim browser. Hasil dicek dari halaman yang tampil dan dari isi tabel di database |
 | Cara uji interaksi JavaScript | Browser (Chromium): menambah baris indikator, teks bantuan kategori, dialog konfirmasi hapus, tampilan layar ponsel 375 px |
 | Kode tiket dan ID | Kode tiket dibuat acak, jadi nilainya berbeda setiap kali diuji. Yang dicek adalah formatnya |
-| Setelah uji | Database dikembalikan ke data awal dengan mengimpor ulang `database/laporphish.sql` |
+| Setelah uji | Database dikembalikan ke data awal dengan mengimpor ulang `database/laphish.sql` |
 
 Status: **Lulus** jika hasil aktual sama dengan hasil yang diharapkan.
 
@@ -89,7 +89,7 @@ Status: **Lulus** jika hasil aktual sama dengan hasil yang diharapkan.
 | TC-53 | NFR-10 | Menghapus lewat link GET | `admin/indikator.php?action=delete&id=…` | Tidak ada data yang terhapus | Indikator masih ada | Lulus |
 | TC-54 | NFR-05, NFR-06 | File konfigurasi belum dibuat | `includes/config.php` dipindahkan sementara | Pesan petunjuk, bukan galat PHP | HTTP 500 dengan pesan "Konfigurasi belum dibuat" | Lulus |
 | TC-55 | NFR-06 | Database tidak bisa dihubungi | Nama database di `config.php` diganti sementara | Pesan umum tanpa detail teknis | "Database tidak dapat dihubungi", 0 kata `SQLSTATE`/`PDOException` | Lulus |
-| TC-56 | NFR-05 | Membuka file sensitif langsung dari browser | `includes/config.php`, `includes/db.php`, `database/laporphish.sql`, `.git/HEAD` | Akses ditolak | 403, 403, 403, dan 404 | Lulus |
+| TC-56 | NFR-05 | Membuka file sensitif langsung dari browser | `includes/config.php`, `includes/db.php`, `database/laphish.sql`, `.git/HEAD` | Akses ditolak | 403, 403, 403, dan 404 | Lulus |
 | TC-57 | NFR-10 | Dialog konfirmasi sebelum menghapus | Tombol hapus kanal "Email", lalu pilih Batal | Dialog konfirmasi muncul. Jika dibatalkan, data tidak terhapus | Dialog "Hapus kanal "Email"?" muncul. Setelah Batal, halaman tetap dan kanal masih ada | Lulus |
 | TC-58 | NFR-08 | Tampilan di layar ponsel | Lebar 375 px: beranda, lapor, cek, lacak, dashboard, daftar laporan, daftar indikator | Tidak ada halaman yang melebar ke samping | Lebar konten semua halaman 375 px, sama dengan lebar layar | Lulus |
 

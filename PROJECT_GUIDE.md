@@ -1,15 +1,16 @@
-# PROJECT_GUIDE — LaporPhish
+# PROJECT_GUIDE — LaPhish
 
 > Aturan khusus project ini. Prinsip kerja umum ada di `CLAUDE.global.md` (repo `ai-playbooks`).
 
 ## Identitas proyek
-- **Judul:** LaporPhish: Lapor dan Cek Phishing di Kampus
+- **Judul:** LaPhish: Lapor dan Cek Phishing di Kampus
+- **Nama sebelumnya:** LaporPhish. Diganti menjadi LaPhish pada 2026-11-21 agar mudah diingat, termasuk nama teknis (database `laphish`, URL `localhost/laphish`, repo `laphish`). Kode tiket tetap `LP-`.
 - **Mata kuliah:** Pemrograman Berbasis Web, Proyek Akhir (individu)
 - **Mulai:** 2026-11-20, durasi sekitar 2 minggu. Tenggat pasti: _belum dicatat_.
 - **Pembuat (publik):** Arthur Pendragon, GitHub `Kingarthuria`, email noreply GitHub. Alias ini dipakai di semua tempat, termasuk laporan PDF.
 
 ## Deskripsi
-Peringatan phishing di kampus biasanya hanya beredar di grup chat, cepat tenggelam, dan tidak bisa dicari ulang. LaporPhish adalah aplikasi web PHP + MySQL tempat sivitas akademika **melaporkan** tautan, email, atau nomor mencurigakan, **mengecek** apakah suatu tautan pernah dilaporkan sebelum diklik, dan tempat unit TI **memantau** penanganan serta tren kasusnya.
+Peringatan phishing di kampus biasanya hanya beredar di grup chat, cepat tenggelam, dan tidak bisa dicari ulang. LaPhish adalah aplikasi web PHP + MySQL tempat sivitas akademika **melaporkan** tautan, email, atau nomor mencurigakan, **mengecek** apakah suatu tautan pernah dilaporkan sebelum diklik, dan tempat unit TI **memantau** penanganan serta tren kasusnya.
 
 ## Target peran
 | Fase | Peran | Keterangan |

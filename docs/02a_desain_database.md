@@ -1,6 +1,6 @@
 # Tahap 2a — Desain Database
 
-Proyek: **LaporPhish: Lapor dan Cek Phishing di Kampus**
+Proyek: **LaPhish: Lapor dan Cek Phishing di Kampus**
 Dasar: kebutuhan di `01_analisis_kebutuhan.md`.
 
 Nama tabel dan kolom memakai bahasa Inggris (`snake_case`). Label di antarmuka tetap berbahasa Indonesia.

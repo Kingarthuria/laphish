@@ -1,6 +1,6 @@
 # Tahap 2b — Rancangan Antarmuka (Wireframe)
 
-Proyek: **LaporPhish: Lapor dan Cek Phishing di Kampus**
+Proyek: **LaPhish: Lapor dan Cek Phishing di Kampus**
 Dasar: kebutuhan di `01_analisis_kebutuhan.md` dan desain di `02a_desain_database.md`.
 
 Rancangan dibuat dua tingkat, keduanya sebagai file HTML statis di folder `docs/mockup/`. Untuk laporan PDF, setiap halaman cukup di-screenshot dari browser.
@@ -46,7 +46,7 @@ Status laporan "Valid" diberi merah, bukan hijau, karena artinya laporan terbukt
 |---|---|
 | Font | **Plus Jakarta Sans** (dipakai untuk semua teks). Saat implementasi, file font disimpan lokal di proyek agar demo tetap berjalan tanpa internet |
 | Ikon | **Bootstrap Icons**, juga disimpan lokal saat implementasi |
-| Identitas header | Ikon `bi-shield-check` + tulisan **LaporPhish**. Ikon berwarna kuning aksen, karena ungu `#653F99` di atas navbar `#231F40` kontrasnya terlalu rendah |
+| Identitas header | Ikon `bi-shield-check` + tulisan **LaPhish**. Ikon berwarna kuning aksen, karena ungu `#653F99` di atas navbar `#231F40` kontrasnya terlalu rendah |
 | Bentuk komponen | Sudut membulat sedang (radius sekitar 8 px), bayangan tipis pada kartu |
 | Tata letak publik | Navbar atas (Beranda, Lapor, Cek, Lacak), tautan "Masuk admin" di footer |
 | Tata letak admin | Sidebar kiri: Dashboard, Laporan, Indikator, Kategori, Kanal, lalu Keluar |
@@ -115,7 +115,7 @@ Menu admin → A6/A8/A10 (daftar) → A7/A9/A11 (form). Hapus dilakukan dari hal
 
 ## 5. Versi Figma (bisa diedit)
 
-File: **LaporPhish — Mockup UI** di Drafts tim pribadi Figma  
+File: **LaporPhish — Mockup UI** (nama lama aplikasi, belum diganti di Figma) di Drafts tim pribadi Figma  
 Tautan: https://www.figma.com/design/jikPy6XFfwXOyj0iWMHWxF
 
 Status per 2026-11-20: **sebagian**. Pembuatan terhenti karena batas panggilan Figma MCP paket Starter.
@@ -123,7 +123,7 @@ Status per 2026-11-20: **sebagian**. Pembuatan terhenti karena batas panggilan F
 | Bagian | Status |
 |---|---|
 | Halaman: "Fondasi & Komponen", "Publik (P1–P5)", "Admin (A1–A11)" | Selesai |
-| 23 variabel warna (koleksi "LaporPhish — Warna"), 14 text style Plus Jakarta Sans / JetBrains Mono, 2 efek bayangan | Selesai |
+| 23 variabel warna (koleksi "LaporPhish — Warna", nama lama), 14 text style Plus Jakarta Sans / JetBrains Mono, 2 efek bayangan | Selesai |
 | 31 komponen ikon garis 24 px (`icon/...`) | Selesai |
 | Komponen Button, Badge Status, Alert, Kartu Statistik | Selesai |
 | Komponen Field, Hasil Cek, Navbar, Footer, Sidebar | Terhenti di tengah (perlu dicek dan dirapikan) |

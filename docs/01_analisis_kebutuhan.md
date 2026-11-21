@@ -1,6 +1,6 @@
 # Tahap 1 — Planning & Requirement Analysis
 
-Proyek: **LaporPhish: Lapor dan Cek Phishing di Kampus**
+Proyek: **LaPhish: Lapor dan Cek Phishing di Kampus**
 
 ## 1. Latar belakang masalah
 
@@ -37,9 +37,9 @@ Referensi:
 
 ## 4. Nilai manfaat
 
-Perbandingan cara manual saat ini (peringatan lewat grup chat) dengan LaporPhish:
+Perbandingan cara manual saat ini (peringatan lewat grup chat) dengan LaPhish:
 
-| Aspek | Cara manual (grup chat) | Dengan LaporPhish |
+| Aspek | Cara manual (grup chat) | Dengan LaPhish |
 |---|---|---|
 | Pencatatan | Peringatan tersebar di banyak grup dan cepat tenggelam | Semua laporan tersimpan di satu database |
 | Mengecek tautan mencurigakan | Harus menggulir riwayat chat atau bertanya ke grup | Tempel tautan di halaman Cek, hasil langsung muncul |

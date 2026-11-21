@@ -1,8 +1,8 @@
-# LaporPhish — Lapor dan Cek Phishing di Kampus
+# LaPhish — Lapor dan Cek Phishing di Kampus
 
 Aplikasi web untuk melaporkan dan mengecek tautan, email, atau nomor telepon yang dicurigai phishing di lingkungan kampus. Proyek akhir mata kuliah **Pemrograman Berbasis Web**, dibangun dengan PHP native dan MySQL/MariaDB, dan dijalankan di localhost (XAMPP).
 
-Peringatan phishing di kampus biasanya hanya beredar di grup chat, cepat tenggelam, dan tidak bisa dicari ulang. LaporPhish menyediakan satu tempat bagi sivitas akademika untuk **melaporkan** pesan mencurigakan, **mengecek** apakah suatu tautan pernah dilaporkan sebelum diklik, dan bagi unit TI untuk **memantau** penanganan serta tren kasusnya.
+Peringatan phishing di kampus biasanya hanya beredar di grup chat, cepat tenggelam, dan tidak bisa dicari ulang. LaPhish menyediakan satu tempat bagi sivitas akademika untuk **melaporkan** pesan mencurigakan, **mengecek** apakah suatu tautan pernah dilaporkan sebelum diklik, dan bagi unit TI untuk **memantau** penanganan serta tren kasusnya.
 
 ## Fitur
 
@@ -28,26 +28,26 @@ Peringatan phishing di kampus biasanya hanya beredar di grup chat, cepat tenggel
 
 ## Cara menjalankan (XAMPP)
 
-1. **Salin proyek** ke folder `htdocs` XAMPP, misalnya `htdocs/laporphish`. Nama folder bebas.
+1. **Salin proyek** ke folder `htdocs` XAMPP, misalnya `htdocs/laphish`. Nama folder bebas.
 2. **Nyalakan** Apache dan MySQL lewat XAMPP Control Panel.
-3. **Impor database**: buka phpMyAdmin (`http://localhost/phpmyadmin`), pilih tab **Import**, lalu pilih file `database/laporphish.sql`. File ini otomatis membuat database `laporphish` beserta data contohnya.
-   Alternatif lewat terminal: `mysql -u root < database/laporphish.sql`
+3. **Impor database**: buka phpMyAdmin (`http://localhost/phpmyadmin`), pilih tab **Import**, lalu pilih file `database/laphish.sql`. File ini otomatis membuat database `laphish` beserta data contohnya.
+   Alternatif lewat terminal: `mysql -u root < database/laphish.sql`
 4. **Buat file konfigurasi**: salin `includes/config.example.php` menjadi `includes/config.php`. Nilai bawaannya sudah sesuai XAMPP (user `root` tanpa password). Jika file ini belum dibuat, aplikasi akan menampilkan petunjuk.
-5. **Buka aplikasi** di `http://localhost/laporphish/`.
+5. **Buka aplikasi** di `http://localhost/laphish/`.
 
 **Akun admin demo** (hanya untuk penggunaan lokal):
 
 | Username | Password |
 |---|---|
-| `admin` | `LaporPhish#Demo2026` |
+| `admin` | `LaPhish#Demo2026` |
 
-Halaman admin: `http://localhost/laporphish/admin/`
+Halaman admin: `http://localhost/laphish/admin/`
 
-> Untuk mengembalikan database ke data awal, cukup impor ulang `database/laporphish.sql`.
+> Untuk mengembalikan database ke data awal, cukup impor ulang `database/laphish.sql`.
 
 ## Data contoh
 
-Semua data di `database/laporphish.sql` **fiktif**: 42 laporan (Juni–November 2026), 31 indikator, 6 kategori, dan 6 kanal. Domain memakai akhiran `.example` yang memang dicadangkan untuk contoh (RFC 2606), dan nomor telepon memakai pola fiktif `08xx-0000-xxxx`. Tidak ada nama, email, atau nomor milik orang sungguhan.
+Semua data di `database/laphish.sql` **fiktif**: 42 laporan (Juni–November 2026), 31 indikator, 6 kategori, dan 6 kanal. Domain memakai akhiran `.example` yang memang dicadangkan untuk contoh (RFC 2606), dan nomor telepon memakai pola fiktif `08xx-0000-xxxx`. Tidak ada nama, email, atau nomor milik orang sungguhan.
 
 ## Struktur folder
 
@@ -57,7 +57,7 @@ Semua data di `database/laporphish.sql` **fiktif**: 42 laporan (Juni–November 
 ├── includes/             Konfigurasi, koneksi database, fungsi bantu, layout
 │   └── config.example.php   Contoh konfigurasi (salin menjadi config.php)
 ├── assets/               CSS, JavaScript, dan library lokal (vendor/)
-├── database/             laporphish.sql (struktur + data contoh)
+├── database/             laphish.sql (struktur + data contoh)
 └── docs/                 Dokumentasi SDLC dan mockup
 ```
 

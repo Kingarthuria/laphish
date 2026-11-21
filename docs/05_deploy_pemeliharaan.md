@@ -1,6 +1,6 @@
 # Tahap 5 — Deployment & Maintenance
 
-Proyek: **LaporPhish: Lapor dan Cek Phishing di Kampus**
+Proyek: **LaPhish: Lapor dan Cek Phishing di Kampus**
 Dasar: `03_implementasi.md` dan `04_pengujian.md`.
 
 Status: **rencana** (2026-11-21). Sesuai ketentuan tugas, aplikasi fase 1 berjalan di localhost. Dokumen ini berisi skema jika aplikasi di-deploy online di masa mendatang, beserta rencana pemeliharaan dan pengembangannya. Kelayakan hosting gratis sudah **diuji langsung** pada 2026-11-21 (bagian 3), dan hasilnya menentukan skema yang dipilih.
@@ -13,7 +13,7 @@ Deploy online yang direncanakan adalah **demo publik dengan data dummy**, untuk 
 
 **Shared hosting berbayar** yang menyediakan Apache, PHP 8.1 atau lebih baru, dan MySQL/MariaDB dengan hak membuat view.
 
-Rencana awal memakai hosting PHP gratis. Uji langsung di bagian 3 menunjukkan hosting gratis mendukung InnoDB, foreign key, RESTRICT, CASCADE, dan PHP 8.3, tetapi **menolak pembuatan view** (`#1142 - CREATE VIEW command denied`). Padahal LaporPhish membaca status terakhir setiap laporan lewat view `v_report_status`. Sesuai aturan keputusan di bagian 3, skema deploy dipindah ke shared hosting berbayar.
+Rencana awal memakai hosting PHP gratis. Uji langsung di bagian 3 menunjukkan hosting gratis mendukung InnoDB, foreign key, RESTRICT, CASCADE, dan PHP 8.3, tetapi **menolak pembuatan view** (`#1142 - CREATE VIEW command denied`). Padahal LaPhish membaca status terakhir setiap laporan lewat view `v_report_status`. Sesuai aturan keputusan di bagian 3, skema deploy dipindah ke shared hosting berbayar.
 
 ```mermaid
 flowchart LR
@@ -56,7 +56,7 @@ Forum resmi InfinityFree pernah menyatakan (2019) bahwa paket gratis hanya mendu
 
 ### Hasil uji di hosting gratis (2026-11-21)
 
-Lingkungan: paket gratis TinkerHost, MariaDB 11.4.13 (server `byetcluster.com`), phpMyAdmin 4.9. Uji memakai tabel sementara `t_induk`, `t_anak`, dan `t_anak2` di database uji kosong, lalu semuanya dihapus. Kode dan data LaporPhish tidak diunggah.
+Lingkungan: paket gratis TinkerHost, MariaDB 11.4.13 (server `byetcluster.com`), phpMyAdmin 4.9. Uji memakai tabel sementara `t_induk`, `t_anak`, dan `t_anak2` di database uji kosong, lalu semuanya dihapus. Kode dan data LaPhish tidak diunggah.
 
 | No | Yang diuji | Cara | Lolos jika | Hasil | Status |
 |---|---|---|---|---|---|
@@ -80,8 +80,8 @@ Desain database **tidak** diubah agar muat di hosting gratis. Foreign key dengan
 Langkah ini berlaku untuk shared hosting berbayar dengan panel seperti cPanel.
 
 1. **Jalankan uji U1–U6** (bagian 3) di hosting yang dipilih, dengan tabel uji sementara, sebelum mengunggah apa pun. Lanjut hanya jika semuanya lolos.
-2. **Buat database lewat panel.** Hosting memberi nama database berawalan (misalnya `xxxx_laporphish`), username, password, dan alamat host MySQL. Alamat host belum tentu `localhost`.
-3. **Siapkan file SQL versi hosting.** Salin `database/laporphish.sql`, lalu hapus dua baris awal `CREATE DATABASE ...` dan `USE laporphish;`, karena database sudah dibuat oleh panel dan akun hosting tidak berhak membuat database sendiri. Impor salinan ini ke database tadi lewat phpMyAdmin hosting.
+2. **Buat database lewat panel.** Hosting memberi nama database berawalan (misalnya `xxxx_laphish`), username, password, dan alamat host MySQL. Alamat host belum tentu `localhost`.
+3. **Siapkan file SQL versi hosting.** Salin `database/laphish.sql`, lalu hapus dua baris awal `CREATE DATABASE ...` dan `USE laphish;`, karena database sudah dibuat oleh panel dan akun hosting tidak berhak membuat database sendiri. Impor salinan ini ke database tadi lewat phpMyAdmin hosting.
 4. **Unggah kode** lewat FTP atau File Manager ke folder web (`htdocs` atau `public_html`). Yang **tidak** diunggah: `.git/`, `.claude/`, `database/`, serta dokumen tugas dari dosen (PDF deskripsi dan `Penjelasan Tambahan.txt`).
 5. **Buat `includes/config.php` di server** dari `config.example.php`, isi dengan data dari langkah 2, dan pastikan `'debug' => false`. File ini hanya ada di server, tidak di repo.
 6. **Ganti password admin demo.** Password demo tercantum di README publik, jadi harus diganti sebelum situs bisa diakses. Hash baru dibuat di komputer sendiri dengan `password_hash()`, lalu disimpan lewat phpMyAdmin: `UPDATE admins SET password_hash = '<hash baru>' WHERE username = 'admin';`. Password baru tidak ditulis di repo.
@@ -120,7 +120,7 @@ Penyesuaian berikut belum diperlukan di localhost, tetapi dikerjakan sebelum apl
 - Fitur yang ditunda dari fase 1: halaman kelola akun admin (termasuk ganti password lewat aplikasi), grafik di dashboard, dan status "Selesai".
 
 **Fase 2: klasifikasi URL phishing**
-- Melatih model klasifikasi URL dari dataset publik, lalu mengujinya dengan indikator LaporPhish yang sudah diverifikasi admin (status Phishing atau Bukan phishing).
+- Melatih model klasifikasi URL dari dataset publik, lalu mengujinya dengan indikator LaPhish yang sudah diverifikasi admin (status Phishing atau Bukan phishing).
 - Hasil model ditampilkan di halaman Cek sebagai **skor pendamping**, bukan pengganti verifikasi admin.
 
 **Pemakaian nyata oleh unit TI**
