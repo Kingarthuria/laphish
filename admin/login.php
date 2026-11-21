@@ -42,27 +42,27 @@ $flashes = take_flashes();
 <div class="lp-login">
     <div class="card p-4" style="width: 100%; max-width: 380px">
         <div class="text-center mb-3">
-            <div class="fw-bold fs-4"><i class="bi bi-shield-check me-1" style="color: var(--lp-dark)"></i>LaPhish</div>
+            <div class="fw-bold fs-4">LaPhish</div>
             <div class="text-muted-lp small">Masuk sebagai petugas unit TI</div>
         </div>
         <?php foreach ($flashes as $f): ?>
-            <div class="alert alert-info-lp small py-2"><i class="bi bi-info-circle-fill me-1"></i><?= e($f['message']) ?></div>
+            <div class="alert alert-info-lp small py-2"><?= e($f['message']) ?></div>
         <?php endforeach; ?>
         <?php if ($error): ?>
-            <div class="alert alert-err small py-2" role="alert"><i class="bi bi-x-circle-fill me-1"></i><?= e($error) ?></div>
+            <div class="alert alert-err small py-2" role="alert"><?= e($error) ?></div>
         <?php endif; ?>
         <form method="post" action="<?= url('admin/login.php') ?>" novalidate>
             <div class="mb-3">
                 <label class="form-label" for="username">Username</label>
-                <div class="input-group"><span class="input-group-text"><i class="bi bi-person"></i></span><input class="form-control" id="username" name="username" maxlength="50" value="<?= e($username) ?>" autocomplete="username" required autofocus></div>
+                <div class="input-group"><input class="form-control" id="username" name="username" maxlength="50" value="<?= e($username) ?>" autocomplete="username" required autofocus></div>
             </div>
             <div class="mb-4">
                 <label class="form-label" for="password">Password</label>
-                <div class="input-group"><span class="input-group-text"><i class="bi bi-lock"></i></span><input type="password" class="form-control" id="password" name="password" autocomplete="current-password" required><button type="button" class="btn btn-outline-secondary" data-lihat-sandi="password" aria-label="Tampilkan kata sandi" aria-pressed="false"><i class="bi bi-eye"></i></button></div>
+                <div class="input-group"><input type="password" class="form-control" id="password" name="password" autocomplete="current-password" required><button type="button" class="btn btn-outline-secondary" data-lihat-sandi="password" aria-label="Tampilkan kata sandi" aria-pressed="false"><i class="bi bi-eye"></i></button></div>
             </div>
-            <button class="btn btn-primary w-100" type="submit"><i class="bi bi-box-arrow-in-right me-1"></i>Masuk</button>
+            <button class="btn btn-primary w-100" type="submit">Masuk</button>
         </form>
-        <div class="text-center mt-3 small"><a href="<?= url('index.php') ?>" class="text-decoration-none"><i class="bi bi-arrow-left"></i> Kembali ke beranda</a></div>
+        <div class="text-center mt-3 small"><a href="<?= url('index.php') ?>" class="text-decoration-none">Kembali ke beranda</a></div>
     </div>
 </div>
 <script src="<?= url('assets/js/app.js') ?>"></script>

@@ -75,14 +75,14 @@ $pageTitle = 'Indikator';
 $activeMenu = 'indikator';
 require __DIR__ . '/../includes/layout_admin_atas.php';
 ?>
-<div class="page-head"><h1 class="h4 fw-bold mb-0">Indikator</h1><a class="btn btn-primary" href="<?= url('admin/indikator_form.php') ?>"><i class="bi bi-plus-lg me-1"></i>Tambah indikator</a></div>
+<div class="page-head"><h1 class="h4 fw-bold mb-0">Indikator</h1><a class="btn btn-primary" href="<?= url('admin/indikator_form.php') ?>">Tambah indikator</a></div>
 
 <form class="card p-3 mb-3" method="get" action="<?= url('admin/indikator.php') ?>">
     <div class="row g-2 align-items-end">
-        <div class="col-lg-6"><label class="form-label small mb-1" for="q">Cari</label><div class="input-group"><span class="input-group-text"><i class="bi bi-search"></i></span><input class="form-control" id="q" name="q" value="<?= e($q) ?>" placeholder="Nilai indikator"></div></div>
+        <div class="col-lg-6"><label class="form-label small mb-1" for="q">Cari</label><div class="input-group"><input class="form-control" id="q" name="q" value="<?= e($q) ?>" placeholder="Nilai indikator"></div></div>
         <div class="col-6 col-lg-2"><label class="form-label small mb-1" for="type">Jenis</label><select class="form-select" id="type" name="type"><option value="">Semua</option><?php foreach (INDICATOR_TYPES as $k => $l): ?><option value="<?= $k ?>"<?= $type === $k ? ' selected' : '' ?>><?= $l ?></option><?php endforeach; ?></select></div>
         <div class="col-6 col-lg-2"><label class="form-label small mb-1" for="vs">Verifikasi</label><select class="form-select" id="vs" name="vs"><option value="">Semua</option><?php foreach (VERIFICATION_STATUSES as $k => $v): ?><option value="<?= $k ?>"<?= $vs === $k ? ' selected' : '' ?>><?= e($v['label']) ?></option><?php endforeach; ?></select></div>
-        <div class="col-lg-2"><button class="btn btn-primary w-100" type="submit"><i class="bi bi-funnel me-1"></i>Terapkan</button></div>
+        <div class="col-lg-2"><button class="btn btn-primary w-100" type="submit">Terapkan</button></div>
     </div>
 </form>
 

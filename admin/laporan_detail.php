@@ -91,14 +91,14 @@ $pageTitle = 'Laporan ' . $report['ticket_code'];
 $activeMenu = 'laporan';
 require __DIR__ . '/../includes/layout_admin_atas.php';
 ?>
-<div class="small mb-2"><a href="<?= url('admin/laporan.php') ?>" class="text-decoration-none"><i class="bi bi-arrow-left"></i> Kembali ke daftar laporan</a></div>
+<div class="small mb-2"><a href="<?= url('admin/laporan.php') ?>" class="text-decoration-none">Kembali ke daftar laporan</a></div>
 <div class="page-head">
     <h1 class="h4 fw-bold mb-0">Laporan <span class="font-monospace"><?= e($report['ticket_code']) ?></span> <span class="align-middle ms-1"><?= status_badge($report['status']) ?></span></h1>
     <div class="d-flex gap-2">
-        <a class="btn btn-outline-primary" href="<?= url('admin/laporan_edit.php?id=' . $id) ?>"><i class="bi bi-pencil me-1"></i>Edit</a>
+        <a class="btn btn-outline-primary" href="<?= url('admin/laporan_edit.php?id=' . $id) ?>">Edit</a>
         <form method="post" action="<?= url($self) ?>" data-confirm="Hapus laporan <?= e($report['ticket_code']) ?>? Riwayat status ikut terhapus. Indikator tetap tersimpan.">
             <input type="hidden" name="action" value="delete">
-            <button class="btn btn-outline-danger" type="submit"><i class="bi bi-trash me-1"></i>Hapus</button>
+            <button class="btn btn-outline-danger" type="submit">Hapus</button>
         </form>
     </div>
 </div>
@@ -122,7 +122,7 @@ require __DIR__ . '/../includes/layout_admin_atas.php';
         </div>
 
         <div class="card">
-            <div class="p-3 pb-2 fw-bold"><i class="bi bi-link-45deg me-1" style="color: var(--lp-primary)"></i>Indikator (<?= count($indicators) ?>)</div>
+            <div class="p-3 pb-2 fw-bold">Indikator (<?= count($indicators) ?>)</div>
             <div class="table-responsive">
                 <table class="table align-middle">
                     <thead><tr><th class="ps-3">Jenis</th><th>Nilai</th><th class="pe-3" style="width: 250px">Verifikasi cepat</th></tr></thead>
@@ -161,7 +161,7 @@ require __DIR__ . '/../includes/layout_admin_atas.php';
                 </select>
                 <label class="form-label small" for="note">Catatan</label>
                 <textarea class="form-control mb-1" id="note" name="note" rows="3" maxlength="1000" placeholder="Catatan ini tampil di halaman Lacak pelapor."></textarea>
-                <div class="form-text mb-3"><i class="bi bi-eye me-1"></i>Tampil ke pelapor. Jangan menulis informasi internal.</div>
+                <div class="form-text mb-3">Tampil ke pelapor. Jangan menulis informasi internal.</div>
                 <button class="btn btn-primary w-100" type="submit">Simpan status</button>
             </form>
         </div>

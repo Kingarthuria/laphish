@@ -20,12 +20,12 @@ require __DIR__ . '/includes/layout_publik_atas.php';
         <p class="text-muted-lp">Terima kasih. Simpan kode tiket berikut untuk melacak tindak lanjut laporan Anda.</p>
         <div><span class="lp-ticket"><?= e($ticket) ?></span></div>
         <div class="alert alert-warn text-start small mt-4 mb-4">
-            <i class="bi bi-exclamation-triangle-fill me-1"></i><strong>Penting:</strong> kode tiket tidak bisa dipulihkan jika hilang. Salin atau screenshot halaman ini.
+            <strong>Penting:</strong> kode tiket tidak bisa dipulihkan jika hilang. Salin atau screenshot halaman ini.
         </div>
         <div class="d-flex gap-2 justify-content-center flex-wrap">
             <form method="post" action="<?= url('lacak.php') ?>">
                 <input type="hidden" name="ticket" value="<?= e($ticket) ?>">
-                <button class="btn btn-primary" type="submit"><i class="bi bi-ticket-detailed me-1"></i>Lacak laporan ini</button>
+                <button class="btn btn-primary" type="submit">Lacak laporan ini</button>
             </form>
             <a class="btn btn-outline-primary" href="<?= url('index.php') ?>">Kembali ke beranda</a>
         </div>

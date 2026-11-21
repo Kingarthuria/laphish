@@ -12,7 +12,6 @@ $navItems = [
     'lacak'   => ['Lacak', 'lacak.php'],
 ];
 $flashClass = ['sukses' => 'alert-ok', 'galat' => 'alert-err', 'info' => 'alert-info-lp', 'peringatan' => 'alert-warn'];
-$flashIcon = ['sukses' => 'bi-check-circle-fill', 'galat' => 'bi-x-circle-fill', 'info' => 'bi-info-circle-fill', 'peringatan' => 'bi-exclamation-triangle-fill'];
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -27,7 +26,7 @@ $flashIcon = ['sukses' => 'bi-check-circle-fill', 'galat' => 'bi-x-circle-fill',
 <body class="lp-public">
 <nav class="navbar navbar-expand-md lp-nav">
     <div class="container">
-        <a class="navbar-brand" href="<?= url('index.php') ?>"><i class="bi bi-shield-check me-1"></i>LaPhish</a>
+        <a class="navbar-brand" href="<?= url('index.php') ?>">LaPhish</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navPublik" aria-controls="navPublik" aria-expanded="false" aria-label="Buka menu">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -44,7 +43,7 @@ $flashIcon = ['sukses' => 'bi-check-circle-fill', 'galat' => 'bi-x-circle-fill',
     <?php foreach (take_flashes() as $f): ?>
         <div class="container pt-4" style="max-width: 820px">
             <div class="alert <?= $flashClass[$f['type']] ?? 'alert-info-lp' ?> mb-0" role="alert">
-                <i class="bi <?= $flashIcon[$f['type']] ?? 'bi-info-circle-fill' ?> me-1"></i><?= e($f['message']) ?>
+                <?= e($f['message']) ?>
             </div>
         </div>
     <?php endforeach; ?>

@@ -41,7 +41,7 @@ $pageTitle = 'Kategori';
 $activeMenu = 'kategori';
 require __DIR__ . '/../includes/layout_admin_atas.php';
 ?>
-<div class="page-head"><h1 class="h4 fw-bold mb-0">Kategori</h1><a class="btn btn-primary" href="<?= url('admin/kategori_form.php') ?>"><i class="bi bi-plus-lg me-1"></i>Tambah kategori</a></div>
+<div class="page-head"><h1 class="h4 fw-bold mb-0">Kategori</h1><a class="btn btn-primary" href="<?= url('admin/kategori_form.php') ?>">Tambah kategori</a></div>
 <div class="card">
     <div class="table-responsive">
         <table class="table align-middle">

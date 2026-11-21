@@ -93,13 +93,13 @@ $pageTitle = $editing ? 'Edit indikator' : 'Tambah indikator';
 $activeMenu = 'indikator';
 require __DIR__ . '/../includes/layout_admin_atas.php';
 ?>
-<div class="small mb-2"><a href="<?= url('admin/indikator.php') ?>" class="text-decoration-none"><i class="bi bi-arrow-left"></i> Kembali ke daftar indikator</a></div>
+<div class="small mb-2"><a href="<?= url('admin/indikator.php') ?>" class="text-decoration-none">Kembali ke daftar indikator</a></div>
 <div class="page-head"><h1 class="h4 fw-bold mb-0"><?= $editing ? 'Edit Indikator' : 'Tambah Indikator' ?></h1></div>
 
 <div class="card p-4" style="max-width: 640px">
     <?php if ($errors): ?>
         <div class="alert alert-err small" role="alert">
-            <?php foreach ($errors as $err): ?><div><i class="bi bi-x-circle-fill me-1"></i><?= e($err) ?></div><?php endforeach; ?>
+            <?php foreach ($errors as $err): ?><div><?= e($err) ?></div><?php endforeach; ?>
             <?php if ($existingId): ?><div class="mt-1"><a href="<?= url('admin/indikator_form.php?id=' . (int) $existingId) ?>">Lihat data yang sudah ada</a></div><?php endif; ?>
         </div>
     <?php endif; ?>
@@ -121,7 +121,7 @@ require __DIR__ . '/../includes/layout_admin_atas.php';
                 <label class="form-label" for="value">Nilai<?= $editing ? '' : ' <span class="req">*</span>' ?></label>
                 <?php if ($editing): ?>
                     <input class="form-control font-monospace" id="value" value="<?= e(defang($item['value'])) ?>" disabled>
-                    <div class="form-text"><i class="bi bi-lock me-1"></i>Jenis dan nilai tidak bisa diubah. Jika salah, tambahkan indikator baru.</div>
+                    <div class="form-text">Jenis dan nilai tidak bisa diubah. Jika salah, tambahkan indikator baru.</div>
                 <?php else: ?>
                     <input class="form-control" id="value" name="value" maxlength="500" value="<?= e($item['value']) ?>" placeholder="https://contoh.example/login">
                     <div class="form-text">Nilai otomatis dinormalisasi (huruf kecil, tanpa http/https dan www).</div>

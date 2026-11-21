@@ -50,7 +50,7 @@ $pageTitle = $editing ? 'Edit kanal' : 'Tambah kanal';
 $activeMenu = 'kanal';
 require __DIR__ . '/../includes/layout_admin_atas.php';
 ?>
-<div class="small mb-2"><a href="<?= url('admin/kanal.php') ?>" class="text-decoration-none"><i class="bi bi-arrow-left"></i> Kembali ke daftar kanal</a></div>
+<div class="small mb-2"><a href="<?= url('admin/kanal.php') ?>" class="text-decoration-none">Kembali ke daftar kanal</a></div>
 <div class="page-head"><h1 class="h4 fw-bold mb-0"><?= $editing ? 'Edit Kanal' : 'Tambah Kanal' ?></h1></div>
 <div class="card p-4" style="max-width: 480px">
     <form method="post" action="<?= url('admin/kanal_form.php' . ($editing ? '?id=' . $id : '')) ?>" novalidate>

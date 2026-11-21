@@ -62,14 +62,14 @@ $pageTitle = 'Edit laporan ' . $report['ticket_code'];
 $activeMenu = 'laporan';
 require __DIR__ . '/../includes/layout_admin_atas.php';
 ?>
-<div class="small mb-2"><a href="<?= url('admin/laporan_detail.php?id=' . $id) ?>" class="text-decoration-none"><i class="bi bi-arrow-left"></i> Kembali ke detail laporan</a></div>
+<div class="small mb-2"><a href="<?= url('admin/laporan_detail.php?id=' . $id) ?>" class="text-decoration-none">Kembali ke detail laporan</a></div>
 <div class="page-head"><h1 class="h4 fw-bold mb-0">Edit Laporan <span class="font-monospace"><?= e($report['ticket_code']) ?></span></h1></div>
 
 <div class="card p-4" style="max-width: 800px">
     <?php if ($errors): ?>
         <div class="alert alert-err small" role="alert"><ul class="mb-0 ps-3"><?php foreach ($errors as $err): ?><li><?= e($err) ?></li><?php endforeach; ?></ul></div>
     <?php endif; ?>
-    <div class="alert alert-info-lp small py-2"><i class="bi bi-info-circle me-1"></i>Hanya empat kolom ini yang bisa diubah. Status diubah di halaman detail, indikator di menu Indikator.</div>
+    <div class="alert alert-info-lp small py-2">Hanya empat kolom ini yang bisa diubah. Status diubah di halaman detail, indikator di menu Indikator.</div>
     <form method="post" action="<?= url('admin/laporan_edit.php?id=' . $id) ?>" novalidate>
         <div class="row g-3">
             <div class="col-md-4">
@@ -95,7 +95,7 @@ require __DIR__ . '/../includes/layout_admin_atas.php';
         </div>
         <div class="d-flex gap-2 justify-content-end mt-4">
             <a class="btn btn-outline-secondary" href="<?= url('admin/laporan_detail.php?id=' . $id) ?>">Batal</a>
-            <button class="btn btn-primary" type="submit"><i class="bi bi-check-lg me-1"></i>Simpan perubahan</button>
+            <button class="btn btn-primary" type="submit">Simpan perubahan</button>
         </div>
     </form>
 </div>

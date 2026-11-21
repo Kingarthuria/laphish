@@ -182,7 +182,7 @@ require __DIR__ . '/includes/layout_publik_atas.php';
 
     <?php if ($errors): ?>
         <div class="alert alert-err" role="alert">
-            <div class="fw-semibold mb-1"><i class="bi bi-x-circle-fill me-1"></i>Laporan belum bisa dikirim:</div>
+            <div class="fw-semibold mb-1">Laporan belum bisa dikirim:</div>
             <ul class="mb-0 ps-3"><?php foreach ($errors as $err): ?><li><?= e($err) ?></li><?php endforeach; ?></ul>
         </div>
     <?php endif; ?>
@@ -215,7 +215,7 @@ require __DIR__ . '/includes/layout_publik_atas.php';
                             <option value="<?= (int) $cat['category_id'] ?>" data-desc="<?= e($cat['description']) ?>"<?= (string) $cat['category_id'] === $old['category_id'] ? ' selected' : '' ?>><?= e($cat['name']) ?></option>
                         <?php endforeach; ?>
                     </select>
-                    <div class="form-text"><i class="bi bi-info-circle me-1"></i><span id="categoryHelp">Pilih jenis phishing yang paling sesuai.</span></div>
+                    <div class="form-text"><span id="categoryHelp">Pilih jenis phishing yang paling sesuai.</span></div>
                 </div>
                 <div class="col-12">
                     <label class="form-label" for="chronology">Kronologi <span class="req">*</span></label>
@@ -245,7 +245,7 @@ require __DIR__ . '/includes/layout_publik_atas.php';
                 <?php endforeach; ?>
             </div>
             <div>
-                <button type="button" class="btn btn-outline-primary btn-sm" id="addIndicator"><i class="bi bi-plus-lg me-1"></i>Tambah indikator</button>
+                <button type="button" class="btn btn-outline-primary btn-sm" id="addIndicator">Tambah indikator</button>
                 <span class="small text-muted-lp ms-2"><span id="indicatorCount"><?= min(count($old['indicators']), MAX_INDICATORS) ?></span> dari <?= MAX_INDICATORS ?></span>
             </div>
         </div>
@@ -259,7 +259,7 @@ require __DIR__ . '/includes/layout_publik_atas.php';
             </div>
         </div>
 
-        <button class="btn btn-primary btn-lg w-100" type="submit"><i class="bi bi-send me-1"></i>Kirim laporan</button>
+        <button class="btn btn-primary btn-lg w-100" type="submit">Kirim laporan</button>
     </form>
 </div>
 <?php require __DIR__ . '/includes/layout_publik_bawah.php'; ?>

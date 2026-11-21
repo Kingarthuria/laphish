@@ -40,7 +40,7 @@ $pageTitle = 'Kanal';
 $activeMenu = 'kanal';
 require __DIR__ . '/../includes/layout_admin_atas.php';
 ?>
-<div class="page-head"><h1 class="h4 fw-bold mb-0">Kanal</h1><a class="btn btn-primary" href="<?= url('admin/kanal_form.php') ?>"><i class="bi bi-plus-lg me-1"></i>Tambah kanal</a></div>
+<div class="page-head"><h1 class="h4 fw-bold mb-0">Kanal</h1><a class="btn btn-primary" href="<?= url('admin/kanal_form.php') ?>">Tambah kanal</a></div>
 <div class="card">
     <div class="table-responsive">
         <table class="table align-middle">

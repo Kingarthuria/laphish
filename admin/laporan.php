@@ -81,7 +81,7 @@ require __DIR__ . '/../includes/layout_admin_atas.php';
     <div class="row g-2 align-items-end">
         <div class="col-lg-4">
             <label class="form-label small mb-1" for="q">Cari</label>
-            <div class="input-group"><span class="input-group-text"><i class="bi bi-search"></i></span><input class="form-control" id="q" name="q" value="<?= e($q) ?>" placeholder="Kode tiket atau kata di kronologi"></div>
+            <div class="input-group"><input class="form-control" id="q" name="q" value="<?= e($q) ?>" placeholder="Kode tiket atau kata di kronologi"></div>
         </div>
         <div class="col-6 col-lg-2">
             <label class="form-label small mb-1" for="status">Status</label>
@@ -101,7 +101,7 @@ require __DIR__ . '/../includes/layout_admin_atas.php';
         <div class="col-6 col-lg-2"><label class="form-label small mb-1" for="to">Sampai</label><input type="date" class="form-control" id="to" name="to" value="<?= e($to) ?>"></div>
         <div class="col-12 d-flex gap-2 justify-content-end">
             <a class="btn btn-outline-secondary" href="<?= url('admin/laporan.php') ?>">Reset</a>
-            <button class="btn btn-primary" type="submit"><i class="bi bi-funnel me-1"></i>Terapkan</button>
+            <button class="btn btn-primary" type="submit">Terapkan</button>
         </div>
     </div>
 </form>
