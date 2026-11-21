@@ -49,6 +49,7 @@ Peringatan phishing di kampus biasanya hanya beredar di grup chat, cepat tenggel
 - URL berbahaya ditampilkan dalam bentuk *defanged* (`hxxp://`, `[.]`), tidak pernah sebagai link yang bisa diklik.
 - Semua output di-escape (`htmlspecialchars`). Semua kueri memakai prepared statement.
 - Data di database dan di file `.sql` adalah **dummy**. Tidak ada nama, email, atau nomor asli.
+- **Isi laporan di Lacak (2026-11-21):** halaman Lacak punya blok "Lihat laporan saya" (tertutup secara bawaan) berisi kronologi dan indikator, dengan nilai defanged dan tanpa identitas pelapor. Risikonya: kode tiket adalah satu-satunya "kunci" dan bisa tersebar lewat screenshot, sedangkan kronologi bisa memuat data pribadi. Lacak belum membatasi jumlah percobaan kode salah (rencana lanjutan).
 - **Edit laporan oleh admin dibatasi (2026-11-21):** admin hanya bisa mengubah kategori dan kanal. Tanggal kejadian dan kronologi adalah keterangan pelapor dan tidak bisa diubah (nilai kiriman diabaikan di server). Alasannya mencegah manipulasi isi laporan. Laporan yang tidak layak dihapus atau diberi status Tidak valid. Edit belum dicatat jejaknya (tidak ada tabel riwayat perubahan), jadi kolom `updated_at` hanya menunjukkan kapan terakhir diubah, bukan siapa dan apa yang berubah. Ini batasan yang diketahui dan bisa jadi pengembangan lanjutan.
 
 ## Keputusan tampilan (2026-11-21)

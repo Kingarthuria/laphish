@@ -302,6 +302,6 @@ Aturan ini diterapkan di PHP sebelum data disimpan ke `indicators.value` dan seb
 |---|---|---|
 | url | Hapus spasi di tepi, hapus `http://`/`https://` dan `www.`, ubah nama domain menjadi huruf kecil, hapus `/` di akhir | `HTTPS://WWW.Sso-Kampus-Verify.example/login/` → `sso-kampus-verify.example/login` |
 | email | Hapus spasi di tepi, ubah menjadi huruf kecil | `Admin.SSO@Kampus-Verify.example` → `admin.sso@kampus-verify.example` |
-| phone | Hapus semua karakter selain angka, awalan `0` diganti `62` | `0812-0000-1111` → `6281200001111` |
+| phone | Hapus semua karakter selain angka, awalan `0` diganti `62`, dan `0` yang tepat setelah `62` dibuang. Nomor valid bila berbentuk `62` diikuti 7 sampai 13 angka (hanya nomor Indonesia) | `0812-0000-1111` → `6281200001111`; `+62 0812-0000-1111` → `6281200001111` |
 
 Path URL tidak diubah menjadi huruf kecil, karena pada sebagian server path membedakan huruf besar dan kecil.

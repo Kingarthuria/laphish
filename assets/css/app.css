@@ -210,6 +210,9 @@ body.lp-public { min-height: 100vh; display: flex; flex-direction: column; }
 .stat .lab { display: flex; align-items: center; font-weight: 600; font-size: .92rem; color: var(--lp-dark); min-height: 1.6rem; }
 .stat .num { font-size: 2.6rem; font-weight: 800; line-height: 1.1; letter-spacing: -.04em; font-variant-numeric: tabular-nums; color: var(--lp-dark); margin-top: .3rem; }
 a:hover > .stat { background: #F7F3FC; }
+/* Blok isi laporan yang bisa dibuka di halaman Lacak */
+.lp-detail > summary { list-style: none; cursor: pointer; display: inline-block; }
+.lp-detail > summary::-webkit-details-marker { display: none; }
 /* Pembagian halaman di daftar admin */
 .lp-pager { display: flex; flex-wrap: wrap; gap: .6rem 1rem; align-items: center; justify-content: space-between; margin-top: 1rem; }
 .lp-pager .info { color: var(--lp-muted); font-size: .9rem; }

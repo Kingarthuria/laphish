@@ -1,8 +1,9 @@
 <?php
 /**
  * P5 — Lacak status (FR-04)
- * Mencari laporan berdasarkan kode tiket, lalu menampilkan status terakhir dan riwayatnya.
- * Identitas pelapor dan indikator sengaja tidak ditampilkan.
+ * Mencari laporan berdasarkan kode tiket, lalu menampilkan status terakhir, riwayatnya, dan isi laporan
+ * (kronologi dan indikator) di dalam blok yang tertutup secara bawaan.
+ * Identitas pelapor sengaja tidak ditampilkan. Nilai indikator ditampilkan dalam bentuk defanged.
  * Memakai POST agar kode tiket tidak tersimpan di alamat URL atau riwayat browser.
  */
 require __DIR__ . '/includes/init.php';
@@ -11,6 +12,7 @@ $ticket = '';
 $error = null;
 $report = null;
 $history = [];
+$indicators = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $ticket = strtoupper(trim((string) ($_POST['ticket'] ?? '')));
@@ -19,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'Format kode tiket tidak sesuai. Contoh: LP-7F3K9QX2';
     } else {
         $stmt = db()->prepare(
-            'SELECT r.report_id, r.ticket_code, r.incident_date, c.name AS category, ch.name AS channel, s.status
+            'SELECT r.report_id, r.ticket_code, r.incident_date, r.chronology, c.name AS category, ch.name AS channel, s.status
              FROM reports r
              JOIN categories c ON c.category_id = r.category_id
              JOIN channels ch ON ch.channel_id = r.channel_id
@@ -33,6 +35,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $h = db()->prepare('SELECT status, note, changed_at FROM status_histories WHERE report_id = ? ORDER BY history_id DESC');
             $h->execute([$report['report_id']]);
             $history = $h->fetchAll();
+
+            $i = db()->prepare(
+                'SELECT i.type, i.value
+                 FROM report_indicators ri JOIN indicators i ON i.indicator_id = ri.indicator_id
+                 WHERE ri.report_id = ? ORDER BY i.type, i.value'
+            );
+            $i->execute([$report['report_id']]);
+            $indicators = $i->fetchAll();
         } else {
             $error = 'Kode tiket tidak ditemukan. Periksa kembali penulisannya.';
         }
@@ -72,6 +82,27 @@ require __DIR__ . '/includes/layout_publik_atas.php';
                 <div class="col-sm-4"><div class="small text-muted-lp">Kanal</div><div class="fw-semibold"><?= e($report['channel']) ?></div></div>
                 <div class="col-sm-4"><div class="small text-muted-lp">Tanggal kejadian</div><div class="fw-semibold"><?= e(format_date($report['incident_date'])) ?></div></div>
             </div>
+            <details class="lp-detail mt-4">
+                <summary class="btn btn-outline-primary btn-sm">Lihat laporan saya</summary>
+                <div class="mt-3">
+                    <div class="small text-muted-lp mb-1">Kronologi yang Anda tulis</div>
+                    <div style="white-space: pre-line"><?= e($report['chronology']) ?></div>
+                </div>
+                <div class="mt-3">
+                    <div class="small text-muted-lp mb-1">Indikator yang Anda kirim (<?= count($indicators) ?>)</div>
+                    <ul class="list-unstyled mb-0">
+                        <?php foreach ($indicators as $ind): ?>
+                            <li class="d-flex flex-wrap gap-2 py-1">
+                                <span class="text-muted-lp" style="min-width: 4.5rem"><?= e(INDICATOR_TYPES[$ind['type']] ?? $ind['type']) ?></span>
+                                <span class="lp-defang"><?= e(defang($ind['value'])) ?></span>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                    <?php if (array_filter($indicators, fn($ind) => $ind['type'] !== 'phone')): ?>
+                        <div class="form-text mt-2">Titik ditulis [.] dan http ditulis hxxp agar tidak terklik.</div>
+                    <?php endif; ?>
+                </div>
+            </details>
         </div>
 
         <div class="card p-4">

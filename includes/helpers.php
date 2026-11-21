@@ -56,7 +56,9 @@ function normalize_indicator(string $type, string $raw): string
             return strtolower($raw);
         case 'phone':
             $digits = preg_replace('/\D/', '', $raw);
-            return str_starts_with($digits, '0') ? '62' . substr($digits, 1) : $digits;
+            $digits = str_starts_with($digits, '0') ? '62' . substr($digits, 1) : $digits;
+            // Nomor bentuk "+62 0812..." menulis 0 trunk setelah kode negara; buang agar sama dengan "0812..."
+            return preg_replace('/^620+/', '62', $digits);
     }
     return $raw;
 }

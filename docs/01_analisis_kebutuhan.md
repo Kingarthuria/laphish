@@ -75,7 +75,7 @@ Perbandingan cara manual saat ini (peringatan lewat grup chat) dengan LaPhish:
 | FR-01 | Melihat beranda | Berisi penjelasan singkat aplikasi dan tombol menuju Lapor, Cek, dan Lacak. |
 | FR-02 | Mengirim laporan phishing | Isian: kanal, kategori, tanggal kejadian, kronologi, dan 1–5 indikator (jenis + nilai). Identitas pelapor (nama, email) boleh dikosongkan. |
 | FR-03 | Menerima kode tiket | Setelah laporan terkirim, sistem menampilkan kode unik acak yang tidak bisa ditebak, misalnya `LP-7F3K9QX2`. |
-| FR-04 | Melacak status laporan | Memasukkan kode tiket untuk melihat status terakhir dan riwayatnya. Identitas pelapor tidak ditampilkan. |
+| FR-04 | Melacak status laporan | Memasukkan kode tiket untuk melihat status terakhir dan riwayatnya. Tombol "Lihat laporan saya" membuka kronologi dan indikator yang dikirim pelapor (nilai indikator dalam bentuk defanged). Identitas pelapor tidak ditampilkan. |
 | FR-05 | Mengecek indikator | Memilih jenis (URL, Email, atau Nomor) lalu memasukkan nilainya. Nilai dinormalisasi sesuai jenisnya lalu dicocokkan dengan data indikator. Hasil ditentukan oleh status verifikasi indikator: **Terverifikasi phishing**, **Tercatat, masih ditinjau**, **Sudah diperiksa, tidak terbukti phishing**, atau **Belum ada data**. Tiga hasil terakhir disertai imbauan untuk tetap waspada. |
 
 ### Admin
