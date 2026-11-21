@@ -49,6 +49,7 @@ Peringatan phishing di kampus biasanya hanya beredar di grup chat, cepat tenggel
 - URL berbahaya ditampilkan dalam bentuk *defanged* (`hxxp://`, `[.]`), tidak pernah sebagai link yang bisa diklik.
 - Semua output di-escape (`htmlspecialchars`). Semua kueri memakai prepared statement.
 - Data di database dan di file `.sql` adalah **dummy**. Tidak ada nama, email, atau nomor asli.
+- **Edit laporan oleh admin dibatasi (2026-11-21):** admin hanya bisa mengubah kategori dan kanal. Tanggal kejadian dan kronologi adalah keterangan pelapor dan tidak bisa diubah (nilai kiriman diabaikan di server). Alasannya mencegah manipulasi isi laporan. Laporan yang tidak layak dihapus atau diberi status Tidak valid. Edit belum dicatat jejaknya (tidak ada tabel riwayat perubahan), jadi kolom `updated_at` hanya menunjukkan kapan terakhir diubah, bukan siapa dan apa yang berubah. Ini batasan yang diketahui dan bisa jadi pengembangan lanjutan.
 
 ## Keputusan tampilan (2026-11-21)
 - **Arah desain A "Lensa" dipilih** dari tiga arah yang dibandingkan lewat prototipe statis: A (warna kampus tetap, hero berupa alat bedah alamat), B "Rambu" (kuning dominan, bergaya papan peringatan), dan C "Pesan" (hero berupa pesan chat). A dipilih karena paling sesuai dengan panduan visual awal, tidak butuh font baru, dan perombakannya paling kecil.

@@ -95,7 +95,7 @@ require __DIR__ . '/../includes/layout_admin_atas.php';
 <div class="page-head">
     <h1 class="h4 fw-bold mb-0">Laporan <span class="font-monospace"><?= e($report['ticket_code']) ?></span> <span class="align-middle ms-1"><?= status_badge($report['status']) ?></span></h1>
     <div class="d-flex gap-2">
-        <a class="btn btn-outline-primary" href="<?= url('admin/laporan_edit.php?id=' . $id) ?>">Edit</a>
+        <a class="btn btn-outline-primary" href="<?= url('admin/laporan_edit.php?id=' . $id) ?>">Ubah kategori dan kanal</a>
         <form method="post" action="<?= url($self) ?>" data-confirm="Hapus laporan <?= e($report['ticket_code']) ?>? Riwayat status ikut terhapus. Indikator tetap tersimpan.">
             <input type="hidden" name="action" value="delete">
             <button class="btn btn-outline-danger" type="submit">Hapus</button>

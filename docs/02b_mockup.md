@@ -113,7 +113,7 @@ Yang **tidak** berubah: palet warna kampus, pemetaan warna status, Plus Jakarta 
 | A2 | Dashboard rekap | Admin | FR-07 |
 | A3 | Daftar laporan (cari + filter) | Admin | FR-08 |
 | A4 | Detail laporan (ubah status, verifikasi indikator, hapus) | Admin | FR-08, FR-09, FR-10 |
-| A5 | Edit laporan | Admin | FR-08 |
+| A5 | Ubah kategori dan kanal laporan | Admin | FR-08 |
 | A6 | Daftar indikator | Admin | FR-10, FR-13 |
 | A7 | Form indikator (tambah / edit verifikasi) | Admin | FR-10 |
 | A8 | Daftar kategori | Admin | FR-11, FR-13 |
@@ -154,8 +154,8 @@ Menu admin → A6/A8/A10 (daftar) → A7/A9/A11 (form). Hapus dilakukan dari hal
 | A1 | Pesan galat login sama untuk username maupun password yang salah, agar tidak membocorkan username yang terdaftar. Kolom kata sandi punya tombol mata untuk menampilkan atau menyembunyikan isinya (ikon dan label berganti, status `aria-pressed` ikut berubah). |
 | A2 | Lima kartu (total dan empat status) yang bisa diklik untuk membuka A3 dengan filter status. Kartu status memakai lencana status yang sama dengan daftar laporan, lalu angka besar; kartu total hanya bertuliskan "Total laporan". Tanpa ikon dan tanpa garis atas berwarna. Tiga tabel angka: per kategori, per kanal, dan per bulan (enam bulan terakhir, berdasarkan tanggal laporan masuk). Jumlah terbanyak di tiap tabel diberi penanda kuning dan teks "(terbanyak)" untuk pembaca layar. Tanpa grafik. |
 | A3 | Pencarian dan filter dalam satu baris. Diurutkan dari laporan terbaru. Dibagi 10 baris per halaman (parameter `halaman`), dengan navigasi Sebelumnya, nomor halaman, dan Berikutnya di bawah tabel. Keterangan di atas tabel menyebut rentang baris ("Laporan 11 sampai 20 dari 42"), dan jumlah halaman mengikuti hasil filter. Navigasi tidak tampil bila hanya satu halaman. Tidak ada tombol tambah, karena laporan dibuat lewat P2. |
-| A4 | Dua kolom: kiri berisi data laporan dan daftar indikator (verifikasi cepat lewat dropdown), kanan berisi form ubah status dan riwayat. Tombol Edit dan Hapus di kanan atas. |
-| A5 | Hanya kategori, kanal, tanggal kejadian, dan kronologi yang bisa diubah. |
+| A4 | Dua kolom: kiri berisi data laporan dan daftar indikator (verifikasi cepat lewat dropdown), kanan berisi form ubah status dan riwayat. Tombol "Ubah kategori dan kanal" dan Hapus di kanan atas. |
+| A5 | Hanya kategori dan kanal yang bisa diubah. Tanggal kejadian dan kronologi tampil sebagai teks hanya baca karena keterangan pelapor tidak boleh diubah admin. |
 | A6 | Tombol Hapus nonaktif jika indikator masih terkait laporan. Kolom "Laporan" menampilkan jumlah laporan terkait. Dibagi 10 baris per halaman dengan navigasi yang sama seperti A3. Kolom "Nilai" punya lebar minimum agar tidak menyusut menjadi beberapa huruf per baris di layar sedang. |
 | A7 | Satu form untuk dua mode. Mode edit mengunci jenis dan nilai. Mode tambah menampilkan pesan "sudah tercatat" jika nilainya sudah ada. |
 | A8–A11 | Di wireframe, daftar dan form ditampilkan berdampingan agar ringkas, tetapi di aplikasi tetap halaman terpisah. Tombol Hapus tetap aktif, dan penolakan datang dari database (RESTRICT) sehingga aturan FR-13 bisa didemokan. |

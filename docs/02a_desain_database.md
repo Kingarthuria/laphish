@@ -148,7 +148,7 @@ Baris `reporters` hanya dibuat jika pelapor mengisi minimal satu kolom identitas
 | incident_date | DATE | NOT NULL | Tidak boleh tanggal di masa depan |
 | chronology | TEXT | NOT NULL | |
 | created_at | DATETIME | DEFAULT CURRENT_TIMESTAMP | |
-| updated_at | DATETIME | NULL, ON UPDATE CURRENT_TIMESTAMP | Kosong sampai laporan pertama kali diedit admin |
+| updated_at | DATETIME | NULL, ON UPDATE CURRENT_TIMESTAMP | Kosong sampai kategori atau kanal laporan pertama kali diubah admin |
 
 Tabel ini tidak menyimpan status. Status terakhir dibaca dari `v_report_status`.
 
@@ -267,7 +267,7 @@ Dipakai oleh daftar laporan admin (filter status, FR-08), dashboard rekap per st
 | 3 | **Pelapor dengan email yang sama memakai baris yang sudah ada.** Jika email diisi dan sudah tercatat di `reporters`, `reporter_id` lama dipakai dan nama yang tersimpan tidak ditimpa. Jika email kosong, dibuat baris baru karena identitasnya tidak bisa dipastikan. | Mencegah data pelapor ganda. Didukung oleh UNIQUE pada `reporters.email`. |
 | 4 | **Kode tiket acak.** Dibuat dengan `random_bytes()`. Jika kebetulan sudah dipakai (ditolak oleh UNIQUE), dibuat ulang. | Kode berurutan bisa ditebak sehingga orang lain dapat melihat status laporan milik orang lain (celah IDOR). |
 | 5 | **Mengubah status = menambah baris riwayat.** Tidak ada `UPDATE` atau `DELETE` pada `status_histories` dari antarmuka admin. | Riwayat penanganan tetap utuh dan bisa dipertanggungjawabkan. |
-| 6 | **Edit laporan dibatasi** pada `category_id`, `channel_id`, `incident_date`, dan `chronology`. Indikator tidak diubah dari halaman edit laporan, melainkan dikelola di halaman indikator. | Menjaga logika edit tetap sederhana. |
+| 6 | **Edit laporan dibatasi** pada `category_id` dan `channel_id`. `incident_date` dan `chronology` tidak bisa diubah admin, dan nilai kiriman untuk keduanya diabaikan di server. Indikator tidak diubah dari halaman ini, melainkan dikelola di halaman indikator. | Tanggal dan kronologi adalah keterangan pelapor. Admin hanya mengoreksi klasifikasi (kategori dan kanal), sehingga isi laporan tidak bisa dimanipulasi. Jika sebuah laporan tidak layak, admin menghapusnya atau mengubah statusnya. |
 | 7 | **Hapus data hanya lewat form POST dengan konfirmasi.** | Mencegah data terhapus karena satu klik link yang tidak disengaja. |
 | 8 | **Edit indikator dibatasi** pada `verification_status` dan `note`. `type` dan `value` tidak bisa diubah; jika salah, admin menambah indikator baru. Saat admin menambah indikator yang `(type, value)`-nya sudah ada, sistem menampilkan pesan "sudah tercatat" beserta tautan ke data yang ada. | Mengubah nilai bisa bentrok dengan UNIQUE `(type, value)` dan mengubah bukti laporan yang sudah masuk. |
 

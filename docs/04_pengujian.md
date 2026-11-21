@@ -3,7 +3,7 @@
 Proyek: **LaPhish: Lapor dan Cek Phishing di Kampus**
 Dasar: kebutuhan FR-01 s.d. FR-13 dan NFR-01 s.d. NFR-10 di `01_analisis_kebutuhan.md`.
 
-Status: **selesai** (2026-11-20). **58 kasus uji, 58 lulus.** Diuji ulang pada 2026-11-21 setelah nama aplikasi diganti menjadi LaPhish (URL, database, dan file SQL baru): 54 kasus HTTP serta TC-11 dan TC-12 tetap lulus. Diuji ulang lagi pada 2026-11-21 setelah perubahan tampilan (bagian 8): 58 kasus awal tetap lulus, ditambah 9 kasus baru (TC-59 sampai TC-67) untuk pembagian halaman dan perilaku formulir. **Total 67 kasus, 67 lulus.**
+Status: **selesai** (2026-11-20). **58 kasus uji, 58 lulus.** Diuji ulang pada 2026-11-21 setelah nama aplikasi diganti menjadi LaPhish (URL, database, dan file SQL baru): 54 kasus HTTP serta TC-11 dan TC-12 tetap lulus. Diuji ulang lagi pada 2026-11-21 setelah perubahan tampilan (bagian 8): 58 kasus awal tetap lulus, ditambah 9 kasus baru (TC-59 sampai TC-67) untuk pembagian halaman dan perilaku formulir. **Total 69 kasus tercatat, 1 dicabut (TC-36), 68 berlaku, 68 lulus.** TC-35, TC-68, dan TC-69 dijalankan 2026-11-21 setelah edit laporan dibatasi pada kategori dan kanal (lihat catatan di bagian 8).
 
 ## 1. Metode
 
@@ -63,8 +63,8 @@ Status: **Lulus** jika hasil aktual sama dengan hasil yang diharapkan.
 | TC-32 | FR-07 | Angka di dashboard sesuai database | Data saat pengujian | Angka di kartu sama dengan hasil kueri langsung ke database | Kartu: total 45, Baru 6, Ditinjau 3, Valid 32, Tidak valid 4. Kueri database: angka yang sama | Lulus |
 | TC-33 | FR-08 | Mencari laporan dengan kode tiket | Kode tiket TC-02 | Satu laporan ditemukan | 1 laporan | Lulus |
 | TC-34 | FR-08 | Filter gabungan | Status Baru, kategori Pencurian akun, masuk 1–30 November 2026 | Jumlah hasil sama dengan kueri database | 3 laporan, kueri database juga 3 | Lulus |
-| TC-35 | FR-08 | Mengubah laporan | Kategori, kanal, tanggal, dan kronologi baru | Perubahan tersimpan, waktu ubah tercatat | "Perubahan laporan … berhasil disimpan." Kategori 3, kanal 4, `updated_at` terisi | Lulus |
-| TC-36 | NFR-07 | Mengubah laporan dengan tanggal masa depan | Tanggal besok | Ditolak | "Tanggal kejadian tidak boleh di masa depan." | Lulus |
+| TC-35 | FR-08 | Mengubah kategori dan kanal laporan (dijalankan ulang 2026-11-21 setelah fitur dibatasi) | Kategori 3 dan kanal 4, ditambah kiriman POST buatan sendiri dengan tanggal `2020-01-01` dan kronologi lain | Kategori dan kanal tersimpan, tanggal dan kronologi tidak berubah, waktu ubah tercatat | Kategori 3, kanal 4, `updated_at` terisi. Tanggal tetap `2026-05-28` dan hash kronologi sama dengan sebelum kiriman | Lulus |
+| TC-36 | NFR-07 | ~~Mengubah laporan dengan tanggal masa depan~~ | Dicabut 2026-11-21: tanggal kejadian tidak lagi bisa diubah admin, jadi kasus ini tidak berlaku | - | - | Dicabut |
 | TC-37 | FR-08 | Menghapus laporan | Laporan dari TC-02 | Laporan, penghubung, dan riwayatnya terhapus. Indikator tetap ada | Pesan berhasil. Sisa penghubung 0, riwayat 0. Jumlah indikator tetap 34 | Lulus |
 | TC-38 | FR-09 | Mengubah status dengan catatan | Status Valid, catatan "Terkonfirmasi phishing (uji)." | Riwayat bertambah, status terbaru berubah, catatan tampil di halaman Lacak | Riwayat 1 → 2, status terbaru `valid`, catatan tampil di Lacak | Lulus |
 | TC-39 | FR-09, NFR-07 | Status di luar daftar dikirim langsung ke server | `selesai` | Ditolak | "Pilih status yang tersedia." | Lulus |
@@ -128,7 +128,7 @@ Tampilan aplikasi diubah mengikuti arah desain "Lensa": header dan footer publik
 | 4 kasus browser | TC-11, TC-12, TC-57, dan TC-58 di Chromium, lewat pemicu JavaScript di halaman |
 | Setelah uji | Database dikembalikan ke data awal dengan mengimpor ulang `database/laphish.sql`. Jumlah akhirnya sama dengan data awal |
 
-**Hasil: 58 kasus awal, 58 lulus. Ditambah 9 kasus baru (TC-59 sampai TC-67), 9 lulus. Total 67 kasus, 67 lulus.** Ke-54 kasus HTTP dijalankan ulang setelah tiap putaran perubahan tampilan (empat kali), dan seluruhnya lulus (54 dari 54) pada setiap putaran yang memakai skrip uji yang sudah diperbaiki.
+**Hasil: 58 kasus awal, 58 lulus. Ditambah 9 kasus baru (TC-59 sampai TC-67), 9 lulus. Lalu edit laporan dibatasi pada kategori dan kanal: TC-35 diubah, TC-36 dicabut, dan TC-68 serta TC-69 ditambah, semuanya lulus. Total 69 kasus tercatat, 1 dicabut, 68 berlaku, 68 lulus.** Ke-54 kasus HTTP dijalankan ulang setelah tiap putaran perubahan tampilan (empat kali), dan seluruhnya lulus (54 dari 54) pada setiap putaran yang memakai skrip uji yang sudah diperbaiki.
 
 | Bagian | Jumlah kasus | Lulus |
 |---|---|---|
@@ -165,6 +165,8 @@ Kasus baru untuk perilaku yang ditambahkan setelah pengujian awal. Data uji: dat
 | TC-65 | FR-06 | Tombol mata di kolom kata sandi login | Klik tombol dua kali | Kolom bergantian `password` dan `text`, label dan ikon berganti | Awal: `password`, label "Tampilkan kata sandi", ikon `bi-eye`. Setelah klik: `text`, label "Sembunyikan kata sandi", ikon `bi-eye-slash`, `aria-pressed="true"`, fokus tetap di kolom. Klik lagi: kembali `password` | Lulus |
 | TC-66 | NFR-08 | Tata letak formulir Cek dan Lacak tidak bergeser saat galat | Kirim "https" di Cek dan "LP" di Lacak | Posisi kolom isian dan tombol sama sebelum dan sesudah pesan galat muncul | Cek: Jenis, Nilai, dan tombol sama-sama di 256 px sebelum dan sesudah galat. Lacak: kolom dan tombol di 256 px sebelum dan sesudah. Pesan galat hanya di bawah kolom isian | Lulus |
 | TC-67 | NFR-08 | Ikon merek konsisten | Header publik, sidebar admin, halaman login | Glyph, ukuran ikon, dan ukuran teks merek sama | Ketiganya `bi-shield-check`. Ikon 22,4 px dan teks 19,2 px tebal 800 di header dan sidebar. Warna ikon `rgb(35,31,64)` di atas latar terang dan putih di sidebar gelap. Login memakai warna gelap yang sama | Lulus |
+| TC-68 | FR-08, NFR-07 | Kategori tidak valid pada edit laporan | Kiriman `category_id=9999` | Ditolak, data tidak berubah | Pesan "Pilih kategori." tampil, kategori laporan tetap | Lulus |
+| TC-69 | FR-08 | Halaman edit laporan tidak memuat kolom isian tanggal dan kronologi | Buka `admin/laporan_edit.php?id=1` | Hanya dua pilihan (kategori, kanal). Tanggal dan kronologi hanya teks | Jumlah isian `incident_date` dan `chronology` di halaman: 0. Tanggal dan kronologi tampil sebagai teks | Lulus |
 
 ### Catatan dan batasan uji ulang
 
@@ -172,6 +174,7 @@ Kasus baru untuk perilaku yang ditambahkan setelah pengujian awal. Data uji: dat
 - **TC-11 dan TC-12:** dijalankan dengan memicu klik dan perubahan lewat JavaScript, bukan dengan interaksi langsung di layar.
 - **Putaran pertama pelari uji:** 44 dari 54 kasus HTTP lulus. Sepuluh kegagalan itu berasal dari skrip uji, bukan dari aplikasi: pengalihan relatif (misalnya `../admin/login.php`) diselesaikan dengan basis yang salah sehingga pesan di halaman tujuan tidak terbaca, dan TC-55 memakai halaman yang saat GET tidak menyentuh database. Setelah skrip diperbaiki dan database dikembalikan ke data awal, putaran kedua lulus seluruhnya (54 dari 54). Tidak ada berkas aplikasi yang diubah di antara kedua putaran.
 - **Cakupan:** perubahan tampilan diuji untuk perilaku, isi, dan lebar halaman. Halaman tiket (`terkirim.php`) hanya dibuka lewat TC-02 dan TC-13 untuk memeriksa format kode tiket; tampilan visualnya (di komputer maupun ponsel) tidak diperiksa ulang. Halaman login admin dan formulir tambah atau ubah (indikator, kategori, kanal, laporan) diuji fungsinya, bukan tampilannya di ponsel.
+- **TC-35, TC-68, TC-69:** dijalankan lewat permintaan HTTP (curl) dengan sesi admin, dengan hasil dibaca langsung dari database. Data laporan yang dipakai dipulihkan ke nilai awal setelah uji. Belum dimasukkan ke skrip uji otomatis.
 - **TC-59 sampai TC-67:** dijalankan lewat satu sesi admin di Chromium, dengan permintaan HTTP dari halaman dan pemicu JavaScript, belum dimasukkan ke skrip uji otomatis 54 kasus. TC-62 hanya menguji pencarian `zzzzzzzz` untuk hasil kosong dan dua filter status; kombinasi filter lain belum diuji di halaman berbeda. TC-67 menilai kesamaan sifat (glyph, ukuran, warna), bukan penampilan visual di setiap peramban.
 - **Pembagian halaman dan kasus lama:** TC-33, TC-34, dan TC-52 menghitung baris pada halaman pertama. Ketiganya tetap sah karena hasilnya di bawah 10 baris, jadi semuanya tampil di halaman 1.
 - Batasan di bagian 6 (satu peramban, tanpa uji beban dan uji keamanan menyeluruh) tetap berlaku.
