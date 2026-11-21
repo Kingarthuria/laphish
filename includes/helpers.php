@@ -196,7 +196,7 @@ function generate_ticket(): string
 /* ---------------- Label dan warna status ---------------- */
 
 const REPORT_STATUSES = [
-    'baru'        => ['label' => 'Baru',        'class' => 'st-purple'],
+    'baru'        => ['label' => 'Baru',        'class' => 'st-blue'],
     'ditinjau'    => ['label' => 'Ditinjau',    'class' => 'st-orange'],
     'valid'       => ['label' => 'Valid',       'class' => 'st-red'],
     'tidak_valid' => ['label' => 'Tidak valid', 'class' => 'st-grey'],

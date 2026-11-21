@@ -29,7 +29,7 @@ $me = current_admin();
 <body class="lp-admin">
 <div class="lp-shell">
     <nav class="lp-side" aria-label="Menu admin">
-        <a class="brand" href="<?= url('admin/index.php') ?>">LaPhish</a>
+        <a class="brand" href="<?= url('admin/index.php') ?>"><i class="bi bi-shield-check me-1"></i>LaPhish</a>
         <?php foreach ($menu as $key => [$label, $href]): ?>
             <a class="<?= $key === $activeMenu ? 'active' : '' ?>" href="<?= url($href) ?>"<?= $key === $activeMenu ? ' aria-current="page"' : '' ?>><?= e($label) ?></a>
         <?php endforeach; ?>

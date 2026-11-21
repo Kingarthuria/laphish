@@ -42,7 +42,7 @@ $flashes = take_flashes();
 <div class="lp-login">
     <div class="card p-4" style="width: 100%; max-width: 380px">
         <div class="text-center mb-3">
-            <div class="fw-bold fs-4">LaPhish</div>
+            <div class="fw-bold fs-4"><i class="bi bi-shield-check me-1"></i>LaPhish</div>
             <div class="text-muted-lp small">Masuk sebagai petugas unit TI</div>
         </div>
         <?php foreach ($flashes as $f): ?>

@@ -26,7 +26,7 @@ $flashClass = ['sukses' => 'alert-ok', 'galat' => 'alert-err', 'info' => 'alert-
 <body class="lp-public">
 <nav class="navbar navbar-expand-md lp-nav">
     <div class="container">
-        <a class="navbar-brand" href="<?= url('index.php') ?>">LaPhish</a>
+        <a class="navbar-brand" href="<?= url('index.php') ?>"><i class="bi bi-shield-check me-1"></i>LaPhish</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navPublik" aria-controls="navPublik" aria-expanded="false" aria-label="Buka menu">
             <span class="navbar-toggler-icon"></span>
         </button>
