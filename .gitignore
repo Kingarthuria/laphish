@@ -8,6 +8,10 @@ includes/config.php
 Deskripsi_Tugas_*.pdf
 Penjelasan Tambahan.txt
 
+# Bahan pembanding desain (prototipe arah A, B, C) dan cadangan berkas sebelum perubahan tampilan.
+# Bukan bagian aplikasi; keputusan desainnya dicatat di docs/02b_mockup.md dan PROJECT_GUIDE.md.
+eksperimen_desain/
+
 # File sistem dan editor
 Thumbs.db
 Desktop.ini
