@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             redirect('admin/laporan.php');
         }
     } catch (PDOException $e) {
-        error_log('[LaporPhish] Aksi detail laporan gagal: ' . $e->getMessage());
+        error_log('[LaPhish] Aksi detail laporan gagal: ' . $e->getMessage());
         flash('galat', 'Perubahan gagal disimpan karena gangguan sistem.');
     }
     redirect($self);

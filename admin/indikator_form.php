@@ -83,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             redirect('admin/indikator.php');
         } catch (PDOException $e) {
-            error_log('[LaporPhish] Simpan indikator gagal: ' . $e->getMessage());
+            error_log('[LaPhish] Simpan indikator gagal: ' . $e->getMessage());
             $errors[] = 'Indikator gagal disimpan karena gangguan sistem.';
         }
     }

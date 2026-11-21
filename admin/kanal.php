@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'delet
             $n->execute([$id]);
             flash('galat', 'Kanal "' . $name . '" tidak bisa dihapus karena masih dipakai ' . (int) $n->fetchColumn() . ' laporan.');
         } else {
-            error_log('[LaporPhish] Hapus kanal gagal: ' . $e->getMessage());
+            error_log('[LaPhish] Hapus kanal gagal: ' . $e->getMessage());
             flash('galat', 'Kanal gagal dihapus karena gangguan sistem.');
         }
     }

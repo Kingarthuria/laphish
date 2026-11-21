@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'delet
             $n->execute([$id]);
             flash('galat', 'Kategori "' . $name . '" tidak bisa dihapus karena masih dipakai ' . (int) $n->fetchColumn() . ' laporan.');
         } else {
-            error_log('[LaporPhish] Hapus kategori gagal: ' . $e->getMessage());
+            error_log('[LaPhish] Hapus kategori gagal: ' . $e->getMessage());
             flash('galat', 'Kategori gagal dihapus karena gangguan sistem.');
         }
     }

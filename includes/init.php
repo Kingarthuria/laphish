@@ -18,6 +18,6 @@ define('ROOT_REL', basename(dirname($_SERVER['SCRIPT_FILENAME'])) === 'admin' ? 
 
 if (session_status() === PHP_SESSION_NONE) {
     session_set_cookie_params(['httponly' => true, 'samesite' => 'Lax']);
-    session_name('laporphish');
+    session_name('laphish');
     session_start();
 }

@@ -22,7 +22,7 @@ $me = current_admin();
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?= e($pageTitle) ?> — Admin LaporPhish</title>
+    <title><?= e($pageTitle) ?> — Admin LaPhish</title>
     <link rel="stylesheet" href="<?= url('assets/vendor/bootstrap/bootstrap.min.css') ?>">
     <link rel="stylesheet" href="<?= url('assets/vendor/bootstrap-icons/bootstrap-icons.min.css') ?>">
     <link rel="stylesheet" href="<?= url('assets/css/app.css') ?>">
@@ -30,7 +30,7 @@ $me = current_admin();
 <body class="lp-admin">
 <div class="lp-shell">
     <nav class="lp-side" aria-label="Menu admin">
-        <a class="brand" href="<?= url('admin/index.php') ?>"><i class="bi bi-shield-check me-1"></i>LaporPhish</a>
+        <a class="brand" href="<?= url('admin/index.php') ?>"><i class="bi bi-shield-check me-1"></i>LaPhish</a>
         <?php foreach ($menu as $key => [$label, $href, $icon]): ?>
             <a class="<?= $key === $activeMenu ? 'active' : '' ?>" href="<?= url($href) ?>"<?= $key === $activeMenu ? ' aria-current="page"' : '' ?>><i class="bi <?= $icon ?>"></i><?= e($label) ?></a>
         <?php endforeach; ?>

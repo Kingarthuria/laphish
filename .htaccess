@@ -1,4 +1,4 @@
-# LaporPhish — pengaturan Apache untuk folder proyek
+# LaPhish — pengaturan Apache untuk folder proyek
 # Jangan tampilkan daftar isi folder
 Options -Indexes
 DirectoryIndex index.php

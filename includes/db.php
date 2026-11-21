@@ -45,11 +45,11 @@ function db(): PDO
         // Samakan zona waktu database dengan aplikasi (WIB)
         $pdo->exec("SET time_zone = '+07:00'");
     } catch (PDOException $e) {
-        error_log('[LaporPhish] Koneksi database gagal: ' . $e->getMessage());
+        error_log('[LaPhish] Koneksi database gagal: ' . $e->getMessage());
         $detail = !empty(app_config()['app']['debug']) ? '<br><small>' . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8') . '</small>' : '';
         fatal_page(
             'Database tidak dapat dihubungi',
-            'Pastikan MySQL di XAMPP sudah berjalan dan database <code>laporphish</code> sudah diimpor dari <code>database/laporphish.sql</code>.' . $detail
+            'Pastikan MySQL di XAMPP sudah berjalan dan database <code>laphish</code> sudah diimpor dari <code>database/laphish.sql</code>.' . $detail
         );
     }
     return $pdo;

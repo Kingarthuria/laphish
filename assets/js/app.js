@@ -1,4 +1,4 @@
-// LaporPhish — skrip kecil untuk interaksi halaman.
+// LaPhish — skrip kecil untuk interaksi halaman.
 // Formulir tetap bisa dikirim tanpa JavaScript; skrip ini hanya mempermudah.
 
 // Dialog konfirmasi untuk form hapus (NFR-10).

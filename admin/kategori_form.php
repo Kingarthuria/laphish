@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (($e->errorInfo[1] ?? 0) === 1062) {
                 $errors[] = 'Nama kategori sudah ada.';
             } else {
-                error_log('[LaporPhish] Simpan kategori gagal: ' . $e->getMessage());
+                error_log('[LaPhish] Simpan kategori gagal: ' . $e->getMessage());
                 $errors[] = 'Kategori gagal disimpan karena gangguan sistem.';
             }
         }

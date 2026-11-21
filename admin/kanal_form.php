@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (($e->errorInfo[1] ?? 0) === 1062) {
                 $error = 'Nama kanal sudah ada.';
             } else {
-                error_log('[LaporPhish] Simpan kanal gagal: ' . $e->getMessage());
+                error_log('[LaPhish] Simpan kanal gagal: ' . $e->getMessage());
                 $error = 'Kanal gagal disimpan karena gangguan sistem.';
             }
         }

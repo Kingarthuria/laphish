@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             flash('sukses', 'Perubahan laporan ' . $report['ticket_code'] . ' berhasil disimpan.');
             redirect('admin/laporan_detail.php?id=' . $id);
         } catch (PDOException $e) {
-            error_log('[LaporPhish] Edit laporan gagal: ' . $e->getMessage());
+            error_log('[LaPhish] Edit laporan gagal: ' . $e->getMessage());
             $errors[] = 'Perubahan gagal disimpan karena gangguan sistem.';
         }
     }

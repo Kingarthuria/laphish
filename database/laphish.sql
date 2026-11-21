@@ -1,18 +1,18 @@
 -- =============================================================
--- LaporPhish: Lapor dan Cek Phishing di Kampus
+-- LaPhish: Lapor dan Cek Phishing di Kampus
 -- Struktur database (8 tabel + 1 view) dan data contoh (dummy).
 -- Kompatibel: MariaDB 10.4 (XAMPP) dan MySQL 8 (Laragon).
 -- Cara pakai: impor file ini lewat phpMyAdmin (tab Import) atau
---   mysql -u root < database/laporphish.sql
+--   mysql -u root < database/laphish.sql
 --
 -- SEMUA DATA DI FILE INI FIKTIF: nama, email (@*.example), domain
 -- (.example, dicadangkan RFC 2606), dan nomor telepon (pola 08xx-0000-xxxx).
--- Akun admin demo: username `admin`, password `LaporPhish#Demo2026`
+-- Akun admin demo: username `admin`, password `LaPhish#Demo2026`
 --   (hanya untuk demo lokal; tersimpan sebagai hash bcrypt).
 -- =============================================================
 
-CREATE DATABASE IF NOT EXISTS laporphish CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE laporphish;
+CREATE DATABASE IF NOT EXISTS laphish CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE laphish;
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 DROP VIEW IF EXISTS v_report_status;
@@ -124,7 +124,7 @@ WHERE h.history_id = (
 -- DATA CONTOH (DUMMY)
 -- -------------------------------------------------------------
 INSERT INTO admins (admin_id, username, password_hash, full_name, created_at) VALUES
-  (1, 'admin', '$2y$10$8pVNutVOcYqFlHefX.hKCuK1jLdw2JB.qKs6JPNZmYWY2fJD9qvpS', 'Petugas TI', '2026-06-01 07:00:00');
+  (1, 'admin', '$2y$10$Hns2OIdh4CFCILN8FH2fBuIZ9T2em0cyDHO35.gi.I7FBUxJZ9qx6', 'Petugas TI', '2026-06-01 07:00:00');
 
 INSERT INTO categories (category_id, name, description) VALUES
   (1, 'Pencurian akun', 'Halaman login palsu yang meniru layanan kampus atau email untuk mencuri akun.'),

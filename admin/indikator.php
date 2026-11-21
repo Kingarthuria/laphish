@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'delet
             $n->execute([$id]);
             flash('galat', 'Indikator tidak bisa dihapus karena masih menjadi bukti di ' . (int) $n->fetchColumn() . ' laporan. Tandai sebagai "Bukan phishing" jika ternyata aman.');
         } else {
-            error_log('[LaporPhish] Hapus indikator gagal: ' . $e->getMessage());
+            error_log('[LaPhish] Hapus indikator gagal: ' . $e->getMessage());
             flash('galat', 'Indikator gagal dihapus karena gangguan sistem.');
         }
     }

@@ -164,7 +164,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'kirim') {
             if ($pdo->inTransaction()) {
                 $pdo->rollBack();
             }
-            error_log('[LaporPhish] Gagal menyimpan laporan: ' . $e->getMessage());
+            error_log('[LaPhish] Gagal menyimpan laporan: ' . $e->getMessage());
             $errors[] = 'Laporan gagal disimpan karena gangguan sistem. Silakan coba lagi.';
         }
     }
