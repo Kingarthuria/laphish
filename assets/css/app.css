@@ -106,9 +106,49 @@ body.lp-public { min-height: 100vh; display: flex; flex-direction: column; }
 .lp-footer a { color: rgba(255, 255, 255, .85); }
 .lp-page { background: var(--lp-bg); }
 
-.lp-feature > i { font-size: 1.6rem; color: var(--lp-primary); background: var(--lp-primary-tint); border-radius: .5rem; padding: .4rem .6rem; }
-.lp-underline { box-shadow: inset 0 -.35em 0 rgba(229, 189, 54, .55); }
-.lp-step { width: 2rem; height: 2rem; border-radius: 50%; background: var(--lp-primary); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; }
+/* ---------- Beranda (arah desain A "Lensa") ---------- */
+.lp-display { font-weight: 800; font-size: clamp(2.3rem, 4.6vw, 3.4rem); line-height: 1.05; letter-spacing: -.035em; text-wrap: balance; }
+.lp-mono { font-family: Consolas, "Cascadia Mono", ui-monospace, monospace; }
+
+/* Alat bedah alamat */
+.lp-lens { background: #fff; border: 1.5px solid var(--lp-dark); border-radius: 1rem; padding: clamp(1.1rem, 2.4vw, 1.7rem); box-shadow: 6px 6px 0 var(--lp-primary); }
+.lp-chip { font-size: .85rem; font-weight: 600; padding: .3rem .8rem; border-radius: 999px; border: 1.5px solid #8A839C; background: #fff; color: var(--lp-dark); cursor: pointer; }
+.lp-chip:hover, .lp-chip[aria-pressed="true"] { border-color: var(--lp-primary); background: var(--lp-primary-tint); }
+.lp-chip:focus-visible, .lp-path:focus-visible { outline: 3px solid var(--lp-primary); outline-offset: 2px; }
+.lp-anatomy { margin-top: 1.5rem; padding-top: 1.4rem; border-top: 1.5px dashed var(--lp-border); }
+.lp-url { position: relative; display: flex; flex-wrap: wrap; align-items: flex-start; row-gap: 1rem; font: 600 clamp(1rem, 2.2vw, 1.4rem)/1.3 Consolas, "Cascadia Mono", ui-monospace, monospace; }
+.lp-seg { display: flex; flex-direction: column; align-items: flex-start; flex: 0 0 auto; max-width: 100%; }
+.lp-seg code { font: inherit; color: inherit; padding: .1rem .15rem; word-break: break-all; }
+.lp-seg small { font: 600 .8rem/1.3 "Plus Jakarta Sans", system-ui, sans-serif; color: var(--lp-muted); border-top: 2px solid var(--lp-border); margin-top: .35rem; padding: .3rem .6rem 0 0; align-self: stretch; min-width: 4.5rem; }
+.lp-seg.dim code { color: #6B6680; }
+.lp-seg.key code { background: linear-gradient(var(--lp-accent), var(--lp-accent)) no-repeat left center / 100% 100%; color: var(--lp-dark); }
+.lp-seg.key small { border-top-color: var(--lp-dark); color: var(--lp-dark); font-weight: 800; }
+.lp-vonis { margin: 1.2rem 0 0; font-weight: 600; }
+.lp-vonis-warn { color: var(--lp-red-text); }
+@media (prefers-reduced-motion: no-preference) {
+  .lp-seg.key code { animation: lp-sorot .9s .35s cubic-bezier(.3, .7, .2, 1) both; }
+  @keyframes lp-sorot { from { background-size: 0% 100%; } to { background-size: 100% 100%; } }
+}
+/* Layar sempit: alamat tetap satu baris yang bisa digeser, bukan tertumpuk */
+@media (max-width: 575.98px) {
+  .lp-url { flex-wrap: nowrap; overflow-x: auto; padding-bottom: .5rem; }
+  .lp-seg code { word-break: normal; white-space: nowrap; }
+}
+
+/* Tiga jalur masuk sebagai baris besar */
+.lp-paths { border-top: 1.5px solid var(--lp-dark); }
+.lp-path { display: grid; grid-template-columns: 11rem 1fr auto; gap: 1.5rem; align-items: center; padding: 1.5rem .5rem; border-bottom: 1px solid var(--lp-border); text-decoration: none; color: inherit; }
+.lp-path:hover { background: #F1ECF8; color: inherit; }
+.lp-path:focus-visible { outline-offset: -3px; }
+.lp-path .word { font-weight: 800; font-size: clamp(1.8rem, 4vw, 2.6rem); letter-spacing: -.03em; line-height: 1; padding-left: .25rem; }
+.lp-path .go { font-weight: 700; color: var(--lp-primary); white-space: nowrap; padding-right: .5rem; }
+@media (max-width: 767.98px) { .lp-path { grid-template-columns: 1fr; gap: .4rem; } }
+
+/* Cara kerja: memang urutan, jadi bernomor */
+.lp-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; counter-reset: lp-langkah; }
+.lp-steps li { counter-increment: lp-langkah; border-top: 3px solid var(--lp-primary); padding-top: 1rem; }
+.lp-steps li::before { content: counter(lp-langkah); display: block; font-weight: 800; font-size: 2.4rem; line-height: 1; color: var(--lp-primary); margin-bottom: .6rem; letter-spacing: -.04em; }
+@media (max-width: 767.98px) { .lp-steps { grid-template-columns: 1fr; gap: 1.5rem; } }
 .lp-ticket { font-family: "Courier New", ui-monospace, monospace; font-size: 2rem; font-weight: 700; letter-spacing: .2em; color: var(--lp-primary); border: 2px dashed var(--lp-primary); border-radius: .5rem; padding: .75rem 1.5rem; display: inline-block; background: #fff; }
 
 /* =====================================================================
