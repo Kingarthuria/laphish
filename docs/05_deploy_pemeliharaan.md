@@ -137,6 +137,7 @@ Laporan yang salah atau tidak terbukti tidak dihapus, tetapi diberi status **Tid
 **Jangka pendek (setelah tugas dinilai)**
 - Penyesuaian P1–P4 di bagian 5.
 - Jejak audit perubahan laporan: tabel riwayat perubahan berisi nilai lama, nilai baru, admin, dan waktu, sehingga koreksi kategori dan kanal bisa ditelusuri. Saat ini hanya `updated_at` yang menunjukkan kapan terakhir diubah.
+- Pembatasan percobaan di halaman Lacak: kode tiket adalah satu-satunya "kunci" dan kini membuka kronologi serta indikator laporan. Kode berbentuk `LP-` dan 8 karakter dari 32 pilihan (sekitar 1,1 triliun kemungkinan) sehingga sulit ditebak, tetapi belum ada batas jumlah percobaan. Rencananya: hitung kode salah per sesi dan tolak pencarian sementara (misalnya 5 kali salah dalam beberapa menit). Untuk server kampus, hitungan per alamat IP yang disimpan di tabel atau file lebih kuat dan dibahas saat tahap deploy. Pembatasan ini tidak mencegah kebocoran kode lewat screenshot atau grup chat.
 - Jika demo ingin tetap gratis: mengganti view `v_report_status` dengan subquery di kode PHP, lalu mengulang uji Black-Box yang terdampak dan uji U1–U6 di hosting gratis (bagian 3).
 - Fitur yang ditunda dari fase 1: halaman kelola akun admin (termasuk ganti password lewat aplikasi), grafik di dashboard, dan status "Selesai".
 
