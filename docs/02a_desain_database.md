@@ -271,6 +271,20 @@ Dipakai oleh daftar laporan admin (filter status, FR-08), dashboard rekap per st
 | 7 | **Hapus data hanya lewat form POST dengan konfirmasi.** | Mencegah data terhapus karena satu klik link yang tidak disengaja. |
 | 8 | **Edit indikator dibatasi** pada `verification_status` dan `note`. `type` dan `value` tidak bisa diubah; jika salah, admin menambah indikator baru. Saat admin menambah indikator yang `(type, value)`-nya sudah ada, sistem menampilkan pesan "sudah tercatat" beserta tautan ke data yang ada. | Mengubah nilai bisa bentrok dengan UNIQUE `(type, value)` dan mengubah bukti laporan yang sudah masuk. |
 
+### Alasan edit laporan hanya untuk kategori dan kanal
+
+Tabel `reports` tetap punya operasi Update (FR-08), tetapi dibatasi pada dua kolom klasifikasi.
+
+**Kegunaannya:**
+1. Pelapor awam memilih kategori dan kanal sendiri di formulir Lapor dan bisa keliru, misalnya "Pencurian akun" dengan "Lainnya", atau WhatsApp dengan SMS. Petugas TI yang meninjau laporan punya konteks untuk membetulkannya.
+2. Rekap dashboard "Per kategori" dan "Per kanal" dihitung dari `category_id` dan `channel_id`. Klasifikasi yang keliru dan tidak bisa dikoreksi membuat data tren ikut keliru.
+3. Tanpa edit, satu-satunya jalan adalah menghapus laporan, yang ikut membuang kronologi dan riwayat statusnya. Mengoreksi satu kolom jauh lebih ringan.
+4. Kategori dan kanal adalah data hasil kurasi dari daftar yang dikelola admin, bukan kesaksian pelapor, jadi wajar dirapikan oleh petugas.
+
+**Kenapa tidak berisiko manipulasi:** `incident_date` dan `chronology` adalah keterangan pelapor dan sengaja dikunci. Halaman edit tidak memuat kolom isiannya, dan nilai kiriman untuk keduanya diabaikan di server (TC-35 dan TC-69 di `04_pengujian.md`). Pelapor, kode tiket, indikator, dan riwayat status juga tidak bisa diubah dari halaman ini. Laporan yang tidak layak tidak diedit, tetapi diberi status Tidak valid atau dihapus.
+
+**Batasan yang diketahui:** perubahan kategori dan kanal belum dicatat jejaknya. `updated_at` hanya menunjukkan kapan terakhir diubah, bukan siapa dan apa yang berubah. Rencana perbaikannya ada di `05_deploy_pemeliharaan.md` bagian 7.
+
 ### Logika hasil fitur Cek
 
 | Kondisi setelah nilai dinormalisasi | Hasil yang ditampilkan |

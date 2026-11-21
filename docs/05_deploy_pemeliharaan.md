@@ -112,10 +112,31 @@ Penyesuaian berikut belum diperlukan di localhost, tetapi dikerjakan sebelum apl
 | Alur perubahan kode | Setiap perubahan | Ubah dan uji di localhost (ulang kasus di `04_pengujian.md` yang terdampak), commit ke GitHub, lalu unggah file yang berubah |
 | Ganti password admin | Per semester, atau segera jika diduga bocor | Seperti bagian 4 langkah 6 |
 
+### Kebijakan penghapusan data
+
+**Kapan admin menghapus laporan.** Hapus dipakai hanya jika datanya memang tidak layak disimpan:
+1. Spam atau laporan iseng (isian acak atau bercanda).
+2. Laporan ganda dari kejadian yang sama. Satu dipertahankan, sisanya dihapus.
+3. Data pribadi atau sensitif di kronologi, misalnya kata sandi atau nomor identitas. Admin tidak bisa mengedit kronologi, jadi laporannya yang dihapus.
+4. Permintaan pelapor agar laporannya ditarik.
+5. Data percobaan atau pengujian yang tidak sengaja masuk.
+
+Laporan yang salah atau tidak terbukti tidak dihapus, tetapi diberi status **Tidak valid** agar tetap tercatat.
+
+**Akibat menghapus laporan:**
+- Penghubung ke indikator dan riwayat statusnya ikut terhapus (`ON DELETE CASCADE`). Indikatornya tetap ada.
+- Kode tiketnya hilang. Halaman Lacak menjawab "Kode tiket tidak ditemukan", tanpa membedakan tiket yang dihapus dari tiket yang salah ketik.
+- Hasil fitur Cek tidak berubah, karena Cek membaca tabel `indicators`. Hanya jumlah laporan terkaitnya yang berkurang.
+
+**Kapan indikator bisa dihapus.** Hanya jika tidak terkait laporan mana pun (kolom "Laporan" bernilai 0), yaitu indikator yang dibuat admin sendiri dan belum dikaitkan, atau indikator milik laporan yang sudah dihapus. Selama masih terkait, database menolak penghapusannya (`ON DELETE RESTRICT`) dan tombol Hapus dinonaktifkan di antarmuka (FR-13).
+
+**Hati-hati menghapus indikator yang sudah diverifikasi.** Indikator berstatus Phishing yang dihapus tidak lagi diperingatkan di Cek, dan pengguna berikutnya melihat "Belum ada data" untuk nilai yang pernah terbukti berbahaya. Indikator yang salah sebaiknya diubah menjadi "Bukan phishing" dengan catatan, bukan dihapus.
+
 ## 7. Rencana pengembangan
 
 **Jangka pendek (setelah tugas dinilai)**
 - Penyesuaian P1–P4 di bagian 5.
+- Jejak audit perubahan laporan: tabel riwayat perubahan berisi nilai lama, nilai baru, admin, dan waktu, sehingga koreksi kategori dan kanal bisa ditelusuri. Saat ini hanya `updated_at` yang menunjukkan kapan terakhir diubah.
 - Jika demo ingin tetap gratis: mengganti view `v_report_status` dengan subquery di kode PHP, lalu mengulang uji Black-Box yang terdampak dan uji U1–U6 di hosting gratis (bagian 3).
 - Fitur yang ditunda dari fase 1: halaman kelola akun admin (termasuk ganti password lewat aplikasi), grafik di dashboard, dan status "Selesai".
 
