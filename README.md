@@ -78,7 +78,8 @@ Semua data di `database/laphish.sql` **fiktif**: 42 laporan (Juni–November 202
 | [docs/02a_desain_database.md](docs/02a_desain_database.md) | ERD, kamus data, normalisasi, aturan relasi |
 | [docs/02b_mockup.md](docs/02b_mockup.md) | Panduan visual, peta halaman, wireframe dan mockup (`docs/mockup/`) |
 | [docs/03_implementasi.md](docs/03_implementasi.md) | Struktur kode, mekanisme koneksi database, progres implementasi |
-| [docs/04_pengujian.md](docs/04_pengujian.md) | Tabel pengujian Black-Box (58 kasus uji) |
+| [docs/04_pengujian.md](docs/04_pengujian.md) | Tabel pengujian Black-Box (73 kasus tercatat, 72 berlaku) |
+| [tests/uji_blackbox.php](tests/uji_blackbox.php) | Skrip uji otomatis lewat HTTP (63 kasus). Jalankan dengan `php tests/uji_blackbox.php`, lalu impor ulang `database/laphish.sql` |
 | [docs/05_deploy_pemeliharaan.md](docs/05_deploy_pemeliharaan.md) | Rencana deploy online, pemeliharaan, dan pengembangan |
 | [docs/laporan/laporan.pdf](docs/laporan/laporan.pdf) | Laporan proyek akhir lengkap (PDF). Sumbernya `docs/laporan/laporan.html` |
 

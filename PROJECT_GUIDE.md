@@ -82,7 +82,7 @@ Peringatan phishing di kampus biasanya hanya beredar di grup chat, cepat tenggel
 
 ## Belum diputuskan
 - [ ] Tenggat pengumpulan dan jadwal presentasi.
-- [x] Mockup hi-fi, gambar mockup, tangkapan layar aplikasi, dan PDF laporan dibuat ulang mengikuti tampilan akhir (2026-11-21). `laporan.html` ditambah bagian 5.4 (uji ulang) dan kebijakan penghapusan data (6.4). Satu catatan: ke-54 kasus HTTP tidak dijalankan ulang penuh setelah perubahan terakhir (skrip uji tidak tersedia), hanya uji asap dan TC-35, TC-68 sampai TC-73. Wireframe lo-fi (`publik.html`, `admin.html`) dan dua gambar wireframe di laporan tetap rancangan awal (A5 masih bertuliskan Edit laporan).
+- [x] Mockup hi-fi, gambar mockup, tangkapan layar aplikasi, dan PDF laporan dibuat ulang mengikuti tampilan akhir (2026-11-21). `laporan.html` ditambah bagian 5.4 (uji ulang) dan kebijakan penghapusan data (6.4). Skrip uji otomatis baru `tests/uji_blackbox.php` (63 kasus HTTP) dijalankan setelah perubahan terakhir: 63 dari 63 lulus. Wireframe lo-fi (`publik.html`, `admin.html`) dan dua gambar wireframe di laporan tetap rancangan awal (A5 masih bertuliskan Edit laporan).
 - [x] Folder `eksperimen_desain/` (prototipe A, B, C dan cadangan berkas sebelum perubahan) **tidak** dimasukkan ke repo: sudah ada di `.gitignore` (2026-11-21). Folder itu bukan bagian aplikasi dan hanya ada di komputer ini.
 - [ ] Apakah file Figma diperbarui ke tampilan akhir atau dibiarkan sebagai rancangan awal.
 
