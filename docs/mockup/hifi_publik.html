@@ -3,283 +3,431 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mockup Hi-Fi LaPhish — Halaman Publik</title>
-<!-- Mockup memuat aset dari CDN. Pada aplikasi sebenarnya, ketiga aset ini disimpan lokal. -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<title>Mockup Hi-Fi LaPhish — Halaman Publik (P1–P5)</title>
+<!-- Mockup memakai aset lokal yang sama dengan aplikasi (stylesheet, font, dan ikon di folder assets/). -->
+<link rel="stylesheet" href="../../assets/vendor/bootstrap/bootstrap.min.css">
+<link rel="stylesheet" href="../../assets/vendor/bootstrap-icons/bootstrap-icons.min.css">
+<link rel="stylesheet" href="../../assets/css/app.css">
 <style>
-  /* ===== Panduan visual LaPhish (docs/02b_mockup.md bagian 0) ===== */
-  :root {
-    --lp-primary: #653F99;
-    --lp-primary-hover: #533280;
-    --lp-dark: #231F40;
-    --lp-accent: #E5BD36;
-    --lp-bg: #F7F5FB;
-    --lp-muted: #6F6B80;
-    --lp-red: #DC2626;
-    --lp-orange: #B45309;
-    --lp-green: #16A34A;
-    --lp-grey: #6B7280;
-    --bs-body-font-family: "Plus Jakarta Sans", system-ui, sans-serif;
-    --bs-body-color: var(--lp-dark);
-    --bs-border-radius: .5rem;
-    --bs-link-color-rgb: 101, 63, 153;
-    --bs-link-hover-color-rgb: 83, 50, 128;
-  }
-  body { background: #d9d6e2; }
-  .text-muted-lp { color: var(--lp-muted) !important; }
-  .btn-primary { --bs-btn-bg: var(--lp-primary); --bs-btn-border-color: var(--lp-primary); --bs-btn-hover-bg: var(--lp-primary-hover); --bs-btn-hover-border-color: var(--lp-primary-hover); --bs-btn-active-bg: var(--lp-primary-hover); --bs-btn-active-border-color: var(--lp-primary-hover); }
-  .btn-outline-primary { --bs-btn-color: var(--lp-primary); --bs-btn-border-color: var(--lp-primary); --bs-btn-hover-bg: var(--lp-primary); --bs-btn-hover-border-color: var(--lp-primary); --bs-btn-active-bg: var(--lp-primary); }
-  .form-control:focus, .form-select:focus { border-color: var(--lp-primary); box-shadow: 0 0 0 .2rem rgba(101,63,153,.2); }
-
-  /* Navbar dan footer */
-  .lp-nav { background: var(--lp-dark); border-bottom: 4px solid var(--lp-accent); }
-  .lp-nav .navbar-brand { font-weight: 800; color: #fff; }
-  .lp-nav .navbar-brand i { color: var(--lp-accent); }
-  .lp-nav .nav-link { color: rgba(255,255,255,.75); font-weight: 500; }
-  .lp-nav .nav-link.active { color: #fff; border-bottom: 2px solid var(--lp-accent); }
-  .lp-footer { background: var(--lp-dark); color: rgba(255,255,255,.7); font-size: .85rem; }
-  .lp-footer a { color: rgba(255,255,255,.85); }
-
-  /* Komponen */
-  .lp-page { background: var(--lp-bg); }
-  .card { border: 0; box-shadow: 0 1px 3px rgba(35,31,64,.08), 0 1px 2px rgba(35,31,64,.06); }
-  .lp-feature > i { font-size: 1.6rem; color: var(--lp-primary); background: #EFE9F7; border-radius: .5rem; padding: .4rem .6rem; }
-  .lp-underline { box-shadow: inset 0 -.35em 0 rgba(229,189,54,.55); }
-  .lp-step { width: 2rem; height: 2rem; border-radius: 50%; background: var(--lp-primary); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; }
-  .lp-ticket { font-family: "Courier New", monospace; font-size: 2rem; font-weight: 700; letter-spacing: .2em; color: var(--lp-primary); border: 2px dashed var(--lp-primary); border-radius: .5rem; padding: .75rem 1.5rem; display: inline-block; background: #fff; }
-  .lp-defang { font-family: "Courier New", monospace; word-break: break-all; }
-
-  /* Badge dan kotak hasil status (pemetaan warna di 02b bagian 0) */
-  .st { display: inline-flex; align-items: center; gap: .3rem; font-size: .78rem; font-weight: 600; padding: .25rem .6rem; border-radius: 999px; color: #fff; }
-  .st-red { background: var(--lp-red); } .st-orange { background: var(--lp-orange); } .st-green { background: var(--lp-green); } .st-grey { background: var(--lp-grey); } .st-purple { background: var(--lp-primary); }
-  .res { border-left: 6px solid; border-radius: .5rem; padding: 1rem 1.25rem; }
-  .res-red { background: #FEF2F2; border-color: var(--lp-red); } .res-red .t { color: #991B1B; }
-  .res-orange { background: #FFF7ED; border-color: var(--lp-orange); } .res-orange .t { color: #92400E; }
-  .res-green { background: #F0FDF4; border-color: var(--lp-green); } .res-green .t { color: #166534; }
-  .res-grey { background: #F3F4F6; border-color: var(--lp-grey); } .res-grey .t { color: #374151; }
-  .timeline { border-left: 3px solid #DDD6EA; margin-left: .5rem; padding-left: 1.25rem; }
-  .timeline .item { position: relative; margin-bottom: 1rem; }
-  .timeline .item::before { content: ""; position: absolute; left: -1.62rem; top: .35rem; width: .8rem; height: .8rem; border-radius: 50%; background: var(--lp-primary); border: 2px solid #fff; }
-
   /* Bingkai presentasi mockup (bukan bagian aplikasi) */
-  .mock-frame { max-width: 1100px; margin: 0 auto 3rem; border-radius: .75rem; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,.18); background: #fff; }
+  body { background: #d9d6e2; }
+  .mock-frame { max-width: 1280px; margin: 0 auto 3rem; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,.18); background: #fff; display: flex; flex-direction: column; }
   .mock-label { background: #3a3a3a; color: #fff; font-size: .8rem; padding: .45rem 1rem; display: flex; justify-content: space-between; font-family: system-ui, sans-serif; }
-  .mock-title { max-width: 1100px; margin: 2rem auto 1.5rem; }
+  .mock-title { max-width: 1280px; margin: 2rem auto 1.5rem; }
+  .mock-frame .lp-shell { min-height: 0; }
+  .mock-frame .lp-side { position: static; height: auto; min-height: 100%; }
+  .mock-frame .lp-login { min-height: 0; padding: 3rem 1.5rem; }
 </style>
 </head>
 <body>
 
 <div class="mock-title px-2">
   <h1 class="h4 fw-bold mb-1">Mockup Hi-Fi LaPhish — Halaman Publik (P1–P5)</h1>
-  <p class="text-muted-lp mb-0">Mengikuti panduan visual di <code>docs/02b_mockup.md</code> bagian 0. Semua data adalah contoh fiktif (domain <code>.example</code>).</p>
+  <p class="mb-0" style="color: var(--lp-muted)">Mengikuti panduan visual di <code>docs/02b_mockup.md</code> bagian 0 (arah desain A, tampilan akhir). Semua data adalah contoh fiktif (domain <code>.example</code>).</p>
 </div>
 
-<!-- ===================================================== P1 BERANDA -->
-<div class="mock-frame">
-  <div class="mock-label"><span>P1 — Beranda</span><span>FR-01</span></div>
-  <nav class="navbar navbar-expand lp-nav px-4">
-    <a class="navbar-brand" href="#"><i class="bi bi-shield-check me-1"></i>LaPhish</a>
-    <div class="navbar-nav ms-auto gap-2">
-      <a class="nav-link active" href="#">Beranda</a><a class="nav-link" href="#">Lapor</a><a class="nav-link" href="#">Cek</a><a class="nav-link" href="#">Lacak</a>
-    </div>
-  </nav>
-  <div class="lp-page px-4 py-5">
-    <div class="row align-items-center g-4 mb-5">
-      <div class="col-lg-7">
-        <p class="text-uppercase fw-semibold small mb-2" style="color:var(--lp-primary)">Layanan pelaporan phishing kampus</p>
-        <h1 class="display-6 fw-bold mb-3">Terima pesan atau tautan <span class="lp-underline">mencurigakan</span>?</h1>
-        <p class="lead text-muted-lp">Periksa dulu sebelum diklik. Laporkan agar sivitas akademika lain tidak ikut tertipu.</p>
-        <a class="btn btn-primary btn-lg me-2" href="#"><i class="bi bi-search me-1"></i>Cek tautan sekarang</a>
-        <a class="btn btn-outline-primary btn-lg" href="#"><i class="bi bi-flag me-1"></i>Buat laporan</a>
-      </div>
-      <div class="col-lg-5">
-        <div class="card p-4">
-          <div class="small fw-semibold text-muted-lp mb-2">Contoh hasil cek</div>
-          <div class="res res-red">
-            <div class="t fw-bold"><i class="bi bi-x-octagon-fill me-1"></i>Terverifikasi phishing</div>
-            <div class="lp-defang small mt-1">hxxps://sso-kampus-verify[.]example/login</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row g-4 mb-5">
-      <div class="col-md-4"><div class="card h-100 p-4 lp-feature"><i class="bi bi-flag-fill align-self-start mb-3"></i><h5 class="fw-bold">Lapor</h5><p class="text-muted-lp">Laporkan tautan, email, atau nomor phishing yang Anda terima. Identitas boleh dikosongkan.</p><a href="#" class="mt-auto fw-semibold text-decoration-none">Buat laporan <i class="bi bi-arrow-right"></i></a></div></div>
-      <div class="col-md-4"><div class="card h-100 p-4 lp-feature"><i class="bi bi-search align-self-start mb-3"></i><h5 class="fw-bold">Cek</h5><p class="text-muted-lp">Periksa apakah tautan, email, atau nomor sudah pernah dilaporkan atau terverifikasi phishing.</p><a href="#" class="mt-auto fw-semibold text-decoration-none">Cek indikator <i class="bi bi-arrow-right"></i></a></div></div>
-      <div class="col-md-4"><div class="card h-100 p-4 lp-feature"><i class="bi bi-ticket-detailed align-self-start mb-3"></i><h5 class="fw-bold">Lacak</h5><p class="text-muted-lp">Pantau tindak lanjut laporan Anda memakai kode tiket.</p><a href="#" class="mt-auto fw-semibold text-decoration-none">Lacak laporan <i class="bi bi-arrow-right"></i></a></div></div>
-    </div>
-
-    <h2 class="h5 fw-bold mb-3">Cara kerja</h2>
-    <div class="row g-3">
-      <div class="col-md-4"><div class="d-flex gap-3"><span class="lp-step">1</span><p class="mb-0">Kirim laporan beserta tautan, nomor, atau email yang mencurigakan.</p></div></div>
-      <div class="col-md-4"><div class="d-flex gap-3"><span class="lp-step">2</span><p class="mb-0">Unit TI memeriksa dan memverifikasi laporan.</p></div></div>
-      <div class="col-md-4"><div class="d-flex gap-3"><span class="lp-step">3</span><p class="mb-0">Hasil verifikasi bisa dicek siapa saja lewat halaman Cek.</p></div></div>
-    </div>
-  </div>
-  <footer class="lp-footer px-4 py-3 d-flex justify-content-between"><span>LaPhish — proyek akhir Pemrograman Berbasis Web</span><a href="#">Masuk admin</a></footer>
+<div class="mock-frame " data-f="P1">
+<div class="mock-label"><span>P1 — Beranda</span><span>FR-01</span></div>
+<nav class="navbar navbar-expand-md lp-nav">
+<div class="container">
+<a class="navbar-brand" href="#"><i class="bi bi-shield-check me-1"></i>LaPhish</a>
+<button aria-controls="navPublik" aria-expanded="false" aria-label="Buka menu" class="navbar-toggler" data-bs-target="#navPublik" data-bs-toggle="collapse" type="button">
+<span class="navbar-toggler-icon"></span>
+</button>
+<div class="collapse navbar-collapse" id="navPublik">
+<div class="navbar-nav ms-auto gap-md-3">
+<a aria-current="page" class="nav-link active" href="#">Beranda</a>
+<a class="nav-link" href="#">Lapor</a>
+<a class="nav-link" href="#">Cek</a>
+<a class="nav-link" href="#">Lacak</a>
+</div>
+</div>
+</div>
+</nav>
+<main class="lp-page flex-grow-1">
+<div class="container py-5">
+<div class="row g-4 g-lg-5 align-items-start mb-5">
+<div class="col-lg-5">
+<h1 class="lp-display mb-3">Baca alamatnya sebelum Anda klik.</h1>
+<p class="lead text-muted-lp">Tautan phishing sering meniru nama kampus. Periksa dulu, dan laporkan agar sivitas akademika lain tidak ikut tertipu.</p>
+<a class="btn btn-primary btn-lg me-2 mb-2" href="#">Cek tautan</a>
+<a class="btn btn-outline-primary btn-lg mb-2" href="#">Buat laporan</a>
+</div>
+<div class="col-lg-7">
+<section aria-label="Bedah alamat tautan" class="lp-lens">
+<form action="#" autocomplete="off" class="d-flex flex-column flex-sm-row gap-2" id="bedahForm">
+<label class="visually-hidden" for="bedahInput">Tautan yang ingin dibedah</label>
+<input class="form-control lp-mono" id="bedahInput" spellcheck="false" type="text" value="https://login.kampus-sso.verifikasi-akun.top/masuk"/>
+<button class="btn btn-primary" type="submit">Bedah</button>
+</form>
+<div aria-label="Contoh tautan" class="d-flex flex-wrap gap-2 mt-3" role="group">
+<button aria-pressed="true" class="lp-chip" data-url="https://login.kampus-sso.verifikasi-akun.top/masuk" type="button">Meniru nama kampus</button>
+<button aria-pressed="false" class="lp-chip" data-url="https://contoh-kampus.ac.id.cek-nilai.top/" type="button">Nama asli di depan</button>
+<button aria-pressed="false" class="lp-chip" data-url="https://sso.contoh-kampus.ac.id/masuk" type="button">Alamat kampus</button>
+</div>
+<div aria-live="polite" class="lp-anatomy">
+<div class="lp-url" id="bedahUrl"></div>
+<p class="lp-vonis" id="bedahVonis"></p>
+<noscript><p class="small text-muted-lp mb-0">Alat ini butuh JavaScript. Contoh: pada <span class="lp-mono">hxxps://login[.]kampus-sso[.]verifikasi-akun[.]top/masuk</span>, pemilik situsnya adalah <span class="lp-mono">verifikasi-akun[.]top</span>, bukan kampus.</p></noscript>
+</div>
+</section>
+</div>
+</div>
+<nav aria-label="Yang bisa Anda lakukan" class="lp-paths mb-5">
+<a class="lp-path" href="#">
+<span class="word">Cek</span>
+<span class="text-muted-lp">Periksa apakah tautan, email, atau nomor sudah pernah dilaporkan atau terverifikasi phishing.</span>
+<span class="go">Cek indikator</span>
+</a>
+<a class="lp-path" href="#">
+<span class="word">Lapor</span>
+<span class="text-muted-lp">Laporkan tautan, email, atau nomor phishing yang Anda terima. Identitas boleh dikosongkan.</span>
+<span class="go">Buat laporan</span>
+</a>
+<a class="lp-path" href="#">
+<span class="word">Lacak</span>
+<span class="text-muted-lp">Pantau tindak lanjut laporan Anda memakai kode tiket.</span>
+<span class="go">Lacak laporan</span>
+</a>
+</nav>
+<h2 class="h4 fw-bold mb-4">Cara kerja</h2>
+<ol class="lp-steps">
+<li>Kirim laporan beserta tautan, nomor, atau email yang mencurigakan.</li>
+<li>Unit TI memeriksa dan memverifikasi laporan.</li>
+<li>Hasil verifikasi bisa dicek siapa saja lewat halaman Cek.</li>
+</ol>
 </div>
 
-<!-- ===================================================== P2 LAPOR -->
-<div class="mock-frame">
-  <div class="mock-label"><span>P2 — Formulir Lapor</span><span>FR-02</span></div>
-  <nav class="navbar navbar-expand lp-nav px-4">
-    <a class="navbar-brand" href="#"><i class="bi bi-shield-check me-1"></i>LaPhish</a>
-    <div class="navbar-nav ms-auto gap-2"><a class="nav-link" href="#">Beranda</a><a class="nav-link active" href="#">Lapor</a><a class="nav-link" href="#">Cek</a><a class="nav-link" href="#">Lacak</a></div>
-  </nav>
-  <div class="lp-page px-4 py-5">
-    <div class="mx-auto" style="max-width: 760px">
-      <h1 class="h3 fw-bold">Laporkan Phishing</h1>
-      <p class="text-muted-lp">Kolom bertanda <span class="text-danger">*</span> wajib diisi.</p>
-
-      <div class="card p-4 mb-4">
-        <h2 class="h6 fw-bold mb-3"><i class="bi bi-1-circle-fill me-1" style="color:var(--lp-primary)"></i>Detail kejadian</h2>
-        <div class="row g-3">
-          <div class="col-md-6"><label class="form-label fw-semibold">Kanal <span class="text-danger">*</span></label><select class="form-select"><option>WhatsApp</option></select></div>
-          <div class="col-md-6"><label class="form-label fw-semibold">Tanggal kejadian <span class="text-danger">*</span></label><input type="date" class="form-control" value="2026-11-02"><div class="form-text">Tidak boleh tanggal di masa depan.</div></div>
-          <div class="col-12"><label class="form-label fw-semibold">Kategori <span class="text-danger">*</span></label><select class="form-select"><option>Pencurian akun</option></select><div class="form-text"><i class="bi bi-info-circle me-1"></i>Halaman login palsu untuk mencuri akun.</div></div>
-          <div class="col-12"><label class="form-label fw-semibold">Kronologi <span class="text-danger">*</span></label><textarea class="form-control" rows="3" placeholder="Ceritakan singkat: pesan apa yang diterima, dari siapa, dan apa yang diminta."></textarea></div>
-        </div>
-      </div>
-
-      <div class="card p-4 mb-4">
-        <h2 class="h6 fw-bold mb-1"><i class="bi bi-2-circle-fill me-1" style="color:var(--lp-primary)"></i>Indikator <span class="text-danger">*</span></h2>
-        <p class="small text-muted-lp">Tempel tautan, email, atau nomor dari pesan tersebut. Minimal 1, maksimal 5.</p>
-        <div class="row g-2 mb-2 align-items-center">
-          <div class="col-4 col-md-3"><select class="form-select"><option>URL</option></select></div>
-          <div class="col"><input class="form-control" value="https://sso-kampus-verify.example/login"></div>
-          <div class="col-auto" style="width:44px"></div>
-        </div>
-        <div class="row g-2 mb-3 align-items-center">
-          <div class="col-4 col-md-3"><select class="form-select"><option>Nomor</option></select></div>
-          <div class="col"><input class="form-control" value="0812-0000-1111"></div>
-          <div class="col-auto"><button class="btn btn-outline-secondary" title="Hapus baris"><i class="bi bi-trash"></i></button></div>
-        </div>
-        <div><button class="btn btn-outline-primary btn-sm"><i class="bi bi-plus-lg me-1"></i>Tambah indikator</button> <span class="small text-muted-lp ms-2">2 dari 5</span></div>
-      </div>
-
-      <div class="card p-4 mb-4">
-        <h2 class="h6 fw-bold mb-1"><i class="bi bi-3-circle-fill me-1" style="color:var(--lp-primary)"></i>Identitas pelapor <span class="fw-normal text-muted-lp">(opsional)</span></h2>
-        <p class="small text-muted-lp">Hanya dipakai unit TI untuk menghubungi Anda. Tidak ditampilkan di halaman publik.</p>
-        <div class="row g-3">
-          <div class="col-md-6"><label class="form-label fw-semibold">Nama</label><input class="form-control" placeholder="Boleh dikosongkan"></div>
-          <div class="col-md-6"><label class="form-label fw-semibold">Email</label><input class="form-control" placeholder="Boleh dikosongkan"></div>
-        </div>
-      </div>
-
-      <button class="btn btn-primary btn-lg w-100"><i class="bi bi-send me-1"></i>Kirim laporan</button>
-    </div>
-  </div>
-  <footer class="lp-footer px-4 py-3 d-flex justify-content-between"><span>LaPhish</span><a href="#">Masuk admin</a></footer>
+</main>
+<footer class="lp-footer">
+<div class="container d-flex justify-content-end py-3">
+<a href="#">Masuk admin</a>
+</div>
+</footer>
 </div>
 
-<!-- ===================================================== P3 TERKIRIM -->
-<div class="mock-frame">
-  <div class="mock-label"><span>P3 — Laporan Terkirim</span><span>FR-03</span></div>
-  <nav class="navbar navbar-expand lp-nav px-4">
-    <a class="navbar-brand" href="#"><i class="bi bi-shield-check me-1"></i>LaPhish</a>
-    <div class="navbar-nav ms-auto gap-2"><a class="nav-link" href="#">Beranda</a><a class="nav-link active" href="#">Lapor</a><a class="nav-link" href="#">Cek</a><a class="nav-link" href="#">Lacak</a></div>
-  </nav>
-  <div class="lp-page px-4 py-5 text-center">
-    <div class="card mx-auto p-5" style="max-width: 620px">
-      <i class="bi bi-check-circle-fill mb-2" style="font-size:3rem; color:var(--lp-green)"></i>
-      <h1 class="h3 fw-bold">Laporan berhasil dikirim</h1>
-      <p class="text-muted-lp">Terima kasih. Simpan kode tiket berikut untuk melacak tindak lanjut laporan Anda.</p>
-      <div><span class="lp-ticket">LP-7F3K9QX2</span></div>
-      <div class="alert alert-warning text-start small mt-4 mb-4"><i class="bi bi-exclamation-triangle-fill me-1"></i><strong>Penting:</strong> kode tiket tidak bisa dipulihkan jika hilang. Salin atau screenshot halaman ini.</div>
-      <div><a class="btn btn-primary me-2" href="#"><i class="bi bi-ticket-detailed me-1"></i>Lacak laporan ini</a><a class="btn btn-outline-primary" href="#">Kembali ke beranda</a></div>
-    </div>
-  </div>
-  <footer class="lp-footer px-4 py-3 d-flex justify-content-between"><span>LaPhish</span><a href="#">Masuk admin</a></footer>
+<div class="mock-frame " data-f="P2">
+<div class="mock-label"><span>P2 — Formulir Lapor</span><span>FR-02</span></div>
+<nav class="navbar navbar-expand-md lp-nav">
+<div class="container">
+<a class="navbar-brand" href="#"><i class="bi bi-shield-check me-1"></i>LaPhish</a>
+<button aria-controls="navPublik" aria-expanded="false" aria-label="Buka menu" class="navbar-toggler" data-bs-target="#navPublik" data-bs-toggle="collapse" type="button">
+<span class="navbar-toggler-icon"></span>
+</button>
+<div class="collapse navbar-collapse" id="navPublik">
+<div class="navbar-nav ms-auto gap-md-3">
+<a class="nav-link" href="#">Beranda</a>
+<a aria-current="page" class="nav-link active" href="#">Lapor</a>
+<a class="nav-link" href="#">Cek</a>
+<a class="nav-link" href="#">Lacak</a>
+</div>
+</div>
+</div>
+</nav>
+<main class="lp-page flex-grow-1">
+<div class="container py-5" style="max-width: 800px">
+<h1 class="h3 fw-bold">Laporkan Phishing</h1>
+<p class="text-muted-lp">Kolom bertanda <span class="req">*</span> wajib diisi.</p>
+<form action="#" method="post">
+<input name="action" type="hidden" value="kirim"/>
+<div class="card p-4 mb-4">
+<h2 class="lp-sec mb-3"><span class="lp-no">1</span>Detail kejadian</h2>
+<div class="row g-3">
+<div class="col-md-6">
+<label class="form-label" for="channel_id">Kanal <span class="req">*</span></label>
+<select class="form-select" id="channel_id" name="channel_id" required="">
+<option value="">Pilih kanal</option>
+<option value="1">Email</option>
+<option value="2">WhatsApp</option>
+<option value="3">SMS</option>
+<option value="4">Media sosial</option>
+<option value="5">Situs web</option>
+<option value="6">Lainnya</option>
+</select>
+</div>
+<div class="col-md-6">
+<label class="form-label" for="incident_date">Tanggal kejadian <span class="req">*</span></label>
+<input class="form-control" id="incident_date" max="2026-11-21" name="incident_date" required="" type="date" value=""/>
+<div class="form-text">Tidak boleh tanggal di masa depan.</div>
+</div>
+<div class="col-12">
+<label class="form-label" for="category_id">Kategori <span class="req">*</span></label>
+<select class="form-select" data-help-target="categoryHelp" id="category_id" name="category_id" required="">
+<option data-desc="Pilih jenis phishing yang paling sesuai." value="">Pilih kategori</option>
+<option data-desc="Halaman login palsu yang meniru layanan kampus atau email untuk mencuri akun." value="1">Pencurian akun</option>
+<option data-desc="Pesan yang menjanjikan hadiah, beasiswa, atau bantuan dana dengan meminta data pribadi atau biaya." value="2">Hadiah/beasiswa palsu</option>
+<option data-desc="Tawaran kerja atau magang palsu yang meminta data pribadi atau biaya pendaftaran." value="3">Lowongan palsu</option>
+<option data-desc="File aplikasi (.apk) yang menyamar sebagai undangan, dokumen, atau info paket." value="4">APK berbahaya</option>
+<option data-desc="Tagihan UKT, denda, atau biaya palsu yang meminta transfer ke rekening tidak resmi." value="5">Tagihan palsu</option>
+<option data-desc="Jenis phishing yang belum tercantum di kategori lain." value="6">Lainnya</option>
+</select>
+<div class="form-text"><span id="categoryHelp">Pilih jenis phishing yang paling sesuai.</span></div>
+</div>
+<div class="col-12">
+<label class="form-label" for="chronology">Kronologi <span class="req">*</span></label>
+<textarea class="form-control" id="chronology" maxlength="3000" name="chronology" placeholder="Ceritakan singkat: pesan apa yang diterima, dari siapa, dan apa yang diminta." required="" rows="3"></textarea>
+</div>
+</div>
+</div>
+<div class="card p-4 mb-4">
+<h2 class="lp-sec mb-1"><span class="lp-no">2</span>Indikator <span class="req">*</span></h2>
+<p class="small text-muted-lp">Tempel tautan, email, atau nomor dari pesan tersebut. Minimal 1, maksimal 5.</p>
+<div data-max="5" id="indicatorRows">
+<div class="row g-2 mb-2 align-items-center indicator-row">
+<div class="col-4 col-md-3">
+<select aria-label="Jenis indikator" class="form-select" name="ind_type[]">
+<option data-placeholder="https://contoh.example/login" selected="" value="url">URL</option>
+<option data-placeholder="penipu@contoh.example" value="email">Email</option>
+<option data-placeholder="0812-3456-7890" value="phone">Nomor</option>
+</select>
+</div>
+<div class="col"><input aria-label="Nilai indikator" class="form-control" maxlength="500" name="ind_value[]" placeholder="https://contoh.example/login" value=""/></div>
+<div class="col-auto" style="width: 52px">
+<button aria-label="Hapus baris" class="btn btn-outline-secondary remove-indicator invisible" title="Hapus baris" type="button"><i class="bi bi-trash"></i></button>
+</div>
+</div>
+</div>
+<div>
+<button class="btn btn-outline-primary btn-sm" id="addIndicator" type="button">Tambah indikator</button>
+<span class="small text-muted-lp ms-2"><span id="indicatorCount">1</span> dari 5</span>
+</div>
+</div>
+<div class="card p-4 mb-4">
+<h2 class="lp-sec mb-1"><span class="lp-no">3</span>Identitas pelapor <span class="fw-normal text-muted-lp fs-6">(opsional)</span></h2>
+<p class="small text-muted-lp">Hanya dipakai unit TI untuk menghubungi Anda. Tidak ditampilkan di halaman publik.</p>
+<div class="row g-3">
+<div class="col-md-6"><label class="form-label" for="name">Nama</label><input class="form-control" id="name" maxlength="100" name="name" placeholder="Boleh dikosongkan" value=""/></div>
+<div class="col-md-6"><label class="form-label" for="email">Email</label><input class="form-control" id="email" maxlength="150" name="email" placeholder="Boleh dikosongkan" type="email" value=""/></div>
+</div>
+</div>
+<button class="btn btn-primary btn-lg w-100" type="submit">Kirim laporan</button>
+</form>
+</div>
+</main>
+<footer class="lp-footer">
+<div class="container d-flex justify-content-end py-3">
+<a href="#">Masuk admin</a>
+</div>
+</footer>
 </div>
 
-<!-- ===================================================== P4 CEK -->
-<div class="mock-frame">
-  <div class="mock-label"><span>P4 — Cek Indikator (empat varian hasil ditampilkan bersama untuk mockup)</span><span>FR-05</span></div>
-  <nav class="navbar navbar-expand lp-nav px-4">
-    <a class="navbar-brand" href="#"><i class="bi bi-shield-check me-1"></i>LaPhish</a>
-    <div class="navbar-nav ms-auto gap-2"><a class="nav-link" href="#">Beranda</a><a class="nav-link" href="#">Lapor</a><a class="nav-link active" href="#">Cek</a><a class="nav-link" href="#">Lacak</a></div>
-  </nav>
-  <div class="lp-page px-4 py-5">
-    <div class="mx-auto" style="max-width: 760px">
-      <h1 class="h3 fw-bold">Cek Tautan, Email, atau Nomor</h1>
-      <p class="text-muted-lp"><i class="bi bi-exclamation-circle me-1"></i>Jangan klik tautannya. Salin, lalu tempel di sini.</p>
-      <div class="card p-4 mb-4">
-        <div class="row g-2 align-items-end">
-          <div class="col-md-3"><label class="form-label fw-semibold">Jenis <span class="text-danger">*</span></label><select class="form-select"><option>URL</option></select></div>
-          <div class="col-md"><label class="form-label fw-semibold">Nilai <span class="text-danger">*</span></label><input class="form-control" value="https://sso-kampus-verify.example/login"></div>
-          <div class="col-md-auto"><button class="btn btn-primary w-100"><i class="bi bi-search me-1"></i>Cek</button></div>
+<div class="mock-frame " data-f="P3">
+<div class="mock-label"><span>P3 — Laporan Terkirim</span><span>FR-03</span></div>
+<nav class="navbar navbar-expand-md lp-nav">
+<div class="container">
+<a class="navbar-brand" href="#"><i class="bi bi-shield-check me-1"></i>LaPhish</a>
+<button aria-controls="navPublik" aria-expanded="false" aria-label="Buka menu" class="navbar-toggler" data-bs-target="#navPublik" data-bs-toggle="collapse" type="button">
+<span class="navbar-toggler-icon"></span>
+</button>
+<div class="collapse navbar-collapse" id="navPublik">
+<div class="navbar-nav ms-auto gap-md-3">
+<a class="nav-link" href="#">Beranda</a>
+<a aria-current="page" class="nav-link active" href="#">Lapor</a>
+<a class="nav-link" href="#">Cek</a>
+<a class="nav-link" href="#">Lacak</a>
+</div>
+</div>
+</div>
+</nav>
+<main class="lp-page flex-grow-1"><div class="container py-5 text-center">
+    <div class="card mx-auto p-4 p-md-5" style="max-width: 620px">
+        <h1 class="h3 fw-bold">Laporan berhasil dikirim</h1>
+        <p class="text-muted-lp">Terima kasih. Simpan kode tiket berikut untuk melacak tindak lanjut laporan Anda.</p>
+        <div><span class="lp-ticket">LP-7F3K9QX2</span></div>
+        <div class="alert alert-warn text-start small mt-4 mb-4"><strong>Penting:</strong> kode tiket tidak bisa dipulihkan jika hilang. Salin atau screenshot halaman ini.</div>
+        <div class="d-flex gap-2 justify-content-center flex-wrap">
+            <a class="btn btn-primary" href="#">Lacak laporan ini</a>
+            <a class="btn btn-outline-primary" href="#">Kembali ke beranda</a>
         </div>
-      </div>
-
-      <div class="res res-red mb-3">
-        <div class="t fw-bold fs-5"><i class="bi bi-x-octagon-fill me-1"></i>Terverifikasi phishing</div>
-        <div class="lp-defang my-1">hxxps://sso-kampus-verify[.]example/login</div>
-        <div>Jangan klik, jangan isi data apa pun, dan jangan balas pesannya. Tercatat di 2 laporan.</div>
-      </div>
-      <div class="res res-orange mb-3">
-        <div class="t fw-bold fs-5"><i class="bi bi-hourglass-split me-1"></i>Tercatat, masih ditinjau</div>
-        <div class="lp-defang my-1">hxxps://sso-kampus-verify[.]example/login</div>
-        <div>Sudah dilaporkan (2 laporan) dan sedang diperiksa unit TI. Tetap waspada.</div>
-      </div>
-      <div class="res res-green mb-3">
-        <div class="t fw-bold fs-5"><i class="bi bi-shield-check me-1"></i>Sudah diperiksa, tidak terbukti phishing</div>
-        <div>Unit TI tidak menemukan tanda phishing. Tetap waspada terhadap permintaan data pribadi.</div>
-      </div>
-      <div class="res res-grey">
-        <div class="t fw-bold fs-5"><i class="bi bi-question-circle me-1"></i>Belum ada data</div>
-        <div class="mb-2">Belum ada laporan atau data tentang nilai ini. Ini <strong>bukan</strong> jaminan aman.</div>
-        <a class="btn btn-outline-primary btn-sm" href="#"><i class="bi bi-flag me-1"></i>Laporkan nilai ini</a>
-      </div>
-    </div>
-  </div>
-  <footer class="lp-footer px-4 py-3 d-flex justify-content-between"><span>LaPhish</span><a href="#">Masuk admin</a></footer>
+    </div></div></main>
+<footer class="lp-footer">
+<div class="container d-flex justify-content-end py-3">
+<a href="#">Masuk admin</a>
+</div>
+</footer>
 </div>
 
-<!-- ===================================================== P5 LACAK -->
-<div class="mock-frame">
-  <div class="mock-label"><span>P5 — Lacak Status</span><span>FR-04</span></div>
-  <nav class="navbar navbar-expand lp-nav px-4">
-    <a class="navbar-brand" href="#"><i class="bi bi-shield-check me-1"></i>LaPhish</a>
-    <div class="navbar-nav ms-auto gap-2"><a class="nav-link" href="#">Beranda</a><a class="nav-link" href="#">Lapor</a><a class="nav-link" href="#">Cek</a><a class="nav-link active" href="#">Lacak</a></div>
-  </nav>
-  <div class="lp-page px-4 py-5">
-    <div class="mx-auto" style="max-width: 760px">
-      <h1 class="h3 fw-bold">Lacak Laporan</h1>
-      <div class="card p-4 mb-4">
-        <div class="row g-2 align-items-end">
-          <div class="col-md"><label class="form-label fw-semibold">Kode tiket <span class="text-danger">*</span></label><input class="form-control font-monospace" value="LP-7F3K9QX2"></div>
-          <div class="col-md-auto"><button class="btn btn-primary w-100"><i class="bi bi-search me-1"></i>Lacak</button></div>
-        </div>
-      </div>
-
-      <div class="card p-4 mb-4">
-        <div class="d-flex justify-content-between align-items-start mb-3">
-          <div><div class="small text-muted-lp">Kode tiket</div><div class="fw-bold font-monospace fs-5">LP-7F3K9QX2</div></div>
-          <span class="st st-red"><i class="bi bi-exclamation-octagon-fill"></i>Valid</span>
-        </div>
-        <div class="row g-3 small">
-          <div class="col-sm-4"><div class="text-muted-lp">Kategori</div><div class="fw-semibold">Pencurian akun</div></div>
-          <div class="col-sm-4"><div class="text-muted-lp">Kanal</div><div class="fw-semibold">WhatsApp</div></div>
-          <div class="col-sm-4"><div class="text-muted-lp">Tanggal kejadian</div><div class="fw-semibold">02/11/2026</div></div>
-        </div>
-      </div>
-
-      <div class="card p-4 mb-4">
-        <h2 class="h6 fw-bold mb-3">Riwayat penanganan</h2>
-        <div class="timeline">
-          <div class="item"><span class="st st-red">Valid</span> <span class="small text-muted-lp ms-1">21/11/2026 14.30</span><div class="mt-1">Tautan terkonfirmasi phishing dan sudah ditandai di fitur Cek.</div></div>
-          <div class="item"><span class="st st-orange">Ditinjau</span> <span class="small text-muted-lp ms-1">21/11/2026 09.05</span><div class="mt-1">Laporan sedang diperiksa unit TI.</div></div>
-          <div class="item mb-0"><span class="st st-purple">Baru</span> <span class="small text-muted-lp ms-1">20/11/2026 09.12</span><div class="mt-1 text-muted-lp">Laporan diterima.</div></div>
-        </div>
-      </div>
-
-      <div class="alert alert-secondary small mb-0"><i class="bi bi-info-circle me-1"></i>Jika kode tidak ditemukan: <strong>"Kode tiket tidak ditemukan. Periksa kembali penulisannya."</strong></div>
-    </div>
-  </div>
-  <footer class="lp-footer px-4 py-3 d-flex justify-content-between"><span>LaPhish</span><a href="#">Masuk admin</a></footer>
+<div class="mock-frame " data-f="P4">
+<div class="mock-label"><span>P4 — Cek Indikator (empat varian hasil ditampilkan bersama untuk mockup)</span><span>FR-05</span></div>
+<nav class="navbar navbar-expand-md lp-nav">
+<div class="container">
+<a class="navbar-brand" href="#"><i class="bi bi-shield-check me-1"></i>LaPhish</a>
+<button aria-controls="navPublik" aria-expanded="false" aria-label="Buka menu" class="navbar-toggler" data-bs-target="#navPublik" data-bs-toggle="collapse" type="button">
+<span class="navbar-toggler-icon"></span>
+</button>
+<div class="collapse navbar-collapse" id="navPublik">
+<div class="navbar-nav ms-auto gap-md-3">
+<a class="nav-link" href="#">Beranda</a>
+<a class="nav-link" href="#">Lapor</a>
+<a aria-current="page" class="nav-link active" href="#">Cek</a>
+<a class="nav-link" href="#">Lacak</a>
+</div>
+</div>
+</div>
+</nav>
+<main class="lp-page flex-grow-1">
+<div class="container py-5" style="max-width: 800px">
+<h1 class="h3 fw-bold">Cek Tautan, Email, atau Nomor</h1>
+<p class="text-muted-lp" id="cekHint">Jangan klik tautannya. Salin, lalu tempel di sini.</p>
+<div class="card p-4 mb-4">
+<form action="#" method="post">
+<div class="row g-2 align-items-start">
+<div class="col-md-3">
+<label class="form-label" for="type">Jenis <span class="req">*</span></label>
+<select class="form-select" data-cek-petunjuk="" id="type" name="type">
+<option data-hint="Jangan klik tautannya. Salin, lalu tempel di sini." data-placeholder="Contoh: https://contoh.example/login" selected="" value="url">URL</option>
+<option data-hint="Jangan klik tautan atau lampiran di emailnya. Salin alamat pengirimnya, lalu tempel di sini." data-placeholder="Contoh: penipu@contoh.example" value="email">Email</option>
+<option data-hint="Jangan balas atau telepon nomornya. Salin nomornya, lalu tempel di sini." data-placeholder="Contoh: 0812-3456-7890" value="phone">Nomor</option>
+</select>
+</div>
+<div class="col-md">
+<label class="form-label" for="value">Nilai <span class="req">*</span></label>
+<input class="form-control" id="value" maxlength="500" name="value" placeholder="Contoh: https://contoh.example/login" required="" value="bantuan-kuota-mahasiswa.example/form"/>
+</div>
+<div class="col-md-auto"><span aria-hidden="true" class="form-label d-none d-md-block invisible"> </span><button class="btn btn-primary w-100" type="submit">Cek</button></div>
+</div>
+</form>
+</div>
+<body><div class="mb-3"><div class="res res-red" role="status">
+<div class="t fw-bold fs-5">Terverifikasi phishing</div>
+<div class="lp-url my-2"><div class="lp-seg key"><code>bantuan-kuota-mahasiswa[.]example</code><small>domain: pemilik situs</small></div><div class="lp-seg dim"><code>/form</code><small>jalur</small></div></div> <div>Jangan klik, jangan isi data apa pun, dan jangan balas pesannya. Tercatat di 3 laporan.</div>
+</div></div><div class="mb-3"><div class="res res-orange" role="status">
+<div class="t fw-bold fs-5">Tercatat, masih ditinjau</div>
+<div class="lp-defang my-1">6285800009999</div> <div>Sudah dilaporkan (1 laporan) dan sedang diperiksa unit TI. Tetap waspada.</div>
+</div></div><div class="mb-3"><div class="res res-green" role="status">
+<div class="t fw-bold fs-5">Sudah diperiksa, tidak terbukti phishing</div>
+<div class="lp-url my-2"><div class="lp-seg key"><code>perpustakaan-kampus[.]example</code><small>domain: pemilik situs</small></div><div class="lp-seg dim"><code>/katalog</code><small>jalur</small></div></div> <div>Unit TI tidak menemukan tanda phishing. Tetap waspada terhadap permintaan data pribadi.</div>
+</div></div><div class="mb-3"><div class="res res-grey" role="status">
+<div class="t fw-bold fs-5">Belum ada data</div>
+<div class="lp-url my-2"><div class="lp-seg key"><code>tidak-ada[.]example</code><small>domain: pemilik situs</small></div></div> <div class="mb-2">Belum ada laporan atau data tentang nilai ini. Ini <strong>bukan</strong> jaminan aman.</div>
+</div></div></body>
+<h2 class="h5 fw-bold mt-5 mb-3">Arti setiap hasil</h2>
+<ul class="lp-keys">
+<li><span class="st st-red">Terverifikasi phishing</span><span class="text-muted-lp">Unit TI sudah memastikan ini berbahaya. Jangan dibuka.</span></li>
+<li><span class="st st-orange">Tercatat, masih ditinjau</span><span class="text-muted-lp">Sudah ada yang melapor, hasil belum final. Anggap berbahaya dulu.</span></li>
+<li><span class="st st-green">Sudah diperiksa, tidak terbukti phishing</span><span class="text-muted-lp">Sudah diperiksa dan tidak ditemukan bukti. Tetap periksa pengirimnya.</span></li>
+<li><span class="st st-grey">Belum ada data</span><span class="text-muted-lp">Belum pernah dilaporkan. Itu belum berarti aman.</span></li>
+</ul>
+</div>
+</main>
+<footer class="lp-footer">
+<div class="container d-flex justify-content-end py-3">
+<a href="#">Masuk admin</a>
+</div>
+</footer>
 </div>
 
+<div class="mock-frame " data-f="P5">
+<div class="mock-label"><span>P5 — Lacak Status</span><span>FR-04</span></div>
+<nav class="navbar navbar-expand-md lp-nav">
+<div class="container">
+<a class="navbar-brand" href="#"><i class="bi bi-shield-check me-1"></i>LaPhish</a>
+<button aria-controls="navPublik" aria-expanded="false" aria-label="Buka menu" class="navbar-toggler" data-bs-target="#navPublik" data-bs-toggle="collapse" type="button">
+<span class="navbar-toggler-icon"></span>
+</button>
+<div class="collapse navbar-collapse" id="navPublik">
+<div class="navbar-nav ms-auto gap-md-3">
+<a class="nav-link" href="#">Beranda</a>
+<a class="nav-link" href="#">Lapor</a>
+<a class="nav-link" href="#">Cek</a>
+<a aria-current="page" class="nav-link active" href="#">Lacak</a>
+</div>
+</div>
+</div>
+</nav>
+<main class="lp-page flex-grow-1">
+<div class="container py-5" style="max-width: 800px">
+<h1 class="h3 fw-bold">Lacak Laporan</h1>
+<p class="text-muted-lp">Masukkan kode tiket yang Anda dapat setelah mengirim laporan.</p>
+<div class="card p-4 mb-4">
+<form action="#" method="post">
+<div class="row g-2 align-items-start">
+<div class="col-md">
+<label class="form-label" for="ticket">Kode tiket <span class="req">*</span></label>
+<input aria-describedby="ticketHint" autocapitalize="characters" autocomplete="off" class="form-control font-monospace" id="ticket" maxlength="11" name="ticket" placeholder="LP-XXXXXXXX" required="" spellcheck="false" value="LP-8ZJUVN8K"/>
+<div class="form-text" id="ticketHint">Bentuknya LP- diikuti 8 huruf atau angka.</div>
+</div>
+<div class="col-md-auto"><span aria-hidden="true" class="form-label d-none d-md-block invisible"> </span><button class="btn btn-primary w-100" type="submit">Lacak</button></div>
+</div>
+</form>
+</div>
+<div class="card p-4 mb-4">
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3" role="status">
+<div><div class="small text-muted-lp mb-1">Kode tiket</div><span class="lp-ticket lp-ticket-sm">LP-8ZJUVN8K</span></div>
+<div class="text-sm-end"><div class="small text-muted-lp mb-1">Status saat ini</div><span class="st st-red">Valid</span></div>
+</div>
+<div class="row g-3">
+<div class="col-sm-4"><div class="small text-muted-lp">Kategori</div><div class="fw-semibold">Hadiah/beasiswa palsu</div></div>
+<div class="col-sm-4"><div class="small text-muted-lp">Kanal</div><div class="fw-semibold">WhatsApp</div></div>
+<div class="col-sm-4"><div class="small text-muted-lp">Tanggal kejadian</div><div class="fw-semibold">11/11/2026</div></div>
+</div>
+<details class="lp-detail mt-4" open="">
+<summary class="btn btn-outline-primary btn-sm">Lihat laporan saya</summary>
+<div class="mt-3">
+<div class="small text-muted-lp mb-1">Kronologi yang Anda tulis</div>
+<div style="white-space: pre-line">Menerima info hadiah undian Dies Natalis lewat WhatsApp, diminta klik tautan dan memasukkan nomor rekening.</div>
+</div>
+<div class="mt-3">
+<div class="small text-muted-lp mb-1">Indikator yang Anda kirim (2)</div>
+<ul class="list-unstyled mb-0">
+<li class="d-flex flex-wrap gap-2 py-1">
+<span class="text-muted-lp" style="min-width: 4.5rem">URL</span>
+<span class="lp-defang">beasiswa-unggulan-2026[.]example/daftar</span>
+</li>
+<li class="d-flex flex-wrap gap-2 py-1">
+<span class="text-muted-lp" style="min-width: 4.5rem">Email</span>
+<span class="lp-defang">info@beasiswa-unggulan-2026[.]example</span>
+</li>
+</ul>
+<div class="form-text mt-2">Titik ditulis [.] dan http ditulis hxxp agar tidak terklik.</div>
+</div>
+</details>
+</div>
+<div class="card p-4">
+<h2 class="lp-sec mb-3">Riwayat penanganan</h2>
+<div class="timeline">
+<div class="item item-valid">
+<span class="st st-red">Valid</span> <span class="small text-muted-lp ms-1">12/11/2026 20.06</span>
+<span class="lp-tag ms-1">terkini</span> <div class="mt-1">Terbukti penipuan. Terima kasih atas laporannya.</div>
+</div>
+<div class="item item-ditinjau">
+<span class="st st-orange">Ditinjau</span> <span class="small text-muted-lp ms-1">12/11/2026 07.06</span>
+<div class="mt-1">Laporan sedang diperiksa unit TI.</div>
+</div>
+<div class="item item-baru">
+<span class="st st-blue">Baru</span> <span class="small text-muted-lp ms-1">11/11/2026 13.06</span>
+<div class="mt-1 text-muted-lp">Laporan diterima.</div>
+</div>
+</div>
+</div>
+<h2 class="h5 fw-bold mt-5 mb-3">Arti status laporan</h2>
+<ul class="lp-keys">
+<li><span class="st st-blue">Baru</span><span class="text-muted-lp">Laporan sudah diterima dan menunggu ditinjau unit TI.</span></li>
+<li><span class="st st-orange">Ditinjau</span><span class="text-muted-lp">Unit TI sedang memeriksa laporan Anda.</span></li>
+<li><span class="st st-red">Valid</span><span class="text-muted-lp">Laporan terbukti berisi phishing.</span></li>
+<li><span class="st st-grey">Tidak valid</span><span class="text-muted-lp">Laporan tidak terbukti berisi phishing.</span></li>
+</ul>
+</div>
+</main>
+<footer class="lp-footer">
+<div class="container d-flex justify-content-end py-3">
+<a href="#">Masuk admin</a>
+</div>
+</footer>
+</div>
+
+<script src="../../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+<script src="../../assets/js/bedah_alamat.js"></script>
+<script src="../../assets/js/app.js"></script>
+<script>
+  /* Mode satu bingkai (?f=ID): dipakai untuk mengambil gambar mockup di laporan. */
+  (function () {
+    var f = new URLSearchParams(location.search).get('f'); if (!f) return;
+    document.querySelectorAll('.mock-frame').forEach(function (e) { if (e.dataset.f !== f) e.remove(); });
+    var t = document.querySelector('.mock-title'); if (t) t.remove();
+    document.body.style.background = '#ff00ff';
+    var fr = document.querySelector('.mock-frame'); fr.style.margin = '0'; fr.style.boxShadow = 'none';
+  })();
+</script>
 </body>
 </html>

@@ -12,8 +12,8 @@ Rancangan dibuat dua tingkat, keduanya sebagai file HTML statis di folder `docs/
 |---|---|---|
 | `docs/mockup/publik.html` | Wireframe 5 halaman publik (P1–P5) | Final |
 | `docs/mockup/admin.html` | Wireframe 11 halaman admin (A1–A11) | Final |
-| `docs/mockup/hifi_publik.html` | Mockup hi-fi halaman publik | Rancangan awal. Tampilan akhir mengikuti bagian 0 yang diperbarui 2026-11-21 |
-| `docs/mockup/hifi_admin.html` | Mockup hi-fi halaman admin | Rancangan awal. Tampilan akhir mengikuti bagian 0 yang diperbarui 2026-11-21 |
+| `docs/mockup/hifi_publik.html` | Mockup hi-fi halaman publik (P1–P5) | Final. Dibangun ulang 2026-11-21 mengikuti tampilan akhir (arah desain A), memakai aset yang sama dengan aplikasi |
+| `docs/mockup/hifi_admin.html` | Mockup hi-fi halaman admin (A1–A11) | Final. Dibangun ulang 2026-11-21 mengikuti tampilan akhir (arah desain A) |
 
 ## 0. Panduan visual (disetujui 2026-11-20, diperbarui 2026-11-21)
 
@@ -35,11 +35,12 @@ Konteks klien: lingkungan **Universitas Gunadarma**. Warna diambil dari file log
 | Oranye tua | `#B45309` | Sedang diproses. Sengaja dibedakan dari kuning aksen |
 | Hijau | `#15803D` | Aman / tidak terbukti. Lebih gelap dari rancangan awal (`#16A34A`) agar teks putih di lencana lolos kontras |
 | Abu | `#6B7280` | Netral / tidak ada data |
+| Biru | `#1D4ED8` | Status laporan Baru. Sengaja bukan ungu agar tidak terbaca sebagai tombol |
 | Batas isian | `#8A839C` | Batas kolom isian, menu pilihan, dan tombol menu ponsel. Bawaan Bootstrap (`#DEE2E6`) terlalu pucat terhadap putih |
 
 Pemetaan warna status:
 
-| Hal | Merah | Oranye tua | Hijau | Abu | Ungu primer |
+| Hal | Merah | Oranye tua | Hijau | Abu | Biru |
 |---|---|---|---|---|---|
 | Hasil Cek / verifikasi indikator | Terverifikasi phishing | Tercatat, masih ditinjau | Tidak terbukti phishing | Belum ada data | – |
 | Status laporan | Valid (terbukti phishing) | Ditinjau | – | Tidak valid | Baru |
@@ -52,6 +53,7 @@ Kontras yang diukur dari aplikasi yang berjalan (2026-11-21):
 |---|---|---|
 | Teks putih di atas ungu `#653F99` | 7,71:1 | Tombol utama, nomor seksi |
 | Teks putih di atas lencana merah, oranye, hijau, abu | 4,83 / 5,02 / 5,02 / 4,83:1 | Teks 12 px. Semua di atas batas 4,5:1 |
+| Teks putih di atas lencana biru `#1D4ED8` | 6,70:1 | Status Baru |
 | Teks redup `#6F6B80` di atas latar `#F7F5FB` | 4,74:1 | Lolos, tetapi tipis |
 | Batas isian `#8A839C` di atas putih | 3,62:1 | Elemen non-teks, batas 3:1 |
 
@@ -60,7 +62,7 @@ Kontras yang diukur dari aplikasi yang berjalan (2026-11-21):
 |---|---|
 | Font | **Plus Jakarta Sans** (dipakai untuk semua teks). File font disimpan lokal di proyek agar demo tetap berjalan tanpa internet |
 | Font untuk data | **Consolas** (cadangan Cascadia Mono dan monospace sistem) untuk alamat, kode tiket, dan nilai indikator. Tidak ada file font tambahan |
-| Ikon | **Bootstrap Icons**, disimpan lokal. Dipakai hanya bila fungsional: menu samping admin, ikon di dalam kolom isian (cari, pengguna, kunci), tombol aksi di admin, tombol mata untuk melihat kata sandi, dan ikon merek. **Tidak** dipakai pada lencana status, judul hasil, legenda, label kartu dashboard, tombol dan tautan beranda, maupun halaman tiket, karena teks di sebelahnya sudah menyampaikan artinya |
+| Ikon | **Bootstrap Icons**, disimpan lokal. Dipakai hanya bila fungsional: ikon merek, tombol mata untuk melihat kata sandi di halaman login, dan tombol hapus baris indikator di formulir Lapor (tombol tanpa teks). **Tidak** dipakai pada menu, tombol bertulisan, lencana status, judul hasil, legenda, pesan, kolom isian, tautan, maupun halaman tiket, karena teks di sebelahnya sudah menyampaikan artinya |
 | Identitas header | Ikon `bi-shield-check` + tulisan **LaPhish**, identik di header publik, sidebar admin, dan halaman login: glyph, ukuran (22,4 px), dan ukuran teks (19,2 px, tebal) sama. Warnanya satu skema logo satu warna: gelap `#231F40` di atas latar terang dan putih di atas latar gelap (sidebar), kontrasnya 15,65:1. Sebelumnya ikon ungu di header dan kuning di sidebar, dan itu dinilai tidak konsisten |
 | Garis aksen | **Tidak dipakai.** Kotak hasil Cek dan pesan (berhasil, galat, info, peringatan) berbingkai tipis penuh (1,5 px) berwarna status di atas latar tipis, bukan garis tebal di satu sisi. Kartu dashboard tidak punya garis atas berwarna |
 | Tanda baca | Tanpa em dash dan titik tengah (·) di teks yang terlihat. Pemisah memakai koma atau kata (misalnya "Diverifikasi oleh Petugas pada 10/08/2026 19.48"). Judul tab memakai `|` ("Cek indikator \| LaPhish"). Data kosong ditulis dengan kata atau dikosongkan, bukan tanda "–" |
@@ -96,9 +98,12 @@ Kontras yang diukur dari aplikasi yang berjalan (2026-11-21):
 | Petunjuk dan contoh isian | Tetap untuk URL walau jenis diganti | Mengikuti jenis yang dipilih (URL, email, nomor) di Cek dan di tiap baris indikator Lapor | Contoh yang salah membingungkan |
 | Footer publik | Kalimat "LaPhish, proyek akhir Pemrograman Berbasis Web" dan tautan | Hanya tautan "Masuk admin" | Kalimat itu tidak menambah informasi bagi pengguna |
 | Tanda baca | Em dash di footer dan judul tab, titik tengah di keterangan admin, tanda "–" untuk data kosong | Koma, kata, atau kosong. Judul tab memakai `\|` | Penanda yang terkesan buatan mesin |
+| Ikon fungsional saja (pangkasan lanjutan) | Ikon masih ada di menu sidebar admin, kolom isian (cari, pengguna, kunci), tombol aksi admin (tambah, filter, edit, hapus, simpan, keluar), kotak pesan, tautan kembali, dan tombol Kirim | Dihapus. Tersisa ikon merek, tombol mata di login, dan tombol hapus baris di Lapor | Teks di sebelahnya sudah menyampaikan artinya. Ikon yang tersisa adalah tombol tanpa teks |
+| Warna status Baru | Ungu primer `#653F99`, sama dengan tombol utama | Biru `#1D4ED8` | Lencana dan tombol sama-sama berwarna ungu, sehingga status bisa terbaca sebagai tombol yang bisa diklik |
+| Lencana di judul detail laporan | Mewarisi jarak huruf negatif dari judul sehingga hurufnya berdempet | Jarak huruf normal di semua lencana | Lencana tetap terbaca di dalam judul |
 | Lebar daftar Kanal (A10) | Kartu tabel dibatasi 760 px, sementara judul dan tombol "Tambah kanal" selebar halaman | Kartu selebar halaman seperti daftar admin lain. Kolom Laporan dan aksi berlebar tetap (9 dan 13 rem), juga di daftar Kategori | Di layar lebar tombol terpisah jauh dari tabel dan halaman berbeda dari yang lain. Tepi kanan kartu dan tombol kini sejajar di semua daftar |
 
-Yang **tidak** berubah: palet warna kampus, pemetaan warna status, Plus Jakarta Sans, Bootstrap Icons, sapaan formal, struktur menu sidebar admin, dan logika aplikasi.
+Yang **tidak** berubah: palet warna kampus, pemetaan warna status (kecuali Baru yang kini biru), Plus Jakarta Sans, Bootstrap Icons, sapaan formal, struktur menu sidebar admin, dan logika aplikasi.
 
 ## 1. Peta halaman
 

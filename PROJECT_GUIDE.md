@@ -72,17 +72,17 @@ Peringatan phishing di kampus biasanya hanya beredar di grup chat, cepat tenggel
 ## Progres SDLC
 - [x] Tahap 1: analisis kebutuhan, di `docs/01_analisis_kebutuhan.md` (disetujui 2026-11-20)
 - [x] Tahap 2a: desain database, di `docs/02a_desain_database.md` (disetujui 2026-11-20)
-- [x] Tahap 2b: mockup antarmuka, di `docs/02b_mockup.md` dan `docs/mockup/` (disetujui 2026-11-20; bagian 0 diperbarui 2026-11-21 ke tampilan akhir, sedangkan mockup hi-fi di `docs/mockup/` masih rancangan awal). Versi Figma yang bisa diedit: sebagian, lihat `docs/02b_mockup.md` bagian 5
+- [x] Tahap 2b: mockup antarmuka, di `docs/02b_mockup.md` dan `docs/mockup/` (disetujui 2026-11-20; bagian 0 diperbarui 2026-11-21 ke tampilan akhir, dan mockup hi-fi di `docs/mockup/` dibangun ulang ke tampilan akhir pada 2026-11-21). Versi Figma yang bisa diedit: sebagian, lihat `docs/02b_mockup.md` bagian 5
 - [x] Tahap 3: implementasi, di `docs/03_implementasi.md` (selesai 2026-11-20; 6 commit lokal, belum di-push)
 - [x] Tahap 4: pengujian Black-Box, di `docs/04_pengujian.md` (58 kasus, 58 lulus, 2026-11-20). Diuji ulang 2026-11-21 setelah perubahan tampilan: 58 kasus awal lulus, ditambah 9 kasus baru (TC-59 sampai TC-67) untuk pembagian halaman dan perilaku formulir, total 67 kasus, 67 lulus (bagian 8 dokumen itu)
 - [x] Tahap 5: rencana deploy dan pemeliharaan, di `docs/05_deploy_pemeliharaan.md` (disetujui 2026-11-21; skema deploy: shared hosting berbayar. Hosting gratis diuji langsung dan tidak lolos karena hak CREATE VIEW ditolak)
-- [x] Laporan PDF: `docs/laporan/laporan.pdf` (45 halaman, selesai 2026-11-21; **memuat tampilan lama**, perlu dicetak ulang jika laporan harus mengikuti tampilan akhir). Sumbernya `docs/laporan/laporan.html` + `laporan.css` + `img/`, dicetak ulang dengan Microsoft Edge (cetak ke PDF)
+- [x] Laporan PDF: `docs/laporan/laporan.pdf` (51 halaman, dicetak ulang 2026-11-21 dan sudah mengikuti tampilan akhir). Sumbernya `docs/laporan/laporan.html` + `laporan.css` + `img/`, dicetak ulang dengan Microsoft Edge (cetak ke PDF)
 - [x] Perubahan tampilan arah A (2026-11-21): diterapkan di aplikasi dan diuji ulang (67 kasus lulus), beserta penyesuaian lanjutan dan pembagian halaman. 02b dan 04_pengujian sudah diperbarui. Sudah di-commit lokal (commit berawalan `tampilan:` dan `docs:`), belum di-push. Belum diperbarui: mockup hi-fi di `docs/mockup/`, tangkapan layar dan PDF laporan, file Figma
 - [ ] Pengumpulan: tautan laporan PDF, tautan `.sql` (folder `/database` di repo), tautan repo GitHub publik
 
 ## Belum diputuskan
 - [ ] Tenggat pengumpulan dan jadwal presentasi.
-- [ ] Apakah mockup hi-fi, tangkapan layar, dan PDF laporan dibuat ulang mengikuti tampilan akhir (arah A), atau laporan dibiarkan memuat rancangan awal dengan catatan.
+- [x] Mockup hi-fi, gambar mockup, tangkapan layar aplikasi, dan PDF laporan dibuat ulang mengikuti tampilan akhir (2026-11-21). `laporan.html` ditambah bagian 5.4 (uji ulang) dan kebijakan penghapusan data (6.4). Satu catatan: ke-54 kasus HTTP tidak dijalankan ulang penuh setelah perubahan terakhir (skrip uji tidak tersedia), hanya uji asap dan TC-35, TC-68 sampai TC-73. Wireframe lo-fi (`publik.html`, `admin.html`) dan dua gambar wireframe di laporan tetap rancangan awal (A5 masih bertuliskan Edit laporan).
 - [x] Folder `eksperimen_desain/` (prototipe A, B, C dan cadangan berkas sebelum perubahan) **tidak** dimasukkan ke repo: sudah ada di `.gitignore` (2026-11-21). Folder itu bukan bagian aplikasi dan hanya ada di komputer ini.
 - [ ] Apakah file Figma diperbarui ke tampilan akhir atau dibiarkan sebagai rancangan awal.
 

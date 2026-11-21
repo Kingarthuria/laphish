@@ -37,7 +37,7 @@
     <li>Bab 4 · Implementation (Development)
       <ol><li>4.1 Teknologi</li><li>4.2 Struktur folder dan kode</li><li>4.3 Mekanisme koneksi aplikasi–database</li><li>4.4 Keamanan dasar</li><li>4.5 Tampilan aplikasi</li></ol></li>
     <li>Bab 5 · Testing
-      <ol><li>5.1 Metode</li><li>5.2 Tabel Black-Box Testing</li><li>5.3 Ringkasan, temuan, dan batasan</li></ol></li>
+      <ol><li>5.1 Metode</li><li>5.2 Tabel Black-Box Testing</li><li>5.3 Ringkasan, temuan, dan batasan</li><li>5.4 Uji ulang setelah perubahan tampilan dan fitur</li></ol></li>
     <li>Bab 6 · Deployment &amp; Maintenance (Rencana)
       <ol><li>6.1 Skema deploy</li><li>6.2 Uji kelayakan hosting</li><li>6.3 Langkah deploy</li><li>6.4 Rencana pemeliharaan</li><li>6.5 Rencana pengembangan</li></ol></li>
     <li>Bab 7 · Penutup
@@ -127,7 +127,7 @@
       <tr><td>FR-01</td><td>Melihat beranda</td><td>Berisi penjelasan singkat aplikasi dan tombol menuju Lapor, Cek, dan Lacak.</td></tr>
       <tr><td>FR-02</td><td>Mengirim laporan phishing</td><td>Isian: kanal, kategori, tanggal kejadian, kronologi, dan 1–5 indikator (jenis + nilai). Identitas pelapor (nama, email) boleh dikosongkan.</td></tr>
       <tr><td>FR-03</td><td>Menerima kode tiket</td><td>Setelah laporan terkirim, sistem menampilkan kode unik acak yang tidak bisa ditebak, misalnya <code>LP-7F3K9QX2</code>.</td></tr>
-      <tr><td>FR-04</td><td>Melacak status laporan</td><td>Memasukkan kode tiket untuk melihat status terakhir dan riwayatnya. Identitas pelapor tidak ditampilkan.</td></tr>
+      <tr><td>FR-04</td><td>Melacak status laporan</td><td>Memasukkan kode tiket untuk melihat status terakhir dan riwayatnya. Tombol "Lihat laporan saya" membuka kronologi dan indikator yang dikirim pelapor (nilai indikator dalam bentuk <em>defanged</em>). Identitas pelapor tidak ditampilkan.</td></tr>
       <tr><td>FR-05</td><td>Mengecek indikator</td><td>Memilih jenis (URL, Email, atau Nomor) lalu memasukkan nilainya. Nilai dinormalisasi sesuai jenisnya lalu dicocokkan dengan data indikator. Hasil ditentukan oleh status verifikasi indikator: <strong>Terverifikasi phishing</strong>, <strong>Tercatat, masih ditinjau</strong>, <strong>Sudah diperiksa, tidak terbukti phishing</strong>, atau <strong>Belum ada data</strong>. Tiga hasil terakhir disertai imbauan untuk tetap waspada.</td></tr>
     </tbody>
   </table>
@@ -137,7 +137,7 @@
     <tbody>
       <tr><td>FR-06</td><td>Login dan logout</td><td>Memakai username dan password. Password disimpan dalam bentuk hash.</td></tr>
       <tr><td>FR-07</td><td>Dashboard rekap</td><td>Kartu dan tabel angka: jumlah laporan per status, per kategori, per kanal, dan per bulan (berdasarkan tanggal laporan masuk).</td></tr>
-      <tr><td>FR-08</td><td>Kelola laporan (CRUD)</td><td><strong>Create</strong> dilakukan pengunjung lewat formulir lapor (FR-02). Admin melihat daftar dengan pencarian (kode tiket atau kata di kronologi) dan filter (status, kategori, rentang tanggal laporan masuk), melihat detail, mengubah, dan menghapus. Yang bisa diubah hanya kategori, kanal, tanggal kejadian, dan kronologi. Indikator dikelola lewat FR-10.</td></tr>
+      <tr><td>FR-08</td><td>Kelola laporan (CRUD)</td><td><strong>Create</strong> dilakukan pengunjung lewat formulir lapor (FR-02). Admin melihat daftar dengan pencarian (kode tiket atau kata di kronologi) dan filter (status, kategori, rentang tanggal laporan masuk), melihat detail, mengubah kategori dan kanal, dan menghapus. Tanggal kejadian dan kronologi adalah keterangan pelapor, jadi admin tidak bisa mengubahnya (hanya bisa menghapus laporan). Indikator dikelola lewat FR-10.</td></tr>
       <tr><td>FR-09</td><td>Mengubah status laporan</td><td>Status: Baru, Ditinjau, Valid, Tidak valid. Alur umumnya Baru → Ditinjau → Valid / Tidak valid, tetapi admin bebas memilih status berikutnya. Setiap perubahan dicatat beserta catatan admin dan waktunya. Status laporan menggambarkan <strong>penanganan kasus</strong>.</td></tr>
       <tr><td>FR-10</td><td>Kelola indikator (CRUD)</td><td>Satu indikator bisa terkait dengan banyak laporan. Admin menetapkan status verifikasi (Belum diverifikasi, Phishing, Bukan phishing), dan status ini menentukan <strong>hasil fitur Cek</strong>. Admin juga bisa menambah indikator tanpa laporan, misalnya dari peringatan resmi, dengan mengisi catatan sumbernya. Verifikasi bisa dilakukan langsung dari halaman detail laporan. Yang bisa diubah hanya status verifikasi dan catatan; nilai indikator tidak bisa diubah. Jika indikator yang ditambahkan sudah tercatat, sistem menampilkan pesan dan tautan ke data yang sudah ada. Indikator yang masih terkait laporan tidak bisa dihapus karena menjadi bukti laporan, tetapi bisa ditandai Bukan phishing.</td></tr>
       <tr><td>FR-11</td><td>Kelola kategori (CRUD)</td><td>Contoh: pencurian akun, hadiah/beasiswa palsu, lowongan palsu, APK berbahaya. Deskripsi kategori tampil sebagai teks bantuan di formulir lapor.</td></tr>
@@ -201,42 +201,46 @@
   <p>Rancangan antarmuka dibuat dalam dua tingkat, keduanya berupa file HTML statis di folder <code>docs/mockup/</code> pada repositori:</p>
   <ol>
     <li><strong>Wireframe (lo-fi):</strong> abu-abu, hanya menunjukkan tata letak dan isi setiap halaman (<code>publik.html</code> dan <code>admin.html</code>).</li>
-    <li><strong>Mockup (hi-fi):</strong> memakai warna, font, ikon, dan gaya Bootstrap sesuai panduan visual. Mockup ini menjadi acuan langsung saat implementasi (<code>hifi_publik.html</code> dan <code>hifi_admin.html</code>).</li>
+    <li><strong>Mockup (hi-fi):</strong> memakai warna, font, dan gaya Bootstrap sesuai panduan visual (<code>hifi_publik.html</code> dan <code>hifi_admin.html</code>). Mockup pertama menjadi acuan implementasi. Setelah aplikasi berjalan dan tampilannya ditinjau beberapa putaran, mockup dibangun ulang mengikuti tampilan akhir, sehingga gambar mockup di bagian 3.1.5 dan 3.1.6 menunjukkan rancangan akhir dan bukan rancangan awal.</li>
   </ol>
 
   <h3>3.1.1 Panduan visual</h3>
   <p>Konteks klien adalah lingkungan Universitas Gunadarma. Warna diambil dari file logo resmi dan dari warna teks situs resmi kampus. Logo kampus tidak dipakai, karena repositori bersifat publik dan aplikasi ini bukan layanan resmi kampus.</p>
+  <p>Panduan ditetapkan pada tahap perancangan, lalu disesuaikan setelah implementasi. Tiga arah desain dibandingkan lewat prototipe statis: A "Lensa" (tetap memakai warna kampus), B "Rambu" (kuning dominan), dan C "Pesan" (hero berupa pesan chat). Arah A dipilih karena paling sesuai dengan panduan awal dan risiko perombakannya paling kecil. Setelah dicoba langsung, pola yang berlebihan dan terkesan template dibuang. Prinsipnya: setiap unsur visual harus menyampaikan informasi yang belum disampaikan teks di dekatnya, dan bila tidak, dibuang. Tabel berikut adalah panduan akhir yang dipakai aplikasi dan mockup.</p>
   <table>
     <thead><tr><th style="width:18%">Peran</th><th style="width:14%">Kode</th><th>Sumber dan pemakaian</th></tr></thead>
     <tbody>
-      <tr><td>Primer</td><td><code>#653F99</code></td><td>Ungu logo kampus. Tombol utama, link, elemen aktif</td></tr>
-      <tr><td>Gelap</td><td><code>#231F40</code></td><td>Warna teks situs kampus. Navbar, sidebar admin, judul, teks utama</td></tr>
-      <tr><td>Aksen</td><td><code>#E5BD36</code></td><td>Kuning logo kampus. Hanya dekorasi (garis bawah navbar, ikon logo), tidak pernah dipakai untuk status</td></tr>
-      <tr><td>Latar</td><td><code>#F7F5FB</code></td><td>Putih keunguan untuk latar halaman</td></tr>
+      <tr><td>Primer</td><td><code>#653F99</code></td><td>Ungu logo kampus. Tombol utama, link, nomor seksi di formulir Lapor</td></tr>
+      <tr><td>Gelap</td><td><code>#231F40</code></td><td>Warna teks situs kampus. Sidebar admin, judul, teks utama, tepi kartu</td></tr>
+      <tr><td>Aksen</td><td><code>#E5BD36</code></td><td>Kuning logo kampus. Hanya dekorasi dan penanda (garis bawah menu aktif, sorotan domain pada bedah alamat, penanda jumlah terbanyak di dashboard), tidak pernah dipakai untuk status</td></tr>
+      <tr><td>Latar</td><td><code>#F7F5FB</code></td><td>Putih keunguan untuk latar halaman, header, dan footer</td></tr>
       <tr><td>Teks redup</td><td><code>#6F6B80</code></td><td>Teks sekunder</td></tr>
       <tr><td>Merah</td><td><code>#DC2626</code></td><td>Bahaya / terbukti phishing</td></tr>
       <tr><td>Oranye tua</td><td><code>#B45309</code></td><td>Sedang diproses. Sengaja dibedakan dari kuning aksen</td></tr>
-      <tr><td>Hijau</td><td><code>#16A34A</code></td><td>Aman / tidak terbukti</td></tr>
+      <tr><td>Hijau</td><td><code>#15803D</code></td><td>Aman / tidak terbukti. Lebih gelap dari rancangan awal (<code>#16A34A</code>) agar teks putih di lencana lolos kontras</td></tr>
       <tr><td>Abu</td><td><code>#6B7280</code></td><td>Netral / tidak ada data</td></tr>
+      <tr><td>Biru</td><td><code>#1D4ED8</code></td><td>Status laporan Baru. Sengaja bukan ungu agar tidak terbaca sebagai tombol</td></tr>
+      <tr><td>Batas isian</td><td><code>#8A839C</code></td><td>Batas kolom isian dan menu pilihan. Bawaan Bootstrap terlalu pucat terhadap putih</td></tr>
     </tbody>
   </table>
   <table>
-    <thead><tr><th style="width:24%">Hal</th><th>Merah</th><th>Oranye tua</th><th>Hijau</th><th>Abu</th><th>Ungu primer</th></tr></thead>
+    <thead><tr><th style="width:24%">Hal</th><th>Merah</th><th>Oranye tua</th><th>Hijau</th><th>Abu</th><th>Biru</th></tr></thead>
     <tbody>
-      <tr><td>Hasil Cek / verifikasi indikator</td><td>Terverifikasi phishing</td><td>Tercatat, masih ditinjau</td><td>Tidak terbukti phishing</td><td>Belum ada data</td><td>–</td></tr>
-      <tr><td>Status laporan</td><td>Valid (terbukti phishing)</td><td>Ditinjau</td><td>–</td><td>Tidak valid</td><td>Baru</td></tr>
+      <tr><td>Hasil Cek / verifikasi indikator</td><td>Terverifikasi phishing</td><td>Tercatat, masih ditinjau</td><td>Tidak terbukti phishing</td><td>Belum ada data</td><td>-</td></tr>
+      <tr><td>Status laporan</td><td>Valid (terbukti phishing)</td><td>Ditinjau</td><td>-</td><td>Tidak valid</td><td>Baru</td></tr>
     </tbody>
   </table>
-  <p>Status laporan "Valid" diberi merah, bukan hijau, karena artinya laporan terbukti berisi phishing. Hijau hanya dipakai untuk arti "aman". Badge status selalu berisi teks dan ikon, tidak mengandalkan warna saja.</p>
+  <p>Status laporan "Valid" diberi merah, bukan hijau, karena artinya laporan terbukti berisi phishing. Hijau hanya dipakai untuk arti "aman". Lencana status selalu berisi teks (tanpa ikon), jadi artinya tidak bergantung pada warna saja. Kontras teks putih di atas lencana yang diukur dari aplikasi: merah 4,83:1, oranye 5,02:1, hijau 5,02:1, abu 4,83:1, biru 6,70:1, dan di atas ungu primer 7,71:1. Batas isian terhadap putih 3,62:1 (elemen non-teks, batas 3:1).</p>
   <table>
     <thead><tr><th style="width:24%">Elemen</th><th>Keputusan</th></tr></thead>
     <tbody>
-      <tr><td>Font</td><td>Plus Jakarta Sans untuk semua teks, disimpan lokal di proyek agar demo tetap berjalan tanpa internet</td></tr>
-      <tr><td>Ikon</td><td>Bootstrap Icons, juga disimpan lokal</td></tr>
-      <tr><td>Identitas header</td><td>Ikon perisai (<code>bi-shield-check</code>) dan tulisan LaPhish</td></tr>
-      <tr><td>Bentuk komponen</td><td>Sudut membulat sedang (sekitar 8 px) dan bayangan tipis pada kartu</td></tr>
-      <tr><td>Tata letak publik</td><td>Navbar atas (Beranda, Lapor, Cek, Lacak), tautan "Masuk admin" di footer</td></tr>
-      <tr><td>Tata letak admin</td><td>Sidebar kiri: Dashboard, Laporan, Indikator, Kategori, Kanal, lalu Keluar</td></tr>
+      <tr><td>Font</td><td>Plus Jakarta Sans untuk semua teks, disimpan lokal di proyek agar demo tetap berjalan tanpa internet. Alamat, kode tiket, dan nilai indikator memakai font monospasi (Consolas)</td></tr>
+      <tr><td>Ikon</td><td>Bootstrap Icons, disimpan lokal. Dipakai hanya bila fungsional: ikon merek, tombol mata untuk melihat kata sandi di halaman login, dan tombol hapus baris indikator di formulir Lapor (tombol tanpa teks). Tidak dipakai pada menu, tombol bertulisan, lencana, pesan, kolom isian, maupun tautan, karena teks di sebelahnya sudah menyampaikan artinya</td></tr>
+      <tr><td>Identitas header</td><td>Ikon perisai (<code>bi-shield-check</code>) dan tulisan LaPhish, identik di header publik, sidebar admin, dan halaman login. Gelap di atas latar terang, putih di atas latar gelap</td></tr>
+      <tr><td>Bentuk komponen</td><td>Kartu bertepi tinta tipis (1,5 px), sudut 16 px, tanpa bayangan. Tanpa garis aksen tebal di satu sisi kartu atau pesan</td></tr>
+      <tr><td>Tata letak publik</td><td>Header terang bergaris tipis (Beranda, Lapor, Cek, Lacak; menu aktif bergaris bawah kuning), footer terang dengan tautan "Masuk admin"</td></tr>
+      <tr><td>Tata letak admin</td><td>Sidebar kiri gelap: Dashboard, Laporan, Indikator, Kategori, Kanal, lalu Keluar. Menu aktif ditandai nada latar yang lebih terang dan huruf tebal. Daftar Laporan dan Indikator dibagi 10 baris per halaman</td></tr>
+      <tr><td>Alamat berbahaya</td><td>Selalu <em>defanged</em> (<code>hxxps://</code>, <code>[.]</code>), tidak pernah menjadi tautan. Untuk URL, beranda dan hasil Cek membedah alamat menjadi protokol, subdomain, domain pemilik situs (disorot kuning), port, dan jalur</td></tr>
       <tr><td>Sapaan</td><td>Formal, memakai "Anda"</td></tr>
     </tbody>
   </table>
@@ -254,7 +258,7 @@
       <tr><td>A2</td><td>Dashboard rekap</td><td>Admin</td><td>FR-07</td></tr>
       <tr><td>A3</td><td>Daftar laporan (cari dan filter)</td><td>Admin</td><td>FR-08</td></tr>
       <tr><td>A4</td><td>Detail laporan (ubah status, verifikasi indikator, hapus)</td><td>Admin</td><td>FR-08, FR-09, FR-10</td></tr>
-      <tr><td>A5</td><td>Edit laporan</td><td>Admin</td><td>FR-08</td></tr>
+      <tr><td>A5</td><td>Ubah kategori dan kanal laporan</td><td>Admin</td><td>FR-08</td></tr>
       <tr><td>A6</td><td>Daftar indikator</td><td>Admin</td><td>FR-10, FR-13</td></tr>
       <tr><td>A7</td><td>Form indikator (tambah / edit verifikasi)</td><td>Admin</td><td>FR-10</td></tr>
       <tr><td>A8</td><td>Daftar kategori</td><td>Admin</td><td>FR-11, FR-13</td></tr>
@@ -288,7 +292,7 @@
       <tr><td>P2</td><td>Indikator tampil satu baris, dengan tombol "Tambah indikator" sampai maksimal 5 baris. Identitas pelapor ditaruh paling bawah dan ditandai opsional. Deskripsi kategori muncul di bawah dropdown kategori.</td></tr>
       <tr><td>P3</td><td>Kode tiket ditampilkan besar, disertai pesan untuk menyimpannya. Tidak ada cara memulihkan kode tiket yang hilang.</td></tr>
       <tr><td>P4</td><td>Dropdown jenis wajib dipilih. Nilai yang dicari ditampilkan kembali dalam bentuk <em>defanged</em>. Empat varian hasil mengikuti logika Cek (bagian 3.2.8).</td></tr>
-      <tr><td>P5</td><td>Menampilkan kategori, kanal, tanggal kejadian, status terakhir, dan riwayat status beserta catatan admin. Tidak menampilkan identitas pelapor maupun indikator.</td></tr>
+      <tr><td>P5</td><td>Menampilkan kategori, kanal, tanggal kejadian, status terakhir, dan riwayat status beserta catatan admin. Tombol "Lihat laporan saya" (tertutup secara bawaan) membuka kronologi dan indikator yang dikirim, dengan nilai <em>defanged</em>. Identitas pelapor tidak ditampilkan.</td></tr>
     </tbody>
   </table>
 
@@ -297,7 +301,7 @@
   <figure><img class="layar" src="img/mockup_A2.png" alt="Mockup dashboard"><figcaption>Gambar 3.9 Mockup A2 — Dashboard Rekap</figcaption></figure>
   <figure><img class="layar" src="img/mockup_A3.png" alt="Mockup daftar laporan"><figcaption>Gambar 3.10 Mockup A3 — Daftar Laporan</figcaption></figure>
   <figure><img class="layar tinggi" src="img/mockup_A4.png" alt="Mockup detail laporan"><figcaption>Gambar 3.11 Mockup A4 — Detail Laporan</figcaption></figure>
-  <figure><img class="layar" src="img/mockup_A5.png" alt="Mockup edit laporan"><figcaption>Gambar 3.12 Mockup A5 — Edit Laporan</figcaption></figure>
+  <figure><img class="layar" src="img/mockup_A5.png" alt="Mockup ubah kategori dan kanal laporan"><figcaption>Gambar 3.12 Mockup A5 — Ubah Kategori dan Kanal Laporan</figcaption></figure>
   <figure><img class="layar" src="img/mockup_A6.png" alt="Mockup daftar indikator"><figcaption>Gambar 3.13 Mockup A6 — Daftar Indikator</figcaption></figure>
   <figure><img class="layar" src="img/mockup_A7.png" alt="Mockup form indikator"><figcaption>Gambar 3.14 Mockup A7 — Form Indikator (mode tambah dan mode edit)</figcaption></figure>
   <figure><img class="layar" src="img/mockup_A8_A9.png" alt="Mockup kategori"><figcaption>Gambar 3.15 Mockup A8 dan A9 — Daftar dan Form Kategori</figcaption></figure>
@@ -307,9 +311,9 @@
     <tbody>
       <tr><td>A1</td><td>Pesan galat login sama untuk username maupun password yang salah, agar tidak membocorkan username yang terdaftar.</td></tr>
       <tr><td>A2</td><td>Lima kartu (total dan empat status) yang bisa diklik untuk membuka A3 dengan filter status. Tiga tabel angka: per kategori, per kanal, dan per bulan (enam bulan terakhir). Tanpa grafik.</td></tr>
-      <tr><td>A3</td><td>Pencarian dan filter dalam satu baris, diurutkan dari laporan terbaru. Tidak ada tombol tambah, karena laporan dibuat lewat P2.</td></tr>
-      <tr><td>A4</td><td>Dua kolom: kiri berisi data laporan dan daftar indikator (verifikasi cepat lewat dropdown), kanan berisi form ubah status dan riwayat. Tombol Edit dan Hapus di kanan atas.</td></tr>
-      <tr><td>A5</td><td>Hanya kategori, kanal, tanggal kejadian, dan kronologi yang bisa diubah.</td></tr>
+      <tr><td>A3</td><td>Pencarian dan filter dalam satu baris, diurutkan dari laporan terbaru dan dibagi 10 baris per halaman. Tidak ada tombol tambah, karena laporan dibuat lewat P2.</td></tr>
+      <tr><td>A4</td><td>Dua kolom: kiri berisi data laporan dan daftar indikator (verifikasi cepat lewat dropdown), kanan berisi form ubah status dan riwayat. Tombol "Ubah kategori dan kanal" dan Hapus di kanan atas.</td></tr>
+      <tr><td>A5</td><td>Hanya kategori dan kanal yang bisa diubah. Tanggal kejadian dan kronologi tampil sebagai teks hanya baca, karena keterangan pelapor tidak boleh diubah admin.</td></tr>
       <tr><td>A6</td><td>Tombol Hapus nonaktif jika indikator masih terkait laporan. Kolom "Laporan" menampilkan jumlah laporan terkait.</td></tr>
       <tr><td>A7</td><td>Satu form untuk dua mode. Mode edit mengunci jenis dan nilai. Mode tambah menampilkan pesan "sudah tercatat" jika nilainya sudah ada.</td></tr>
       <tr><td>A8–A11</td><td>Di mockup, daftar dan form ditampilkan berdampingan agar ringkas, tetapi di aplikasi tetap halaman terpisah. Tombol Hapus tetap aktif, dan penolakan datang dari database (RESTRICT) sehingga aturan FR-13 bisa didemokan.</td></tr>
@@ -420,7 +424,7 @@
       <tr><td>incident_date</td><td>DATE</td><td>NOT NULL</td><td>Tidak boleh tanggal di masa depan</td></tr>
       <tr><td>chronology</td><td>TEXT</td><td>NOT NULL</td><td></td></tr>
       <tr><td>created_at</td><td>DATETIME</td><td>DEFAULT CURRENT_TIMESTAMP</td><td></td></tr>
-      <tr><td>updated_at</td><td>DATETIME</td><td>NULL, ON UPDATE CURRENT_TIMESTAMP</td><td>Kosong sampai laporan pertama kali diedit admin</td></tr>
+      <tr><td>updated_at</td><td>DATETIME</td><td>NULL, ON UPDATE CURRENT_TIMESTAMP</td><td>Kosong sampai kategori atau kanal laporan pertama kali diubah admin</td></tr>
     </tbody>
   </table>
   <p>Tabel ini tidak menyimpan status. Status terakhir dibaca dari view <code>v_report_status</code>.</p>
@@ -523,7 +527,7 @@ WHERE h.history_id = (
       <tr><td>3</td><td><strong>Pelapor dengan email yang sama memakai baris yang sudah ada.</strong> Nama yang tersimpan tidak ditimpa. Jika email kosong, dibuat baris baru.</td><td>Mencegah data pelapor ganda.</td></tr>
       <tr><td>4</td><td><strong>Kode tiket acak</strong> dari <code>random_bytes()</code>. Jika kebetulan sudah dipakai, dibuat ulang.</td><td>Kode berurutan bisa ditebak sehingga orang lain dapat melihat status laporan milik orang lain (celah IDOR).</td></tr>
       <tr><td>5</td><td><strong>Mengubah status = menambah baris riwayat.</strong> Tidak ada <code>UPDATE</code> atau <code>DELETE</code> pada <code>status_histories</code> dari antarmuka admin.</td><td>Riwayat penanganan tetap utuh dan bisa dipertanggungjawabkan.</td></tr>
-      <tr><td>6</td><td><strong>Edit laporan dibatasi</strong> pada kategori, kanal, tanggal kejadian, dan kronologi.</td><td>Menjaga logika edit tetap sederhana.</td></tr>
+      <tr><td>6</td><td><strong>Edit laporan dibatasi</strong> pada kategori dan kanal. Tanggal kejadian dan kronologi tidak bisa diubah admin, dan nilai kiriman untuk keduanya diabaikan di server.</td><td>Tanggal dan kronologi adalah keterangan pelapor. Admin hanya mengoreksi klasifikasi, sehingga isi laporan tidak bisa dimanipulasi. Laporan yang tidak layak dihapus atau diberi status Tidak valid.</td></tr>
       <tr><td>7</td><td><strong>Hapus data hanya lewat form POST dengan konfirmasi.</strong></td><td>Mencegah data terhapus karena satu klik link yang tidak disengaja.</td></tr>
       <tr><td>8</td><td><strong>Edit indikator dibatasi</strong> pada status verifikasi dan catatan. Jenis dan nilai tidak bisa diubah.</td><td>Mengubah nilai bisa bentrok dengan UNIQUE <code>(type, value)</code> dan mengubah bukti laporan yang sudah masuk.</td></tr>
     </tbody>
@@ -545,7 +549,7 @@ WHERE h.history_id = (
     <tbody>
       <tr><td>url</td><td>Hapus spasi di tepi, hapus <code>http://</code>/<code>https://</code> dan <code>www.</code>, ubah nama domain menjadi huruf kecil, hapus <code>/</code> di akhir</td><td><code>HTTPS://WWW.Sso-Kampus-Verify.example/login/</code> → <code>sso-kampus-verify.example/login</code></td></tr>
       <tr><td>email</td><td>Hapus spasi di tepi, ubah menjadi huruf kecil</td><td><code>Admin.SSO@Kampus-Verify.example</code> → <code>admin.sso@kampus-verify.example</code></td></tr>
-      <tr><td>phone</td><td>Hapus semua karakter selain angka, awalan <code>0</code> diganti <code>62</code></td><td><code>0812-0000-1111</code> → <code>6281200001111</code></td></tr>
+      <tr><td>phone</td><td>Hapus semua karakter selain angka, awalan <code>0</code> diganti <code>62</code>, dan <code>0</code> yang tepat setelah <code>62</code> dibuang. Valid bila berbentuk <code>62</code> diikuti 7 sampai 13 angka (hanya nomor Indonesia)</td><td><code>0812-0000-1111</code> → <code>6281200001111</code>; <code>+62 0812-0000-1111</code> → <code>6281200001111</code></td></tr>
     </tbody>
   </table>
   <p>Path URL tidak diubah menjadi huruf kecil, karena pada sebagian server path membedakan huruf besar dan kecil. Semua contoh domain memakai akhiran <code>.example</code> yang memang dicadangkan untuk contoh (RFC 2606), sehingga tidak mengarah ke situs sungguhan.</p>
@@ -578,7 +582,7 @@ WHERE h.history_id = (
 │   ├── index.php          A2 Dashboard
 │   ├── laporan.php        A3 Daftar laporan
 │   ├── laporan_detail.php A4 Detail + ubah status + verifikasi cepat + hapus
-│   ├── laporan_edit.php   A5 Edit laporan
+│   ├── Ubah kategori dan kanal laporan
 │   ├── indikator.php      A6 Daftar indikator (+ hapus)
 │   ├── indikator_form.php A7 Tambah dan edit indikator
 │   ├── kategori.php       A8 Daftar kategori (+ hapus)
@@ -703,7 +707,7 @@ try {
   <figure><img class="layar" src="img/app_P1_beranda.png" alt="Beranda aplikasi"><figcaption>Gambar 4.1 Beranda (P1)</figcaption></figure>
   <figure><img class="layar" src="img/app_P3_terkirim.png" alt="Laporan terkirim"><figcaption>Gambar 4.2 Laporan berhasil dikirim dan kode tiket ditampilkan (P3)</figcaption></figure>
   <figure><img class="layar" src="img/app_P4_cek.png" alt="Hasil cek indikator"><figcaption>Gambar 4.3 Hasil Cek untuk URL yang ditulis dengan huruf besar dan <code>www.</code>: tetap cocok setelah dinormalisasi, dan ditampilkan dalam bentuk <em>defanged</em> (P4)</figcaption></figure>
-  <figure><img class="layar" src="img/app_P5_lacak.png" alt="Lacak status"><figcaption>Gambar 4.4 Lacak status laporan dengan kode tiket, tanpa menampilkan identitas pelapor (P5)</figcaption></figure>
+  <figure><img class="layar" src="img/app_P5_lacak.png" alt="Lacak status"><figcaption>Gambar 4.4 Lacak status laporan dengan kode tiket. Blok "Lihat laporan saya" dibuka untuk menampilkan kronologi dan indikator, tanpa identitas pelapor (P5)</figcaption></figure>
   <figure><img class="layar" src="img/app_A2_dashboard.png" alt="Dashboard admin"><figcaption>Gambar 4.5 Dashboard rekap per status, kategori, kanal, dan bulan (A2)</figcaption></figure>
   <figure><img class="layar" src="img/app_A3_laporan.png" alt="Daftar laporan"><figcaption>Gambar 4.6 Daftar laporan dengan filter status "Ditinjau" (A3)</figcaption></figure>
   <figure><img class="layar" src="img/app_A4_detail.png" alt="Detail laporan"><figcaption>Gambar 4.7 Detail laporan: verifikasi indikator, ubah status, dan riwayat penanganan (A4)</figcaption></figure>
@@ -773,8 +777,8 @@ try {
       <tr><td>TC-32</td><td>FR-07</td><td>Angka di dashboard sesuai database</td><td>Data saat pengujian</td><td>Angka di kartu sama dengan hasil kueri langsung ke database</td><td>Kartu: total 45, Baru 6, Ditinjau 3, Valid 32, Tidak valid 4. Kueri database: angka yang sama</td><td>Lulus</td></tr>
       <tr><td>TC-33</td><td>FR-08</td><td>Mencari laporan dengan kode tiket</td><td>Kode tiket TC-02</td><td>Satu laporan ditemukan</td><td>1 laporan</td><td>Lulus</td></tr>
       <tr><td>TC-34</td><td>FR-08</td><td>Filter gabungan</td><td>Status Baru, kategori Pencurian akun, masuk 1–30 November 2026</td><td>Jumlah hasil sama dengan kueri database</td><td>3 laporan, kueri database juga 3</td><td>Lulus</td></tr>
-      <tr><td>TC-35</td><td>FR-08</td><td>Mengubah laporan</td><td>Kategori, kanal, tanggal, dan kronologi baru</td><td>Perubahan tersimpan, waktu ubah tercatat</td><td>"Perubahan laporan … berhasil disimpan." Kategori 3, kanal 4, <code>updated_at</code> terisi</td><td>Lulus</td></tr>
-      <tr><td>TC-36</td><td>NFR-07</td><td>Mengubah laporan dengan tanggal masa depan</td><td>Tanggal besok</td><td>Ditolak</td><td>"Tanggal kejadian tidak boleh di masa depan."</td><td>Lulus</td></tr>
+      <tr><td>TC-35</td><td>FR-08</td><td>Mengubah kategori dan kanal laporan (dijalankan ulang setelah fitur dibatasi, lihat 5.4)</td><td>Kategori 3 dan kanal 4, ditambah kiriman POST buatan sendiri dengan tanggal <code>2020-01-01</code> dan kronologi lain</td><td>Kategori dan kanal tersimpan, tanggal dan kronologi tidak berubah, waktu ubah tercatat</td><td>Kategori 3, kanal 4, <code>updated_at</code> terisi. Tanggal tetap <code>2026-05-28</code> dan hash kronologi sama dengan sebelum kiriman</td><td>Lulus</td></tr>
+      <tr><td>TC-36</td><td>NFR-07</td><td><s>Mengubah laporan dengan tanggal masa depan</s></td><td>Dicabut: tanggal kejadian tidak lagi bisa diubah admin, jadi kasus ini tidak berlaku</td><td>-</td><td>-</td><td>Dicabut</td></tr>
       <tr><td>TC-37</td><td>FR-08</td><td>Menghapus laporan</td><td>Laporan dari TC-02</td><td>Laporan, penghubung, dan riwayatnya terhapus. Indikator tetap ada</td><td>Pesan berhasil. Sisa penghubung 0, riwayat 0. Jumlah indikator tetap 34</td><td>Lulus</td></tr>
       <tr><td>TC-38</td><td>FR-09</td><td>Mengubah status dengan catatan</td><td>Status Valid, catatan "Terkonfirmasi phishing (uji)."</td><td>Riwayat bertambah, status terbaru berubah, catatan tampil di halaman Lacak</td><td>Riwayat 1 → 2, status terbaru <code>valid</code>, catatan tampil di Lacak</td><td>Lulus</td></tr>
       <tr><td>TC-39</td><td>FR-09, NFR-07</td><td>Status di luar daftar dikirim langsung ke server</td><td><code>selesai</code></td><td>Ditolak</td><td>"Pilih status yang tersedia."</td><td>Lulus</td></tr>
@@ -831,6 +835,31 @@ try {
     <li>Tidak mencakup uji beban (banyak pengguna sekaligus) dan uji keamanan menyeluruh (penetration test).</li>
     <li>NFR-01 dan NFR-04 sebagian juga dibuktikan lewat pemeriksaan kode (semua kueri memakai prepared statement, password memakai <code>password_hash</code>), karena Black-Box hanya melihat perilaku dari luar.</li>
   </ul>
+
+  <h2>5.4 Uji ulang setelah perubahan tampilan dan fitur</h2>
+  <p>Setelah tabel di 5.2 selesai, aplikasi mengalami beberapa perubahan: tampilan diperbarui mengikuti arah desain A (bagian 3.1.1), daftar admin dibagi per halaman, edit laporan dibatasi pada kategori dan kanal, halaman Lacak menampilkan isi laporan, dan normalisasi nomor telepon diperbaiki. Pada tiap putaran perubahan tampilan, ke-54 kasus yang bisa dijalankan lewat HTTP dijalankan ulang dan seluruhnya lulus. Perubahan terakhir (pemangkasan ikon, pembatasan edit, isi laporan di Lacak, dan perbaikan nomor) diuji dengan uji asap 20 halaman (semua menjawab 200 atau 302 tanpa galat PHP) serta kasus TC-35 dan TC-68 sampai TC-73 di bawah. Ke-54 kasus HTTP penuh tidak dijalankan ulang setelah perubahan terakhir itu karena skrip ujinya tidak tersedia lagi.</p>
+  <p><strong>Hasil: 73 kasus tercatat, 1 dicabut (TC-36), 72 berlaku, 72 lulus.</strong> TC-35 diubah sesuai fitur yang dibatasi, dan TC-36 dicabut karena tanggal kejadian tidak lagi bisa diubah admin.</p>
+  <table>
+    <thead><tr><th style="width:8%">No</th><th style="width:9%">Kebutuhan</th><th style="width:16%">Skenario</th><th style="width:17%">Masukan</th><th style="width:16%">Hasil diharapkan</th><th style="width:26%">Hasil aktual</th><th style="width:8%">Status</th></tr></thead>
+    <tbody>
+      <tr><td>TC-59</td><td>FR-08</td><td>Daftar laporan dibagi halaman</td><td><code>admin/laporan.php</code>, halaman 1 sampai 5</td><td>10 baris per halaman, tidak ada baris yang terlewat atau dobel</td><td>10, 10, 10, 10, dan 2 baris. Total 42 baris, 42 unik. Keterangan "Laporan 1 sampai 10 dari 42" dan "Halaman 1 dari 5"</td><td>Lulus</td></tr>
+      <tr><td>TC-60</td><td>FR-10</td><td>Daftar indikator dibagi halaman</td><td><code>admin/indikator.php</code>, halaman 1 sampai 4</td><td>Sama seperti TC-59</td><td>10, 10, 10, dan 1 baris. Total 31 baris, 31 unik. Halaman terakhir ditulis "Indikator 31 dari 31"</td><td>Lulus</td></tr>
+      <tr><td>TC-61</td><td>FR-08, NFR-07</td><td>Nomor halaman di luar rentang atau tidak valid</td><td><code>halaman=99</code>, <code>0</code>, <code>-3</code>, <code>abc</code></td><td>Tidak galat, dibatasi ke halaman yang ada</td><td><code>99</code> menampilkan halaman 5 (2 baris). <code>0</code>, <code>-3</code>, dan <code>abc</code> menampilkan halaman 1 (10 baris)</td><td>Lulus</td></tr>
+      <tr><td>TC-62</td><td>FR-08</td><td>Filter terbawa dan jumlah halaman mengikuti hasil</td><td><code>status=valid</code>; <code>status=tidak_valid</code>; <code>q=zzzzzzzz</code></td><td>Jumlah halaman dari hasil filter, tautan memuat filter, navigasi hanya bila lebih dari satu halaman</td><td><code>status=valid</code>: 32 hasil, "Halaman 1 dari 4", keterangan "…dari 32 yang cocok (seluruhnya 42)", tautan Berikutnya <code>…?status=valid&amp;halaman=2</code>, semua lencana Valid. Halaman 4: 2 baris tanpa Berikutnya. <code>tidak_valid</code>: 4 baris tanpa navigasi. <code>q=zzzzzzzz</code>: 0 baris, pesan "Tidak ada laporan yang cocok dengan pencarian ini.", tanpa navigasi</td><td>Lulus</td></tr>
+      <tr><td>TC-63</td><td>FR-05</td><td>Petunjuk dan contoh isian Cek mengikuti jenis</td><td>Pilih URL, Email, Nomor. Kirim email salah, nomor, dan URL salah</td><td>Petunjuk di atas formulir dan placeholder sesuai jenis, baik saat pilihan diganti maupun saat halaman dimuat ulang oleh server</td><td>Ketiganya sesuai opsi (placeholder <code>https://contoh.example/login</code>, <code>penipu@contoh.example</code>, <code>0812-3456-7890</code>), pada JavaScript dan pada hasil render server</td><td>Lulus</td></tr>
+      <tr><td>TC-64</td><td>FR-02</td><td>Contoh isian tiap baris indikator di Lapor mengikuti jenis</td><td>Ganti jenis baris 1 ke Email, tambah baris 2, ganti ke Nomor lalu kembali ke URL. Kirim email salah</td><td>Placeholder tiap baris sesuai jenisnya. Baris baru mulai dari URL. Baris lain tidak ikut berubah</td><td>Baris 1 <code>penipu@contoh.example</code>. Baris baru <code>https://contoh.example/login</code>. Baris 2 <code>0812-3456-7890</code>, lalu kembali ke URL, dan baris 1 tetap Email. Setelah kirim salah, jenis Email tetap terpilih dengan placeholder yang sesuai</td><td>Lulus</td></tr>
+      <tr><td>TC-65</td><td>FR-06</td><td>Tombol mata di kolom kata sandi login</td><td>Klik tombol dua kali</td><td>Kolom bergantian <code>password</code> dan <code>text</code>, label dan ikon berganti</td><td>Awal: <code>password</code>, label "Tampilkan kata sandi", ikon <code>bi-eye</code>. Setelah klik: <code>text</code>, label "Sembunyikan kata sandi", ikon <code>bi-eye-slash</code>, <code>aria-pressed="true"</code>, fokus tetap di kolom. Klik lagi: kembali <code>password</code></td><td>Lulus</td></tr>
+      <tr><td>TC-66</td><td>NFR-08</td><td>Tata letak formulir Cek dan Lacak tidak bergeser saat galat</td><td>Kirim "https" di Cek dan "LP" di Lacak</td><td>Posisi kolom isian dan tombol sama sebelum dan sesudah pesan galat muncul</td><td>Cek: Jenis, Nilai, dan tombol sama-sama di 256 px sebelum dan sesudah galat. Lacak: kolom dan tombol di 256 px sebelum dan sesudah. Pesan galat hanya di bawah kolom isian</td><td>Lulus</td></tr>
+      <tr><td>TC-67</td><td>NFR-08</td><td>Ikon merek konsisten</td><td>Header publik, sidebar admin, halaman login</td><td>Glyph, ukuran ikon, dan ukuran teks merek sama</td><td>Ketiganya <code>bi-shield-check</code>. Ikon 22,4 px dan teks 19,2 px tebal 800 di header dan sidebar. Warna ikon <code>rgb(35,31,64)</code> di atas latar terang dan putih di sidebar gelap. Login memakai warna gelap yang sama</td><td>Lulus</td></tr>
+      <tr><td>TC-68</td><td>FR-08, NFR-07</td><td>Kategori tidak valid pada edit laporan</td><td>Kiriman <code>category_id=9999</code></td><td>Ditolak, data tidak berubah</td><td>Pesan "Pilih kategori." tampil, kategori laporan tetap</td><td>Lulus</td></tr>
+      <tr><td>TC-69</td><td>FR-08</td><td>Halaman edit laporan tidak memuat kolom isian tanggal dan kronologi</td><td>Buka <code>admin/laporan_edit.php?id=1</code></td><td>Hanya dua pilihan (kategori, kanal). Tanggal dan kronologi hanya teks</td><td>Jumlah isian <code>incident_date</code> dan <code>chronology</code> di halaman: 0. Tanggal dan kronologi tampil sebagai teks</td><td>Lulus</td></tr>
+      <tr><td>TC-70</td><td>FR-04</td><td>Lacak menampilkan isi laporan</td><td>Kode tiket <code>LP-8ZJUVN8K</code>, klik "Lihat laporan saya"</td><td>Blok tertutup secara bawaan. Setelah dibuka tampil kronologi dan semua indikator laporan</td><td>Kronologi tampil utuh. Indikator 2 dari 2 (URL dan Email). Tombol tampil tertutup lalu terbuka setelah diklik</td><td>Lulus</td></tr>
+      <tr><td>TC-71</td><td>FR-04, NFR-03, NFR-09</td><td>Nilai indikator di Lacak defanged dan identitas pelapor tidak tampil</td><td>Tiket <code>LP-8ZJUVN8K</code> (nilai indikator) dan <code>LP-3MNUDAKM</code> (pelapor punya nama dan email)</td><td>Tidak ada <code>http://</code> atau <code>https://</code> mentah. Nama dan email pelapor tidak ada di halaman</td><td>URL tampil <code>beasiswa-unggulan-2026[.]example/daftar</code>, email <code>info@beasiswa-unggulan-2026[.]example</code>. <code>http(s)://</code> mentah: 0. Nama dan email pelapor muncul 0 kali</td><td>Lulus</td></tr>
+      <tr><td>TC-72</td><td>FR-04</td><td>Kode tiket tidak ditemukan tidak menampilkan blok isi</td><td><code>LP-ZZZZZZZZ</code></td><td>Pesan galat, tidak ada blok <code>&lt;details&gt;</code></td><td>Blok isi tidak muncul (0)</td><td>Lulus</td></tr>
+      <tr><td>TC-73</td><td>FR-05, NFR-07</td><td>Nomor telepon dengan berbagai format dan angka 0 berlebih setelah kode negara</td><td>Di Cek jenis Nomor: <code>+62 0858-0000-9999</code>, <code>0858-0000-9999</code>, <code>+62 858 0000 9999</code>, dan <code>0858-0000-9998</code> (tidak ada di data)</td><td>Tiga bentuk pertama ditemukan sebagai nomor yang sama. Bentuk keempat "Belum ada data". Fungsi normalisasi: <code>812-3456-7890</code>, <code>+1 202 555 0143</code>, <code>12345</code>, <code>abc</code> ditolak</td><td>Tiga bentuk pertama: "Tercatat, masih ditinjau" dan semuanya menjadi <code>6285800009999</code>. Bentuk keempat: "Belum ada data". Empat masukan tidak valid ditolak. Sebelum perbaikan, <code>+62 0812-3456-7890</code> tersimpan sebagai <code>62081234567890</code></td><td>Lulus</td></tr>
+    </tbody>
+  </table>
+  <p>Kasus TC-59 sampai TC-73 dijalankan lewat sesi admin di Chromium dan permintaan HTTP, dan belum dimasukkan ke skrip uji otomatis. Kasus dengan data yang berubah dijalankan pada database yang dipulihkan ke data awal setelahnya.</p>
 </section>
 
 <!-- ================= BAB 6 ================= -->
@@ -926,10 +955,17 @@ try {
     </tbody>
   </table>
 
+  <h3>Kebijakan penghapusan data</h3>
+  <p><strong>Kapan admin menghapus laporan.</strong> Hapus dipakai hanya jika datanya memang tidak layak disimpan: (1) spam atau laporan iseng, (2) laporan ganda dari kejadian yang sama, (3) data pribadi atau sensitif di kronologi, karena admin tidak bisa mengedit kronologi, (4) permintaan pelapor agar laporannya ditarik, dan (5) data percobaan yang tidak sengaja masuk. Laporan yang salah atau tidak terbukti diberi status Tidak valid agar tetap tercatat.</p>
+  <p><strong>Akibat menghapus laporan.</strong> Penghubung ke indikator dan riwayat statusnya ikut terhapus (<code>ON DELETE CASCADE</code>), sedangkan indikatornya tetap ada. Kode tiketnya hilang sehingga halaman Lacak menjawab "Kode tiket tidak ditemukan". Hasil fitur Cek tidak berubah karena Cek membaca tabel <code>indicators</code>.</p>
+  <p><strong>Kapan indikator bisa dihapus.</strong> Hanya jika tidak terkait laporan mana pun (kolom "Laporan" bernilai 0). Selama masih terkait, database menolak penghapusannya (<code>ON DELETE RESTRICT</code>) dan tombol Hapus dinonaktifkan (FR-13). Indikator berstatus Phishing sebaiknya tidak dihapus, karena nilainya tidak lagi diperingatkan di Cek. Indikator yang salah sebaiknya diubah menjadi "Bukan phishing" dengan catatan.</p>
+
   <h2>6.5 Rencana pengembangan</h2>
   <h3>Jangka pendek (setelah tugas dinilai)</h3>
   <ul>
     <li>Penyesuaian P1–P4 di bagian 6.3.</li>
+  <li>Jejak audit perubahan laporan: tabel riwayat perubahan berisi nilai lama, nilai baru, admin, dan waktu, sehingga koreksi kategori dan kanal bisa ditelusuri. Saat ini hanya <code>updated_at</code> yang menunjukkan kapan terakhir diubah.</li>
+  <li>Pembatasan percobaan di halaman Lacak: kode tiket adalah satu-satunya "kunci" dan kini membuka kronologi serta indikator laporan. Kode berbentuk <code>LP-</code> dan 8 karakter dari 32 pilihan (sekitar 1,1 triliun kemungkinan) sehingga sulit ditebak, tetapi belum ada batas jumlah percobaan. Rencananya: hitung kode salah per sesi dan tolak pencarian sementara. Untuk server kampus, hitungan per alamat IP lebih kuat. Pembatasan ini tidak mencegah kebocoran kode lewat screenshot atau grup chat.</li>
     <li>Jika demo ingin tetap gratis: mengganti view <code>v_report_status</code> dengan subquery di kode PHP, lalu mengulang uji Black-Box yang terdampak dan uji U1–U6 di hosting gratis.</li>
     <li>Fitur yang ditunda dari fase ini: halaman kelola akun admin (termasuk ganti password lewat aplikasi), grafik di dashboard, dan status "Selesai".</li>
   </ul>
@@ -953,10 +989,10 @@ try {
   <ol>
     <li><strong>LaPhish berhasil dibangun</strong> sebagai aplikasi web dinamis dengan PHP native dan MariaDB yang berjalan di localhost (XAMPP). Aplikasi terdiri dari 16 halaman: 5 halaman publik (beranda, lapor, laporan terkirim, cek, lacak) dan 11 halaman admin.</li>
     <li><strong>Keempat tujuan di Bab 1 terpenuhi oleh fitur aplikasi:</strong> formulir lapor dengan kode tiket acak menjadi satu tempat pelaporan; halaman Cek mencocokkan tautan, email, atau nomor dengan data yang sudah diverifikasi; panel admin mengelola, memverifikasi, dan mencatat riwayat penanganan; dashboard menyajikan rekap per status, kategori, kanal, dan bulan.</li>
-    <li><strong>Fungsi CRUD lengkap dan terhubung ke database relasional.</strong> Laporan dibuat pengunjung lalu dibaca, diubah, dan dihapus admin, sedangkan indikator, kategori, dan kanal punya CRUD penuh di panel admin.</li>
+    <li><strong>Fungsi CRUD lengkap dan terhubung ke database relasional.</strong> Laporan dibuat pengunjung lalu dibaca, dihapus, dan dikoreksi kategori serta kanalnya oleh admin (tanggal kejadian dan kronologi sengaja tidak bisa diubah karena keterangan pelapor), sedangkan indikator, kategori, dan kanal punya CRUD penuh di panel admin.</li>
     <li><strong>Database terdiri dari 8 tabel dalam bentuk normal ketiga (3NF) dan 1 view.</strong> Relasinya dijaga oleh 8 foreign key dengan aturan RESTRICT, CASCADE, dan SET NULL sesuai makna datanya, sehingga data induk yang masih dipakai tidak bisa terhapus.</li>
     <li><strong>Koneksi database dipisah ke file konfigurasi tersendiri</strong> yang tidak ikut di-commit, dengan penanganan galat lewat <code>try/catch</code> dan semua kueri berinput memakai prepared statement.</li>
-    <li><strong>Pengujian Black-Box terhadap 58 kasus uji menunjukkan 58 kasus lulus</strong>, mencakup seluruh 13 kebutuhan fungsional dan 10 kebutuhan non-fungsional. Satu temuan tampilan di layar ponsel ditemukan dan sudah diperbaiki. Hasil ini berlaku untuk lingkungan uji lokal yang dijelaskan di Bab 5.</li>
+    <li><strong>Pengujian Black-Box mencatat 73 kasus uji, 1 dicabut, dan 72 kasus yang berlaku semuanya lulus</strong>, mencakup seluruh 13 kebutuhan fungsional dan 10 kebutuhan non-fungsional. Satu temuan tampilan di layar ponsel ditemukan dan sudah diperbaiki. Ke-54 kasus HTTP tidak dijalankan ulang penuh setelah perubahan terakhir (lihat 5.4). Hasil ini berlaku untuk lingkungan uji lokal yang dijelaskan di Bab 5.</li>
     <li><strong>Rencana deploy disusun berdasarkan uji langsung.</strong> Hosting gratis yang diuji menolak pembuatan view, sehingga skema deploy ditetapkan ke shared hosting berbayar dengan uji kelayakan U1–U6 sebelum aplikasi diunggah.</li>
   </ol>
 
@@ -964,7 +1000,7 @@ try {
   <ol>
     <li><strong>Uji coba dengan pengguna nyata.</strong> Nilai manfaat di Bab 1 masih berupa perbandingan rancangan dengan cara manual. Uji coba dengan sivitas akademika dan unit TI diperlukan untuk mengukur apakah aplikasi benar-benar mempercepat pelaporan dan pengecekan.</li>
     <li><strong>Perluas pengujian</strong> ke MySQL 8 dan browser selain Chromium, serta tambahkan uji beban dan uji keamanan yang lebih menyeluruh sebelum aplikasi dipakai luas.</li>
-    <li><strong>Kerjakan penyesuaian P1–P5</strong> (bagian 6.3) sebelum aplikasi bisa diakses publik, terutama token CSRF dan batas percobaan login.</li>
+    <li><strong>Kerjakan penyesuaian P1–P5</strong> (bagian 6.3) sebelum aplikasi bisa diakses publik, terutama token CSRF, batas percobaan login, dan batas percobaan kode tiket di Lacak.</li>
     <li><strong>Kembangkan klasifikasi URL phishing</strong> sebagai skor pendamping di halaman Cek (fase 2), dengan tetap menjadikan verifikasi admin sebagai acuan utama.</li>
     <li><strong>Lengkapi fitur yang ditunda</strong>, yaitu kelola akun admin, grafik dashboard, dan status lanjutan, sesuai kebutuhan unit TI.</li>
   </ol>
