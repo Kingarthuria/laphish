@@ -7,8 +7,9 @@
  * Kasus yang butuh peramban (TC-11, TC-12, TC-57, TC-58, TC-63 sampai TC-67) tidak ada di sini.
  *
  * Cara pakai (aplikasi sudah berjalan di XAMPP, database berisi data awal):
- *   D:\xampp\php\php.exe tests\uji_blackbox.php
- *   D:\xampp\php\php.exe tests\uji_blackbox.php http://127.0.0.1/laphish/    (alamat lain)
+ *   php tests/uji_blackbox.php
+ *   php tests/uji_blackbox.php http://127.0.0.1/laphish/    (alamat lain)
+ * (php dari XAMPP: php.exe di folder php pada folder instalasi XAMPP)
  *
  * Peringatan:
  * - Skrip ini MENULIS data uji ke database (laporan, indikator, kategori, kanal). Pulihkan setelahnya
