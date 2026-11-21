@@ -33,7 +33,7 @@ $flashes = take_flashes();
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Masuk — Admin LaPhish</title>
+    <title>Masuk | Admin LaPhish</title>
     <link rel="stylesheet" href="<?= url('assets/vendor/bootstrap/bootstrap.min.css') ?>">
     <link rel="stylesheet" href="<?= url('assets/vendor/bootstrap-icons/bootstrap-icons.min.css') ?>">
     <link rel="stylesheet" href="<?= url('assets/css/app.css') ?>">
@@ -42,7 +42,7 @@ $flashes = take_flashes();
 <div class="lp-login">
     <div class="card p-4" style="width: 100%; max-width: 380px">
         <div class="text-center mb-3">
-            <div class="fw-bold fs-4"><i class="bi bi-shield-check me-1" style="color: var(--lp-primary)"></i>LaPhish</div>
+            <div class="fw-bold fs-4"><i class="bi bi-shield-check me-1" style="color: var(--lp-dark)"></i>LaPhish</div>
             <div class="text-muted-lp small">Masuk sebagai petugas unit TI</div>
         </div>
         <?php foreach ($flashes as $f): ?>
@@ -58,12 +58,13 @@ $flashes = take_flashes();
             </div>
             <div class="mb-4">
                 <label class="form-label" for="password">Password</label>
-                <div class="input-group"><span class="input-group-text"><i class="bi bi-lock"></i></span><input type="password" class="form-control" id="password" name="password" autocomplete="current-password" required></div>
+                <div class="input-group"><span class="input-group-text"><i class="bi bi-lock"></i></span><input type="password" class="form-control" id="password" name="password" autocomplete="current-password" required><button type="button" class="btn btn-outline-secondary" data-lihat-sandi="password" aria-label="Tampilkan kata sandi" aria-pressed="false"><i class="bi bi-eye"></i></button></div>
             </div>
             <button class="btn btn-primary w-100" type="submit"><i class="bi bi-box-arrow-in-right me-1"></i>Masuk</button>
         </form>
         <div class="text-center mt-3 small"><a href="<?= url('index.php') ?>" class="text-decoration-none"><i class="bi bi-arrow-left"></i> Kembali ke beranda</a></div>
     </div>
 </div>
+<script src="<?= url('assets/js/app.js') ?>"></script>
 </body>
 </html>

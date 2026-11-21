@@ -108,14 +108,14 @@ require __DIR__ . '/../includes/layout_admin_atas.php';
         <div class="card p-3 mb-3">
             <table class="table table-sm table-borderless mb-0">
                 <tr><td class="text-muted-lp" style="width: 150px">Tanggal masuk</td><td><?= e(format_datetime($report['created_at'])) ?></td></tr>
-                <tr><td class="text-muted-lp">Terakhir diedit</td><td><?= e(format_datetime($report['updated_at'])) ?></td></tr>
+                <tr><td class="text-muted-lp">Terakhir diedit</td><td><?= $report['updated_at'] ? e(format_datetime($report['updated_at'])) : '<span class="text-muted-lp">Belum pernah diedit</span>' ?></td></tr>
                 <tr><td class="text-muted-lp">Tanggal kejadian</td><td><?= e(format_date($report['incident_date'])) ?></td></tr>
                 <tr><td class="text-muted-lp">Kategori</td><td><?= e($report['category']) ?></td></tr>
                 <tr><td class="text-muted-lp">Kanal</td><td><?= e($report['channel']) ?></td></tr>
                 <tr><td class="text-muted-lp">Kronologi</td><td style="white-space: pre-line"><?= e($report['chronology']) ?></td></tr>
                 <tr><td class="text-muted-lp">Pelapor</td><td>
                     <?php if ($report['reporter_id']): ?>
-                        <?= e($report['reporter_name'] ?: '(tanpa nama)') ?><?php if ($report['reporter_email']): ?> · <span class="text-muted-lp"><?= e($report['reporter_email']) ?></span><?php endif; ?>
+                        <?= e($report['reporter_name'] ?: '(tanpa nama)') ?><?php if ($report['reporter_email']): ?>, <span class="text-muted-lp"><?= e($report['reporter_email']) ?></span><?php endif; ?>
                     <?php else: ?><span class="text-muted-lp">Anonim</span><?php endif; ?>
                 </td></tr>
             </table>
@@ -171,7 +171,7 @@ require __DIR__ . '/../includes/layout_admin_atas.php';
                 <?php foreach ($history as $h): ?>
                     <div class="item">
                         <?= status_badge($h['status']) ?>
-                        <span class="small text-muted-lp ms-1"><?= e(format_datetime($h['changed_at'])) ?> · <?= e($h['full_name'] ?? 'Sistem') ?></span>
+                        <span class="small text-muted-lp ms-1"><?= e(format_datetime($h['changed_at'])) ?>, oleh <?= e($h['full_name'] ?? 'Sistem') ?></span>
                         <?php if ($h['note']): ?><div class="small mt-1"><?= e($h['note']) ?></div><?php endif; ?>
                     </div>
                 <?php endforeach; ?>

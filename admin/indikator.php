@@ -50,15 +50,26 @@ if (isset(VERIFICATION_STATUSES[$vs])) {
 } else {
     $vs = '';
 }
+$kondisi = $where ? ' WHERE ' . implode(' AND ', $where) : '';
+
+// Jumlah indikator yang cocok dengan filter menentukan jumlah halaman
+$count = $pdo->prepare('SELECT COUNT(*) FROM indicators i' . $kondisi);
+$count->execute($params);
+$cocok = (int) $count->fetchColumn();
+[$halaman, $jumlahHalaman, $offset] = halaman_sekarang($cocok);
+
+// LIMIT dan OFFSET dari bilangan bulat yang sudah dibatasi (bukan input mentah), jadi aman ditulis langsung
 $stmt = $pdo->prepare(
     'SELECT i.indicator_id, i.type, i.value, i.verification_status, i.note,
             (SELECT COUNT(*) FROM report_indicators ri WHERE ri.indicator_id = i.indicator_id) AS report_count
      FROM indicators i'
-    . ($where ? ' WHERE ' . implode(' AND ', $where) : '')
-    . ' ORDER BY i.created_at DESC, i.indicator_id DESC'
+    . $kondisi
+    . ' ORDER BY i.created_at DESC, i.indicator_id DESC LIMIT ' . PER_HALAMAN . ' OFFSET ' . $offset
 );
 $stmt->execute($params);
 $indicators = $stmt->fetchAll();
+$totalSemua = (int) $pdo->query('SELECT COUNT(*) FROM indicators')->fetchColumn();
+$filterAktif = ['q' => $q, 'type' => $type, 'vs' => $vs];
 
 $pageTitle = 'Indikator';
 $activeMenu = 'indikator';
@@ -75,7 +86,9 @@ require __DIR__ . '/../includes/layout_admin_atas.php';
     </div>
 </form>
 
-<div class="small text-muted-lp mb-2"><?= count($indicators) ?> indikator</div>
+<?php if ($indicators): ?>
+<div class="small text-muted-lp mb-2">Indikator <?= rentang_baris($offset, count($indicators)) ?> dari <?= $cocok ?><?= $cocok < $totalSemua ? ' yang cocok (seluruhnya ' . $totalSemua . ')' : '' ?></div>
+<?php endif; ?>
 <div class="card">
     <div class="table-responsive">
         <table class="table align-middle">
@@ -85,10 +98,10 @@ require __DIR__ . '/../includes/layout_admin_atas.php';
             <?php foreach ($indicators as $i): $used = (int) $i['report_count'] > 0; ?>
                 <tr>
                     <td class="ps-3"><?= e(INDICATOR_TYPES[$i['type']]) ?></td>
-                    <td class="lp-defang small"><?= e(defang($i['value'])) ?></td>
+                    <td class="lp-defang small"><div class="lp-nilai"><?= e(defang($i['value'])) ?></div></td>
                     <td><?= verification_badge($i['verification_status']) ?></td>
                     <td class="text-center"><?= (int) $i['report_count'] ?></td>
-                    <td class="small<?= $i['note'] ? '' : ' text-muted-lp' ?>"><?= $i['note'] ? e($i['note']) : '–' ?></td>
+                    <td class="small<?= $i['note'] ? '' : ' text-muted-lp' ?>"><?= $i['note'] ? e($i['note']) : '' ?></td>
                     <td class="pe-3 text-end text-nowrap">
                         <a class="btn btn-sm btn-outline-primary" href="<?= url('admin/indikator_form.php?id=' . (int) $i['indicator_id']) ?>">Edit</a>
                         <form method="post" action="<?= url('admin/indikator.php') ?>" class="d-inline" data-confirm="Hapus indikator ini? Tindakan ini tidak bisa dibatalkan.">
@@ -103,4 +116,5 @@ require __DIR__ . '/../includes/layout_admin_atas.php';
         </table>
     </div>
 </div>
+<?= navigasi_halaman('admin/indikator.php', $filterAktif, $halaman, $jumlahHalaman) ?>
 <?php require __DIR__ . '/../includes/layout_admin_bawah.php'; ?>

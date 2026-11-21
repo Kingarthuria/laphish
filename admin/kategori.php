@@ -45,12 +45,12 @@ require __DIR__ . '/../includes/layout_admin_atas.php';
 <div class="card">
     <div class="table-responsive">
         <table class="table align-middle">
-            <thead><tr><th class="ps-3">Nama</th><th>Deskripsi</th><th class="text-center">Laporan</th><th class="pe-3"></th></tr></thead>
+            <thead><tr><th class="ps-3">Nama</th><th>Deskripsi</th><th class="text-center lp-kol-angka">Laporan</th><th class="pe-3 lp-kol-aksi"></th></tr></thead>
             <tbody>
             <?php foreach ($rows as $r): ?>
                 <tr>
                     <td class="ps-3 fw-semibold"><?= e($r['name']) ?></td>
-                    <td class="small<?= $r['description'] ? '' : ' text-muted-lp' ?>"><?= $r['description'] ? e($r['description']) : '–' ?></td>
+                    <td class="small<?= $r['description'] ? '' : ' text-muted-lp' ?>"><?= $r['description'] ? e($r['description']) : '' ?></td>
                     <td class="text-center"><?= (int) $r['report_count'] ?></td>
                     <td class="pe-3 text-end text-nowrap">
                         <a class="btn btn-sm btn-outline-primary" href="<?= url('admin/kategori_form.php?id=' . (int) $r['category_id']) ?>">Edit</a>

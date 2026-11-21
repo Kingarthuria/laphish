@@ -39,6 +39,9 @@
 
 .text-muted-lp { color: var(--lp-muted) !important; }
 .lp-defang { font-family: Consolas, "Cascadia Mono", ui-monospace, monospace; word-break: break-all; }
+/* Daftar master (Kategori, Kanal): kolom jumlah dan kolom aksi berlebar tetap, supaya tabel penuh selebar halaman tetap rapi di layar lebar */
+.lp-kol-angka { width: 9rem; }
+.lp-kol-aksi { width: 13rem; }
 /* Kolom nilai di tabel: lebar minimum agar tidak menyusut jadi beberapa huruf per baris (break-all membuat lebar minimumnya sangat kecil). Di layar sempit tabel bisa digeser. */
 .lp-nilai { min-width: 13rem; }
 

@@ -48,18 +48,28 @@ if ($to !== '' && $isDate($to)) {
     $to = '';
 }
 
-$sql = 'SELECT r.report_id, r.ticket_code, r.created_at, c.name AS category, ch.name AS channel, s.status,
-               (SELECT COUNT(*) FROM report_indicators ri WHERE ri.report_id = r.report_id) AS indicator_count
-        FROM reports r
+$from_join = ' FROM reports r
         JOIN categories c ON c.category_id = r.category_id
         JOIN channels ch ON ch.channel_id = r.channel_id
         JOIN v_report_status s ON s.report_id = r.report_id'
-     . ($where ? ' WHERE ' . implode(' AND ', $where) : '')
-     . ' ORDER BY r.created_at DESC';
+     . ($where ? ' WHERE ' . implode(' AND ', $where) : '');
+
+// Jumlah laporan yang cocok dengan filter menentukan jumlah halaman
+$count = db()->prepare('SELECT COUNT(*)' . $from_join);
+$count->execute($params);
+$cocok = (int) $count->fetchColumn();
+[$halaman, $jumlahHalaman, $offset] = halaman_sekarang($cocok);
+
+// LIMIT dan OFFSET dari bilangan bulat yang sudah dibatasi (bukan input mentah), jadi aman ditulis langsung
+$sql = 'SELECT r.report_id, r.ticket_code, r.created_at, c.name AS category, ch.name AS channel, s.status,
+               (SELECT COUNT(*) FROM report_indicators ri WHERE ri.report_id = r.report_id) AS indicator_count'
+     . $from_join
+     . ' ORDER BY r.created_at DESC, r.report_id DESC LIMIT ' . PER_HALAMAN . ' OFFSET ' . $offset;
 $stmt = db()->prepare($sql);
 $stmt->execute($params);
 $reports = $stmt->fetchAll();
 $total = (int) db()->query('SELECT COUNT(*) FROM reports')->fetchColumn();
+$filterAktif = ['q' => $q, 'status' => $status, 'category_id' => $categoryId, 'from' => $from, 'to' => $to];
 
 $pageTitle = 'Laporan';
 $activeMenu = 'laporan';
@@ -96,7 +106,9 @@ require __DIR__ . '/../includes/layout_admin_atas.php';
     </div>
 </form>
 
-<div class="small text-muted-lp mb-2">Menampilkan <?= count($reports) ?> dari <?= $total ?> laporan, terbaru di atas</div>
+<?php if ($reports): ?>
+<div class="small text-muted-lp mb-2">Laporan <?= rentang_baris($offset, count($reports)) ?> dari <?= $cocok ?><?= $cocok < $total ? ' yang cocok (seluruhnya ' . $total . ')' : '' ?>, terbaru di atas</div>
+<?php endif; ?>
 <div class="card">
     <div class="table-responsive">
         <table class="table align-middle">
@@ -120,4 +132,5 @@ require __DIR__ . '/../includes/layout_admin_atas.php';
         </table>
     </div>
 </div>
+<?= navigasi_halaman('admin/laporan.php', $filterAktif, $halaman, $jumlahHalaman) ?>
 <?php require __DIR__ . '/../includes/layout_admin_bawah.php'; ?>

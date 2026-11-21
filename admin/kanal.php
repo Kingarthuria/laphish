@@ -41,10 +41,10 @@ $activeMenu = 'kanal';
 require __DIR__ . '/../includes/layout_admin_atas.php';
 ?>
 <div class="page-head"><h1 class="h4 fw-bold mb-0">Kanal</h1><a class="btn btn-primary" href="<?= url('admin/kanal_form.php') ?>"><i class="bi bi-plus-lg me-1"></i>Tambah kanal</a></div>
-<div class="card" style="max-width: 760px">
+<div class="card">
     <div class="table-responsive">
         <table class="table align-middle">
-            <thead><tr><th class="ps-3">Nama</th><th class="text-center">Laporan</th><th class="pe-3"></th></tr></thead>
+            <thead><tr><th class="ps-3">Nama</th><th class="text-center lp-kol-angka">Laporan</th><th class="pe-3 lp-kol-aksi"></th></tr></thead>
             <tbody>
             <?php foreach ($rows as $r): ?>
                 <tr>

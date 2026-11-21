@@ -22,7 +22,7 @@ $me = current_admin();
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?= e($pageTitle) ?> — Admin LaPhish</title>
+    <title><?= e($pageTitle) ?> | Admin LaPhish</title>
     <link rel="stylesheet" href="<?= url('assets/vendor/bootstrap/bootstrap.min.css') ?>">
     <link rel="stylesheet" href="<?= url('assets/vendor/bootstrap-icons/bootstrap-icons.min.css') ?>">
     <link rel="stylesheet" href="<?= url('assets/css/app.css') ?>">

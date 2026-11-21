@@ -133,7 +133,7 @@ require __DIR__ . '/../includes/layout_admin_atas.php';
             </div>
         </div>
         <?php if ($editing && $item['verified_at']): ?>
-            <div class="small text-muted-lp mt-3"><i class="bi bi-person-check me-1"></i>Diverifikasi oleh <?= e($item['verifier'] ?? '(akun dihapus)') ?> · <?= e(format_datetime($item['verified_at'])) ?></div>
+            <div class="small text-muted-lp mt-3">Diverifikasi oleh <?= e($item['verifier'] ?? '(akun dihapus)') ?> pada <?= e(format_datetime($item['verified_at'])) ?></div>
         <?php endif; ?>
         <div class="d-flex gap-2 justify-content-end mt-4">
             <a class="btn btn-outline-secondary" href="<?= url('admin/indikator.php') ?>">Batal</a>

@@ -40,13 +40,26 @@ for ($i = 5; $i >= 0; $i--) {
 }
 $byMonth = array_reverse($byMonth);
 
+// [label, jumlah, tautan, kunci status]. Kartu status memakai lencana yang sama dengan daftar laporan; kartu total hanya teks.
 $cards = [
-    ['Total laporan', $total, 'c-dark', 'admin/laporan.php'],
-    ['Baru', $byStatus['baru'], 'c-purple', 'admin/laporan.php?status=baru'],
-    ['Ditinjau', $byStatus['ditinjau'], 'c-orange', 'admin/laporan.php?status=ditinjau'],
-    ['Valid', $byStatus['valid'], 'c-red', 'admin/laporan.php?status=valid'],
-    ['Tidak valid', $byStatus['tidak_valid'], 'c-grey', 'admin/laporan.php?status=tidak_valid'],
+    ['Total laporan', $total, 'admin/laporan.php', null],
+    ['Baru', $byStatus['baru'], 'admin/laporan.php?status=baru', 'baru'],
+    ['Ditinjau', $byStatus['ditinjau'], 'admin/laporan.php?status=ditinjau', 'ditinjau'],
+    ['Valid', $byStatus['valid'], 'admin/laporan.php?status=valid', 'valid'],
+    ['Tidak valid', $byStatus['tidak_valid'], 'admin/laporan.php?status=tidak_valid', 'tidak_valid'],
 ];
+
+/** Angka di tabel rekap; yang terbanyak diberi penanda kuning dan teks "terbanyak" (tidak hanya warna). */
+function rekap_angka(int $n, int $max): string
+{
+    if ($max > 0 && $n === $max) {
+        return '<span class="lp-top">' . $n . '</span><span class="visually-hidden"> (terbanyak)</span>';
+    }
+    return (string) $n;
+}
+$maxCategory = (int) max(array_column($byCategory, 'n') ?: [0]);
+$maxChannel = (int) max(array_column($byChannel, 'n') ?: [0]);
+$maxMonth = (int) max(array_column($byMonth, 'n') ?: [0]);
 
 $pageTitle = 'Dashboard';
 $activeMenu = 'dashboard';
@@ -55,25 +68,25 @@ require __DIR__ . '/../includes/layout_admin_atas.php';
 <div class="page-head"><h1 class="h4 fw-bold mb-0">Dashboard</h1><span class="small text-muted-lp">Data per <?= e(date('d/m/Y H.i')) ?></span></div>
 
 <div class="row row-cols-2 row-cols-md-3 row-cols-xl-5 g-3 mb-4">
-    <?php foreach ($cards as [$label, $n, $class, $href]): ?>
+    <?php foreach ($cards as [$label, $n, $href, $statusKey]): ?>
         <div class="col">
             <a href="<?= url($href) ?>" class="text-decoration-none">
-                <div class="card stat <?= $class ?> p-3 h-100"><div class="small text-muted-lp mb-1"><?= e($label) ?></div><div class="num"><?= $n ?></div></div>
+                <div class="card stat p-3 h-100"><div class="lab"><?= $statusKey ? status_badge($statusKey) : e($label) ?></div><div class="num"><?= $n ?></div></div>
             </a>
         </div>
     <?php endforeach; ?>
 </div>
 
 <div class="row g-3">
-    <?php foreach ([['Per kategori', 'bi-tags', 'Kategori', $byCategory], ['Per kanal', 'bi-broadcast', 'Kanal', $byChannel]] as [$title, $icon, $col, $rows]): ?>
+    <?php foreach ([['Per kategori', 'Kategori', $byCategory, $maxCategory], ['Per kanal', 'Kanal', $byChannel, $maxChannel]] as [$title, $col, $rows, $max]): ?>
         <div class="col-lg-4">
             <div class="card h-100">
-                <div class="p-3 pb-2 fw-bold"><i class="bi <?= $icon ?> me-1" style="color: var(--lp-primary)"></i><?= e($title) ?></div>
+                <div class="p-3 pb-2 fw-bold"><?= e($title) ?></div>
                 <table class="table table-sm">
                     <thead><tr><th class="ps-3"><?= e($col) ?></th><th class="text-end pe-3">Jumlah</th></tr></thead>
                     <tbody>
                     <?php foreach ($rows as $r): ?>
-                        <tr><td class="ps-3"><?= e($r['name']) ?></td><td class="text-end pe-3 fw-semibold"><?= (int) $r['n'] ?></td></tr>
+                        <tr><td class="ps-3"><?= e($r['name']) ?></td><td class="text-end pe-3 fw-semibold"><?= rekap_angka((int) $r['n'], $max) ?></td></tr>
                     <?php endforeach; ?>
                     </tbody>
                 </table>
@@ -82,16 +95,17 @@ require __DIR__ . '/../includes/layout_admin_atas.php';
     <?php endforeach; ?>
     <div class="col-lg-4">
         <div class="card h-100">
-            <div class="p-3 pb-2 fw-bold"><i class="bi bi-calendar3 me-1" style="color: var(--lp-primary)"></i>Per bulan (laporan masuk)</div>
+            <div class="p-3 pb-2 fw-bold">Per bulan (laporan masuk)</div>
             <table class="table table-sm">
                 <thead><tr><th class="ps-3">Bulan</th><th class="text-end pe-3">Jumlah</th></tr></thead>
                 <tbody>
                 <?php foreach ($byMonth as $m): ?>
-                    <tr><td class="ps-3"><?= e($m['label']) ?></td><td class="text-end pe-3 fw-semibold"><?= $m['n'] ?></td></tr>
+                    <tr><td class="ps-3"><?= e($m['label']) ?></td><td class="text-end pe-3 fw-semibold"><?= rekap_angka((int) $m['n'], $maxMonth) ?></td></tr>
                 <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+<p class="small text-muted-lp mt-3 mb-0 d-flex align-items-center gap-2"><span class="lp-top" aria-hidden="true">&nbsp;&nbsp;&nbsp;</span>Penanda kuning menunjukkan jumlah terbanyak dalam tabel.</p>
 <?php require __DIR__ . '/../includes/layout_admin_bawah.php'; ?>
