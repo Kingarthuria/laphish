@@ -1,6 +1,6 @@
 <?php
 /**
- * A7 — Form indikator (FR-10 Create/Update)
+ * A7: Form indikator (FR-10 Create/Update)
  * Mode tambah : jenis, nilai, status verifikasi, catatan sumber.
  * Mode edit   : jenis dan nilai dikunci; hanya status verifikasi dan catatan yang bisa diubah
  *               (aturan integritas nomor 8 di docs/02a_desain_database.md).

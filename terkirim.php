@@ -1,6 +1,6 @@
 <?php
 /**
- * P3 — Laporan terkirim (FR-03)
+ * P3: Laporan terkirim (FR-03)
  * Menampilkan kode tiket laporan terakhir yang dikirim dari browser ini.
  */
 require __DIR__ . '/includes/init.php';

@@ -1,4 +1,4 @@
-# Tahap 3 — Implementation (Development)
+# Tahap 3: Implementation (Development)
 
 Proyek: **LaPhish: Lapor dan Cek Phishing di Kampus**
 Dasar: `01_analisis_kebutuhan.md`, `02a_desain_database.md`, `02b_mockup.md`.

@@ -1,4 +1,4 @@
-# Tahap 4 — Testing (Black-Box)
+# Tahap 4: Testing (Black-Box)
 
 Proyek: **LaPhish: Lapor dan Cek Phishing di Kampus**
 Dasar: kebutuhan FR-01 s.d. FR-13 dan NFR-01 s.d. NFR-10 di `01_analisis_kebutuhan.md`.
@@ -95,12 +95,15 @@ Status: **Lulus** jika hasil aktual sama dengan hasil yang diharapkan.
 
 ## 5. Ringkasan
 
-| Bagian | Jumlah kasus | Lulus |
-|---|---|---|
-| Halaman publik | 27 | 27 |
-| Halaman admin | 24 | 24 |
-| Keamanan, konfigurasi, dan tampilan | 7 | 7 |
-| **Total** | **58** | **58** |
+| Bagian | Tercatat | Dicabut | Berlaku | Lulus |
+|---|---|---|---|---|
+| Halaman publik (bagian 2) | 27 | 0 | 27 | 27 |
+| Halaman admin (bagian 3) | 24 | 1 (TC-36) | 23 | 23 |
+| Keamanan, konfigurasi, dan tampilan (bagian 4) | 7 | 0 | 7 | 7 |
+| Kasus tambahan, TC-59 sampai TC-73 (bagian 8) | 15 | 0 | 15 | 15 |
+| **Total** | **73** | **1** | **72** | **72** |
+
+Tiga baris pertama adalah 58 kasus awal (TC-01 sampai TC-58). Kasus tambahan dibuat setelah perubahan tampilan dan fitur, dan hasilnya dicatat di bagian 8.
 
 Semua FR-01 s.d. FR-13 dan NFR-01 s.d. NFR-10 punya minimal satu kasus uji.
 
@@ -130,12 +133,7 @@ Tampilan aplikasi diubah mengikuti arah desain "Lensa": header dan footer publik
 
 **Hasil: 58 kasus awal, 58 lulus. Ditambah 9 kasus baru (TC-59 sampai TC-67), 9 lulus. Lalu edit laporan dibatasi pada kategori dan kanal: TC-35 diubah, TC-36 dicabut, dan TC-68 serta TC-69 ditambah, semuanya lulus. Lalu Lacak diberi blok isi laporan dan ditambah TC-70 sampai TC-72, lalu normalisasi nomor diperbaiki dan ditambah TC-73, semuanya lulus. Total 73 kasus tercatat, 1 dicabut, 72 berlaku, 72 lulus.** Ke-54 kasus HTTP dijalankan ulang setelah tiap putaran perubahan tampilan (empat kali), dan seluruhnya lulus (54 dari 54) pada setiap putaran yang memakai skrip uji yang sudah diperbaiki. Skrip uji lama tidak tersedia lagi, jadi skrip baru ditulis: `tests/uji_blackbox.php` (PHP CLI dengan curl) berisi **63 kasus HTTP** (TC-01 sampai TC-10, TC-13 sampai TC-35, TC-37 sampai TC-56, TC-59 sampai TC-62, dan TC-68 sampai TC-73). Skrip itu dijalankan 2026-11-21 setelah perubahan terakhir, pada database data awal: **63 dari 63 lulus**. Putaran pertamanya 59 dari 63. Keempat kegagalan (TC-32, TC-34, TC-38, TC-73) berasal dari skrip, bukan dari aplikasi: teks halaman yang tanpa spasi antartag, permintaan nomor halaman di luar rentang (aplikasi membatasinya ke halaman terakhir sehingga hasil terhitung berulang), tanda kutip HTML yang belum didekode, dan pencocokan kata `invalid` yang ikut mengenai kelas `is-invalid`. Skripnya diperbaiki dan dijalankan ulang. Kasus yang butuh peramban (TC-11, TC-12, TC-57, TC-58, dan TC-63 sampai TC-67) tidak ada di skrip, dan hasilnya berasal dari uji manual sebelumnya. Perubahan terakhir juga diuji dengan uji asap 20 halaman (semua menjawab 200 atau 302 tanpa galat PHP).
 
-| Bagian | Jumlah kasus | Lulus |
-|---|---|---|
-| Halaman publik | 27 | 27 |
-| Halaman admin | 24 | 24 |
-| Keamanan, konfigurasi, dan tampilan | 7 | 7 |
-| **Total** | **58** | **58** |
+Ringkasan jumlah kasus per bagian ada di bagian 5.
 
 ### Hal yang berbeda dari hasil aktual di bagian 2 sampai 4
 

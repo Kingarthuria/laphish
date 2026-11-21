@@ -1,6 +1,6 @@
 <?php
 /**
- * A10 — Daftar kanal (FR-12 Read/Delete, FR-13)
+ * A10: Daftar kanal (FR-12 Read/Delete, FR-13)
  * Pola sama dengan kategori: penghapusan kanal yang masih dipakai ditolak database (FK RESTRICT).
  */
 require __DIR__ . '/../includes/init.php';

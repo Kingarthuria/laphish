@@ -1,6 +1,6 @@
 <?php
 /**
- * P5 — Lacak status (FR-04)
+ * P5: Lacak status (FR-04)
  * Mencari laporan berdasarkan kode tiket, lalu menampilkan status terakhir, riwayatnya, dan isi laporan
  * (kronologi dan indikator) di dalam blok yang tertutup secara bawaan.
  * Identitas pelapor sengaja tidak ditampilkan. Nilai indikator ditampilkan dalam bentuk defanged.

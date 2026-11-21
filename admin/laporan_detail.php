@@ -1,6 +1,6 @@
 <?php
 /**
- * A4 — Detail laporan (FR-08 Read/Delete, FR-09, FR-10)
+ * A4: Detail laporan (FR-08 Read/Delete, FR-09, FR-10)
  * POST action=status : menambah baris riwayat status (tidak pernah mengubah riwayat lama).
  * POST action=verify : verifikasi cepat indikator milik laporan ini.
  * POST action=delete : menghapus laporan; penghubung dan riwayat ikut terhapus (CASCADE).

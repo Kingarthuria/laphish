@@ -1,6 +1,6 @@
 <?php
 /**
- * A3 — Daftar laporan (FR-08, Read + Cari)
+ * A3: Daftar laporan (FR-08, Read + Cari)
  * Pencarian: kode tiket atau kata di kronologi.
  * Filter: status, kategori, rentang tanggal laporan masuk.
  * Laporan baru dibuat pengunjung lewat formulir publik (P2), jadi tidak ada tombol tambah.

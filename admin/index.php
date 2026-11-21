@@ -1,6 +1,6 @@
 <?php
 /**
- * A2 — Dashboard rekap (FR-07)
+ * A2: Dashboard rekap (FR-07)
  * Kartu jumlah laporan per status dan tabel angka per kategori, kanal, dan bulan.
  * Semua angka dihitung langsung dengan kueri GROUP BY, tanpa tabel tambahan.
  */

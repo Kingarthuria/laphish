@@ -1,4 +1,4 @@
-# Tahap 2b — Rancangan Antarmuka (Wireframe)
+# Tahap 2b: Rancangan Antarmuka (Wireframe)
 
 Proyek: **LaPhish: Lapor dan Cek Phishing di Kampus**
 Dasar: kebutuhan di `01_analisis_kebutuhan.md` dan desain di `02a_desain_database.md`.

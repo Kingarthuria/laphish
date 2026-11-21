@@ -1,4 +1,4 @@
-# LaPhish — Lapor dan Cek Phishing di Kampus
+# LaPhish: Lapor dan Cek Phishing di Kampus
 
 Aplikasi web untuk melaporkan dan mengecek tautan, email, atau nomor telepon yang dicurigai phishing di lingkungan kampus. Proyek akhir mata kuliah **Pemrograman Berbasis Web**, dibangun dengan PHP native dan MySQL/MariaDB, dan dijalankan di localhost (XAMPP).
 
@@ -91,8 +91,8 @@ Proyek ini dikerjakan dengan bantuan asisten AI (Claude) untuk analisis, peranca
 
 ## Atribusi pihak ketiga
 
-- [Bootstrap](https://getbootstrap.com/) 5.3.3 — lisensi MIT
-- [Bootstrap Icons](https://icons.getbootstrap.com/) 1.11.3 — lisensi MIT
-- [Plus Jakarta Sans](https://github.com/tokotype/PlusJakartaSans) — SIL Open Font License 1.1
+- [Bootstrap](https://getbootstrap.com/) 5.3.3, lisensi MIT
+- [Bootstrap Icons](https://icons.getbootstrap.com/) 1.11.3, lisensi MIT
+- [Plus Jakarta Sans](https://github.com/tokotype/PlusJakartaSans), lisensi SIL Open Font License 1.1
 
 Salinan lisensinya ada di folder `assets/vendor/` masing-masing.

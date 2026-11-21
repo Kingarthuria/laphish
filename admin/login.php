@@ -1,6 +1,6 @@
 <?php
 /**
- * A1 — Login admin (FR-06)
+ * A1: Login admin (FR-06)
  * Pesan galat sama untuk username maupun password yang salah,
  * agar tidak membocorkan username mana yang terdaftar.
  */

@@ -1,6 +1,6 @@
 <?php
 /**
- * A6 — Daftar indikator (FR-10 Read/Delete, FR-13)
+ * A6: Daftar indikator (FR-10 Read/Delete, FR-13)
  * Indikator yang masih menjadi bukti laporan tidak bisa dihapus (FK RESTRICT);
  * tombol hapusnya dinonaktifkan dan database tetap menolak jika dicoba lewat cara lain.
  */

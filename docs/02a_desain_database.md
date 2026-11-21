@@ -1,4 +1,4 @@
-# Tahap 2a — Desain Database
+# Tahap 2a: Desain Database
 
 Proyek: **LaPhish: Lapor dan Cek Phishing di Kampus**
 Dasar: kebutuhan di `01_analisis_kebutuhan.md`.

@@ -1,6 +1,6 @@
 <?php
 /**
- * P4 — Cek indikator (FR-05)
+ * P4: Cek indikator (FR-05)
  * Nilai dinormalisasi sesuai jenisnya lalu dicocokkan dengan tabel indicators.
  * Hasil ditentukan oleh verification_status (docs/02a_desain_database.md bagian 7).
  * Memakai POST agar nilai yang dicek tidak tersimpan di alamat URL atau riwayat browser.

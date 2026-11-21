@@ -1,6 +1,6 @@
 <?php
 /**
- * A8 — Daftar kategori (FR-11 Read/Delete, FR-13)
+ * A8: Daftar kategori (FR-11 Read/Delete, FR-13)
  * Tombol hapus sengaja tetap aktif: kategori yang masih dipakai ditolak oleh database (FK RESTRICT),
  * lalu aplikasi menampilkan pesan yang jelas.
  */

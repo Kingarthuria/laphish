@@ -1,6 +1,6 @@
 <?php
 /**
- * A11 — Form kanal (FR-12 Create/Update)
+ * A11: Form kanal (FR-12 Create/Update)
  */
 require __DIR__ . '/../includes/init.php';
 require_admin();

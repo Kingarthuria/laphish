@@ -1,4 +1,4 @@
-# Tahap 5 — Deployment & Maintenance
+# Tahap 5: Deployment & Maintenance
 
 Proyek: **LaPhish: Lapor dan Cek Phishing di Kampus**
 Dasar: `03_implementasi.md` dan `04_pengujian.md`.

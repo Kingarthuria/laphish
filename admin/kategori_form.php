@@ -1,6 +1,6 @@
 <?php
 /**
- * A9 — Form kategori (FR-11 Create/Update)
+ * A9: Form kategori (FR-11 Create/Update)
  * Deskripsi tampil sebagai teks bantuan di formulir lapor publik.
  */
 require __DIR__ . '/../includes/init.php';

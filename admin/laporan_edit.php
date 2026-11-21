@@ -1,6 +1,6 @@
 <?php
 /**
- * A5 — Ubah kategori dan kanal laporan (FR-08 Update)
+ * A5: Ubah kategori dan kanal laporan (FR-08 Update)
  * Hanya kategori dan kanal yang bisa diubah (aturan integritas nomor 6 di docs/02a_desain_database.md).
  * Tanggal kejadian dan kronologi adalah keterangan pelapor: tidak ada kolom isiannya, dan nilai
  * kiriman untuk keduanya diabaikan di server walaupun ada permintaan POST buatan sendiri.

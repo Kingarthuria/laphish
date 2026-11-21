@@ -1,6 +1,6 @@
 <?php
 /**
- * P1 — Beranda (FR-01)
+ * P1: Beranda (FR-01)
  * Penjelasan singkat aplikasi, alat bedah alamat, dan jalan pintas ke Cek, Lapor, dan Lacak.
  * Alat bedah alamat berjalan sepenuhnya di peramban (assets/js/bedah_alamat.js) dan tidak memakai database.
  */

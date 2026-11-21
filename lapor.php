@@ -1,6 +1,6 @@
 <?php
 /**
- * P2 — Formulir lapor (FR-02)
+ * P2: Formulir lapor (FR-02)
  * GET  : tampilkan formulir kosong.
  * POST : action=prefill (dari halaman Cek) mengisi indikator pertama;
  *        action=kirim memvalidasi lalu menyimpan laporan dalam SATU transaksi

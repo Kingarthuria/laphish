@@ -1,4 +1,4 @@
-# Tahap 1 — Planning & Requirement Analysis
+# Tahap 1: Planning & Requirement Analysis
 
 Proyek: **LaPhish: Lapor dan Cek Phishing di Kampus**
 
