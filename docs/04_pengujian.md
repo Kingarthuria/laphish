@@ -3,7 +3,7 @@
 Proyek: **LaPhish: Lapor dan Cek Phishing di Kampus**
 Dasar: kebutuhan FR-01 s.d. FR-13 dan NFR-01 s.d. NFR-10 di `01_analisis_kebutuhan.md`.
 
-Status: **selesai** (2026-11-20). **58 kasus uji, 58 lulus.** Diuji ulang pada 2026-11-21 setelah nama aplikasi diganti menjadi LaPhish (URL, database, dan file SQL baru): 54 kasus HTTP serta TC-11 dan TC-12 tetap lulus.
+Status: **selesai** (2026-11-20). **58 kasus uji, 58 lulus.** Diuji ulang pada 2026-11-21 setelah nama aplikasi diganti menjadi LaPhish (URL, database, dan file SQL baru): 54 kasus HTTP serta TC-11 dan TC-12 tetap lulus. Diuji ulang lagi pada 2026-11-21 setelah perubahan tampilan (bagian 8): 58 kasus awal tetap lulus, ditambah 9 kasus baru (TC-59 sampai TC-67) untuk pembagian halaman dan perilaku formulir. **Total 67 kasus, 67 lulus.**
 
 ## 1. Metode
 
@@ -115,3 +115,63 @@ Semua FR-01 s.d. FR-13 dan NFR-01 s.d. NFR-10 punya minimal satu kasus uji.
 | Temuan | Perbaikan | Hasil uji ulang |
 |---|---|---|
 | Saat TC-58, di layar ponsel kode tiket pada tabel daftar laporan admin terpotong menjadi dua baris (`LP-` dan sisanya). Fungsi tidak terganggu | Kelas `text-nowrap` ditambahkan pada sel kode tiket di `admin/laporan.php` | Kode tiket tampil dalam satu baris. Halaman tetap selebar 375 px, dan tabel bisa digeser ke samping di dalam kotaknya |
+
+## 8. Uji ulang setelah perubahan tampilan (2026-11-21)
+
+Tampilan aplikasi diubah mengikuti arah desain "Lensa": header dan footer publik terang, beranda dengan alat bedah alamat, hasil Cek dengan bedah alamat dan legenda, judul seksi di formulir Lapor, riwayat dan legenda di halaman Lacak, serta kartu dan dashboard admin yang baru. Setelah itu tampilan disesuaikan lagi beberapa kali berdasarkan penilaian langsung (garis aksen dan ikon dekoratif dibuang, petunjuk dan contoh isian mengikuti jenis, tombol mata di login, ikon merek disamakan, dan daftar Laporan serta Indikator dibagi per halaman). Logika status, pencarian, validasi, dan operasi tambah, ubah, hapus **tidak berubah**, dan struktur database tidak berubah. Yang berubah di sisi server hanya kueri daftar Laporan dan Indikator (kini menghitung jumlah baris yang cocok lalu memakai `LIMIT` dan `OFFSET`). Uji ulang dilakukan setelah setiap putaran perubahan untuk memastikan fungsi tidak rusak.
+
+| Bagian | Keterangan |
+|---|---|
+| Lingkungan | Sama seperti bagian 1. Aplikasi di `http://127.0.0.1/laphish/` |
+| Data awal | Impor `database/laphish.sql` (42 laporan, 31 indikator, 16 pelapor, 6 kategori, 6 kanal) |
+| 54 kasus HTTP | Permintaan HTTP otomatis (curl) yang menjalankan kasus dengan data uji yang sama seperti bagian 2 sampai 4, termasuk memindahkan `config.php` sementara untuk TC-54 dan TC-55. Hasil dicek dari halaman dan dari isi tabel di database |
+| 4 kasus browser | TC-11, TC-12, TC-57, dan TC-58 di Chromium, lewat pemicu JavaScript di halaman |
+| Setelah uji | Database dikembalikan ke data awal dengan mengimpor ulang `database/laphish.sql`. Jumlah akhirnya sama dengan data awal |
+
+**Hasil: 58 kasus awal, 58 lulus. Ditambah 9 kasus baru (TC-59 sampai TC-67), 9 lulus. Total 67 kasus, 67 lulus.** Ke-54 kasus HTTP dijalankan ulang setelah tiap putaran perubahan tampilan (empat kali), dan seluruhnya lulus (54 dari 54) pada setiap putaran yang memakai skrip uji yang sudah diperbaiki.
+
+| Bagian | Jumlah kasus | Lulus |
+|---|---|---|
+| Halaman publik | 27 | 27 |
+| Halaman admin | 24 | 24 |
+| Keamanan, konfigurasi, dan tampilan | 7 | 7 |
+| **Total** | **58** | **58** |
+
+### Hal yang berbeda dari hasil aktual di bagian 2 sampai 4
+
+Ini bukan kegagalan. Hasil yang diharapkan tetap terpenuhi, tetapi tampilannya atau data di sekitarnya berubah.
+
+| Kasus | Perbedaan |
+|---|---|
+| TC-01 | Tiga fitur kini tampil sebagai tiga baris jalur (Lapor, Cek, Lacak), bukan tiga kartu. Beranda juga memuat alat bedah alamat |
+| TC-27 | URL pada hasil Cek kini tampil sebagai bedah alamat dalam bentuk *defanged* (`bantuan-kuota-mahasiswa[.]example`). Tautan yang bisa diklik tetap 0 |
+| TC-32 | Kartu dashboard sama dengan kueri database: total 45, Baru 6, Ditinjau 3, Valid 32, Tidak valid 4 (angka bergantung pada laporan yang dibuat oleh kasus sebelumnya dalam putaran uji yang sama) |
+| TC-34 | Filter gabungan memberi 4 laporan, sama dengan kueri database (4). Pada data awal filter ini memberi 1 laporan; TC-02, TC-03, dan TC-09 menambah tiga laporan baru (status Baru, kategori Pencurian akun, tanggal masuk 2026-11-21) sebelum TC-34. Catatan lama (3) berasal dari putaran uji dengan urutan dan data yang berbeda |
+| TC-48, TC-51 | Pesan menyebut 16 laporan (catatan lama: 15). Pada data awal kategori Pencurian akun dan kanal WhatsApp masing-masing dipakai 14 laporan; TC-03 dan TC-09 menambah dua laporan pada keduanya (laporan TC-02 sudah dipindah ke kategori dan kanal lain oleh TC-35). Angkanya sama dengan hasil kueri database saat itu |
+| TC-58 | Lebar konten tujuh halaman (beranda, lapor, cek, lacak, dashboard, daftar laporan, daftar indikator) tetap 375 px. Kode tiket pada daftar laporan admin tampil satu baris pada seluruh 42 baris |
+
+### Kasus tambahan (TC-59 sampai TC-67)
+
+Kasus baru untuk perilaku yang ditambahkan setelah pengujian awal. Data uji: data awal (42 laporan, 31 indikator), diperiksa lewat permintaan HTTP dari halaman admin yang sudah masuk, dan lewat pemicu JavaScript di Chromium untuk perilaku di halaman.
+
+| ID | Kebutuhan | Skenario | Data uji | Hasil yang diharapkan | Hasil aktual | Status |
+|---|---|---|---|---|---|---|
+| TC-59 | FR-08 | Daftar laporan dibagi halaman | `admin/laporan.php`, halaman 1 sampai 5 | 10 baris per halaman, tidak ada baris yang terlewat atau dobel | 10, 10, 10, 10, dan 2 baris. Total 42 baris, 42 unik. Keterangan "Laporan 1 sampai 10 dari 42" dan "Halaman 1 dari 5" | Lulus |
+| TC-60 | FR-10 | Daftar indikator dibagi halaman | `admin/indikator.php`, halaman 1 sampai 4 | Sama seperti TC-59 | 10, 10, 10, dan 1 baris. Total 31 baris, 31 unik. Halaman terakhir ditulis "Indikator 31 dari 31" | Lulus |
+| TC-61 | FR-08, NFR-07 | Nomor halaman di luar rentang atau tidak valid | `halaman=99`, `0`, `-3`, `abc` | Tidak galat, dibatasi ke halaman yang ada | `99` menampilkan halaman 5 (2 baris). `0`, `-3`, dan `abc` menampilkan halaman 1 (10 baris) | Lulus |
+| TC-62 | FR-08 | Filter terbawa dan jumlah halaman mengikuti hasil | `status=valid`; `status=tidak_valid`; `q=zzzzzzzz` | Jumlah halaman dari hasil filter, tautan memuat filter, navigasi hanya bila lebih dari satu halaman | `status=valid`: 32 hasil, "Halaman 1 dari 4", keterangan "…dari 32 yang cocok (seluruhnya 42)", tautan Berikutnya `…?status=valid&halaman=2`, semua lencana Valid. Halaman 4: 2 baris tanpa Berikutnya. `tidak_valid`: 4 baris tanpa navigasi. `q=zzzzzzzz`: 0 baris, pesan "Tidak ada laporan yang cocok dengan pencarian ini.", tanpa navigasi | Lulus |
+| TC-63 | FR-05 | Petunjuk dan contoh isian Cek mengikuti jenis | Pilih URL, Email, Nomor. Kirim email salah, nomor, dan URL salah | Petunjuk di atas formulir dan placeholder sesuai jenis, baik saat pilihan diganti maupun saat halaman dimuat ulang oleh server | Ketiganya sesuai opsi (placeholder `https://contoh.example/login`, `penipu@contoh.example`, `0812-3456-7890`), pada JavaScript dan pada hasil render server | Lulus |
+| TC-64 | FR-02 | Contoh isian tiap baris indikator di Lapor mengikuti jenis | Ganti jenis baris 1 ke Email, tambah baris 2, ganti ke Nomor lalu kembali ke URL. Kirim email salah | Placeholder tiap baris sesuai jenisnya. Baris baru mulai dari URL. Baris lain tidak ikut berubah | Baris 1 `penipu@contoh.example`. Baris baru `https://contoh.example/login`. Baris 2 `0812-3456-7890`, lalu kembali ke URL, dan baris 1 tetap Email. Setelah kirim salah, jenis Email tetap terpilih dengan placeholder yang sesuai | Lulus |
+| TC-65 | FR-06 | Tombol mata di kolom kata sandi login | Klik tombol dua kali | Kolom bergantian `password` dan `text`, label dan ikon berganti | Awal: `password`, label "Tampilkan kata sandi", ikon `bi-eye`. Setelah klik: `text`, label "Sembunyikan kata sandi", ikon `bi-eye-slash`, `aria-pressed="true"`, fokus tetap di kolom. Klik lagi: kembali `password` | Lulus |
+| TC-66 | NFR-08 | Tata letak formulir Cek dan Lacak tidak bergeser saat galat | Kirim "https" di Cek dan "LP" di Lacak | Posisi kolom isian dan tombol sama sebelum dan sesudah pesan galat muncul | Cek: Jenis, Nilai, dan tombol sama-sama di 256 px sebelum dan sesudah galat. Lacak: kolom dan tombol di 256 px sebelum dan sesudah. Pesan galat hanya di bawah kolom isian | Lulus |
+| TC-67 | NFR-08 | Ikon merek konsisten | Header publik, sidebar admin, halaman login | Glyph, ukuran ikon, dan ukuran teks merek sama | Ketiganya `bi-shield-check`. Ikon 22,4 px dan teks 19,2 px tebal 800 di header dan sidebar. Warna ikon `rgb(35,31,64)` di atas latar terang dan putih di sidebar gelap. Login memakai warna gelap yang sama | Lulus |
+
+### Catatan dan batasan uji ulang
+
+- **TC-57:** dialog bawaan peramban tidak ditekan. `window.confirm` diganti agar mencatat pesannya lalu menjawab Batal. Pesan yang tercatat adalah `Hapus kanal "Email"?`, halaman tidak berpindah, dan kanal Email masih ada. Ini menguji logika konfirmasi aplikasi, bukan kotak dialog bawaan peramban.
+- **TC-11 dan TC-12:** dijalankan dengan memicu klik dan perubahan lewat JavaScript, bukan dengan interaksi langsung di layar.
+- **Putaran pertama pelari uji:** 44 dari 54 kasus HTTP lulus. Sepuluh kegagalan itu berasal dari skrip uji, bukan dari aplikasi: pengalihan relatif (misalnya `../admin/login.php`) diselesaikan dengan basis yang salah sehingga pesan di halaman tujuan tidak terbaca, dan TC-55 memakai halaman yang saat GET tidak menyentuh database. Setelah skrip diperbaiki dan database dikembalikan ke data awal, putaran kedua lulus seluruhnya (54 dari 54). Tidak ada berkas aplikasi yang diubah di antara kedua putaran.
+- **Cakupan:** perubahan tampilan diuji untuk perilaku, isi, dan lebar halaman. Halaman tiket (`terkirim.php`) hanya dibuka lewat TC-02 dan TC-13 untuk memeriksa format kode tiket; tampilan visualnya (di komputer maupun ponsel) tidak diperiksa ulang. Halaman login admin dan formulir tambah atau ubah (indikator, kategori, kanal, laporan) diuji fungsinya, bukan tampilannya di ponsel.
+- **TC-59 sampai TC-67:** dijalankan lewat satu sesi admin di Chromium, dengan permintaan HTTP dari halaman dan pemicu JavaScript, belum dimasukkan ke skrip uji otomatis 54 kasus. TC-62 hanya menguji pencarian `zzzzzzzz` untuk hasil kosong dan dua filter status; kombinasi filter lain belum diuji di halaman berbeda. TC-67 menilai kesamaan sifat (glyph, ukuran, warna), bukan penampilan visual di setiap peramban.
+- **Pembagian halaman dan kasus lama:** TC-33, TC-34, dan TC-52 menghitung baris pada halaman pertama. Ketiganya tetap sah karena hasilnya di bawah 10 baris, jadi semuanya tampil di halaman 1.
+- Batasan di bagian 6 (satu peramban, tanpa uji beban dan uji keamanan menyeluruh) tetap berlaku.
