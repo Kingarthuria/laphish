@@ -21,7 +21,7 @@ $flashClass = ['sukses' => 'alert-ok', 'galat' => 'alert-err', 'info' => 'alert-
     <title><?= e($pageTitle) ?> | LaPhish</title>
     <link rel="stylesheet" href="<?= url('assets/vendor/bootstrap/bootstrap.min.css') ?>">
     <link rel="stylesheet" href="<?= url('assets/vendor/bootstrap-icons/bootstrap-icons.min.css') ?>">
-    <link rel="stylesheet" href="<?= url('assets/css/app.css') ?>">
+    <link rel="stylesheet" href="<?= asset('assets/css/app.css') ?>">
 </head>
 <body class="lp-public">
 <nav class="navbar navbar-expand-md lp-nav">

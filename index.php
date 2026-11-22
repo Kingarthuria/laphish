@@ -64,5 +64,5 @@ require __DIR__ . '/includes/layout_publik_atas.php';
         <li>Hasil verifikasi bisa dicek siapa saja lewat halaman Cek.</li>
     </ol>
 </div>
-<script src="<?= url('assets/js/bedah_alamat.js') ?>"></script>
+<script src="<?= asset('assets/js/bedah_alamat.js') ?>"></script>
 <?php require __DIR__ . '/includes/layout_publik_bawah.php'; ?>

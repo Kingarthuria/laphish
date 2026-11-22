@@ -113,3 +113,37 @@ document.querySelectorAll('.lp-url').forEach(function (box) {
 
   refresh();
 })();
+
+// Menu admin di layar kecil: sidebar menjadi laci yang dibuka lewat tombol, ditutup lewat tombol tutup,
+// klik di luar laci, atau tombol Escape. Tanpa JavaScript, sidebar tetap tampil biasa di atas isi.
+(function () {
+  var buka = document.getElementById('lpMenuBtn');
+  var laci = document.getElementById('lpSide');
+  if (!buka || !laci) return;
+  var root = document.documentElement;
+
+  function atur(terbuka, kembalikanFokus) {
+    root.classList.toggle('lp-menu-buka', terbuka);
+    buka.setAttribute('aria-expanded', terbuka ? 'true' : 'false');
+    buka.setAttribute('aria-label', terbuka ? 'Tutup menu' : 'Buka menu');
+    if (terbuka) {
+      var tutup = laci.querySelector('.lp-side-tutup');
+      if (tutup) tutup.focus();
+    } else if (kembalikanFokus) {
+      buka.focus();
+    }
+  }
+
+  document.querySelectorAll('[data-lp-menu]').forEach(function (el) {
+    el.addEventListener('click', function () {
+      atur(!root.classList.contains('lp-menu-buka'), true);
+    });
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && root.classList.contains('lp-menu-buka')) atur(false, true);
+  });
+  // Bila layar dilebarkan sampai sidebar tampil tetap, pastikan laci dianggap tertutup.
+  window.matchMedia('(min-width: 768px)').addEventListener('change', function (e) {
+    if (e.matches) atur(false, false);
+  });
+})();

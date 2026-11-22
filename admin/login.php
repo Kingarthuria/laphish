@@ -36,7 +36,7 @@ $flashes = take_flashes();
     <title>Masuk | Admin LaPhish</title>
     <link rel="stylesheet" href="<?= url('assets/vendor/bootstrap/bootstrap.min.css') ?>">
     <link rel="stylesheet" href="<?= url('assets/vendor/bootstrap-icons/bootstrap-icons.min.css') ?>">
-    <link rel="stylesheet" href="<?= url('assets/css/app.css') ?>">
+    <link rel="stylesheet" href="<?= asset('assets/css/app.css') ?>">
 </head>
 <body>
 <div class="lp-login">
@@ -65,6 +65,6 @@ $flashes = take_flashes();
         <div class="text-center mt-3 small"><a href="<?= url('index.php') ?>" class="text-decoration-none">Kembali ke beranda</a></div>
     </div>
 </div>
-<script src="<?= url('assets/js/app.js') ?>"></script>
+<script src="<?= asset('assets/js/app.js') ?>"></script>
 </body>
 </html>

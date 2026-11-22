@@ -15,6 +15,17 @@ function url(string $path = ''): string
     return ROOT_REL . ltrim($path, '/');
 }
 
+/**
+ * Alamat berkas di assets/ dengan penanda versi (waktu ubah berkas).
+ * Penanda membuat peramban memuat ulang CSS dan JS setelah berkasnya berubah, bukan memakai salinan lama dari cache.
+ */
+function asset(string $path): string
+{
+    $file = dirname(__DIR__) . '/' . ltrim($path, '/');
+    $versi = is_file($file) ? (string) filemtime($file) : '0';
+    return url($path) . '?v=' . $versi;
+}
+
 function redirect(string $path): never
 {
     header('Location: ' . url($path));
