@@ -4,7 +4,7 @@
  *
  * Mencakup kasus di docs/04_pengujian.md yang bisa dijalankan tanpa peramban:
  * TC-01 sampai TC-10, TC-13 sampai TC-35, TC-37 sampai TC-56, TC-59 sampai TC-62, dan TC-68 sampai TC-73.
- * Kasus yang butuh peramban (TC-11, TC-12, TC-57, TC-58, TC-63 sampai TC-67) tidak ada di sini.
+ * Kasus yang butuh peramban (TC-11, TC-12, TC-57, TC-58, TC-63 sampai TC-67, TC-74) tidak ada di sini.
  *
  * Cara pakai (aplikasi sudah berjalan di XAMPP, database berisi data awal):
  *   php tests/uji_blackbox.php
